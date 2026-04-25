@@ -3,14 +3,14 @@
 
 <head>
 <meta charset="UTF-8">
-<title>ASIL Live Intelligence System</title>
+<title>ASIL Evolution System</title>
 
 <style>
 
 body {
     margin: 0;
     overflow: hidden;
-    background: radial-gradient(circle at top, #04060a, #02030a);
+    background: radial-gradient(circle at top, #03060a, #010208);
     font-family: Arial;
 }
 
@@ -24,15 +24,14 @@ canvas {
 /* PANEL */
 .panel {
     position: absolute;
-    top: 18px;
-    left: 18px;
+    top: 16px;
+    left: 16px;
     width: 260px;
     padding: 14px;
-    border-radius: 12px;
-
     background: rgba(10,14,20,0.65);
-    backdrop-filter: blur(14px);
     border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    backdrop-filter: blur(12px);
 }
 
 .title {
@@ -41,34 +40,9 @@ canvas {
     margin-bottom: 10px;
 }
 
-.node {
-    padding: 8px;
-    margin: 6px 0;
-    background: rgba(255,255,255,0.04);
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 12px;
-    transition: 0.2s;
-}
-
-.node:hover {
-    background: rgba(88,166,255,0.2);
-}
-
 .small {
     font-size: 11px;
     opacity: 0.6;
-    margin-top: 10px;
-}
-
-/* BLACKBOX LABEL */
-.blackbox {
-    position: absolute;
-    right: 18px;
-    top: 18px;
-    font-size: 10px;
-    opacity: 0.4;
-    color: #58a6ff;
 }
 
 </style>
@@ -80,32 +54,24 @@ canvas {
 <canvas id="c"></canvas>
 
 <div class="panel">
-<div class="title">LIVE INTELLIGENCE GRAPH</div>
-
-<div class="node">Telemetry Node A</div>
-<div class="node">Inference Node B</div>
-<div class="node">System Node C</div>
-<div class="node">Research Node D</div>
-
-<div class="small">graph state: dynamic / adaptive</div>
+<div class="title">ASIL EVOLUTION SYSTEM</div>
+<div class="small">adaptive graph / self-organizing structure</div>
 </div>
-
-<div class="blackbox">BLACKBOX MODE • INTERNAL LOGIC HIDDEN</div>
 
 <script>
 
-const canvas = document.getElementById("c");
-const ctx = canvas.getContext("2d");
+const c = document.getElementById("c");
+const ctx = c.getContext("2d");
 
-canvas.width = innerWidth;
-canvas.height = innerHeight;
+c.width = innerWidth;
+c.height = innerHeight;
 
 window.onresize = () => {
-canvas.width = innerWidth;
-canvas.height = innerHeight;
+c.width = innerWidth;
+c.height = innerHeight;
 };
 
-let mouse = { x: innerWidth/2, y: innerHeight/2 };
+let mouse = {x: innerWidth/2, y: innerHeight/2};
 
 window.addEventListener("mousemove", e=>{
 mouse.x = e.clientX;
@@ -115,44 +81,50 @@ mouse.y = e.clientY;
 /* NODES */
 const nodes = [];
 
-for(let i=0;i<6;i++){
+for(let i=0;i<12;i++){
 nodes.push({
 x: Math.random()*innerWidth,
 y: Math.random()*innerHeight,
-vx: (Math.random()-0.5)*1.5,
-vy: (Math.random()-0.5)*1.5
+vx: (Math.random()-0.5)*1.2,
+vy: (Math.random()-0.5)*1.2,
+mass: Math.random()*2+1
 });
 }
 
-/* UPDATE */
-function update(){
+/* EVOLUTION RULES */
+function evolve(){
 
 nodes.forEach(n=>{
 
-/* motion */
+// base movement
 n.x += n.vx;
 n.y += n.vy;
 
-/* mouse influence */
+// mouse influence
 let dx = mouse.x - n.x;
 let dy = mouse.y - n.y;
 
-n.x += dx * 0.0008;
-n.y += dy * 0.0008;
+n.x += dx * 0.0006;
+n.y += dy * 0.0006;
 
-/* bounds */
+// slight self-growth drift (evolution effect)
+n.vx += (Math.random()-0.5)*0.02;
+n.vy += (Math.random()-0.5)*0.02;
+
+// bounds
 if(n.x < 0 || n.x > innerWidth) n.vx *= -1;
 if(n.y < 0 || n.y > innerHeight) n.vy *= -1;
 
 });
+
 }
 
-/* DRAW */
+/* DRAW SYSTEM */
 function draw(){
 
 ctx.clearRect(0,0,innerWidth,innerHeight);
 
-/* links */
+/* LINKS (dynamic strength) */
 for(let i=0;i<nodes.length;i++){
 for(let j=i+1;j<nodes.length;j++){
 
@@ -161,9 +133,10 @@ let b = nodes[j];
 
 let dist = Math.hypot(a.x-b.x, a.y-b.y);
 
-if(dist < 220){
+if(dist < 200){
 
-ctx.strokeStyle = "rgba(88,166,255,0.15)";
+ctx.strokeStyle = `rgba(88,166,255,${1 - dist/200})`;
+
 ctx.beginPath();
 ctx.moveTo(a.x,a.y);
 ctx.lineTo(b.x,b.y);
@@ -174,12 +147,12 @@ ctx.stroke();
 }
 }
 
-/* nodes */
+/* NODES */
 nodes.forEach(n=>{
 
 ctx.beginPath();
 ctx.fillStyle = "#58a6ff";
-ctx.arc(n.x,n.y,5,0,Math.PI*2);
+ctx.arc(n.x,n.y,4 + n.mass,0,Math.PI*2);
 ctx.fill();
 
 });
@@ -188,7 +161,7 @@ ctx.fill();
 
 /* LOOP */
 function loop(){
-update();
+evolve();
 draw();
 requestAnimationFrame(loop);
 }
