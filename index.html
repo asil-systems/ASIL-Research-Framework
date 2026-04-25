@@ -17,8 +17,12 @@ body {
     overflow: hidden;
 }
 
+/* =========================
+   TOP BAR
+========================= */
+
 .topbar {
-    height: 54px;
+    height: 56px;
     background: rgba(8,10,14,0.95);
     border-bottom: 1px solid rgba(255,255,255,0.06);
     display: flex;
@@ -27,21 +31,56 @@ body {
     padding: 0 18px;
 }
 
+/* ===== LOGO ===== */
 .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
     font-size: 12px;
-    letter-spacing: 7px;
+    letter-spacing: 6px;
     color: #58a6ff;
 }
+
+/* LOGO SYMBOL (ORIGINAL) */
+.logo-mark {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    background: linear-gradient(135deg, #58a6ff, #7c4dff);
+    position: relative;
+    transform: rotate(45deg);
+}
+
+/* inner structure (meaning: layered system) */
+.logo-mark::before {
+    content: "";
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: #05070c;
+    top: 6px;
+    left: 6px;
+    border-radius: 1px;
+}
+
+/* meaning:
+   - outer square = system boundary
+   - inner void = blackbox core
+   - rotation = dynamic state */
 
 .status {
     font-size: 10px;
     opacity: 0.6;
 }
 
+/* =========================
+   LAYOUT
+========================= */
+
 .layout {
     display: grid;
     grid-template-columns: 240px 1fr 340px;
-    height: calc(100vh - 54px);
+    height: calc(100vh - 56px);
 }
 
 .nav {
@@ -74,7 +113,9 @@ body {
     padding: 18px;
 }
 
-/* ===== CORE ===== */
+/* =========================
+   UI BLOCKS
+========================= */
 
 .title {
     font-size: 26px;
@@ -94,8 +135,6 @@ body {
     border-radius: 10px;
     margin-bottom: 12px;
 }
-
-/* ===== PUBLICATIONS ===== */
 
 .paper {
     background: #0b111a;
@@ -117,25 +156,24 @@ body {
     opacity: 0.65;
 }
 
-/* ARTICLE */
-
-.article {
-    display: none;
-}
-
-.fade {
-    animation: fadeIn 0.25s ease;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
 .mono {
     font-size: 11px;
     line-height: 1.6;
     opacity: 0.85;
+}
+
+/* CONTACT TAG */
+.contact-mail {
+    color: #58a6ff;
+    cursor: pointer;
+}
+
+.view {
+    display: none;
+}
+
+.show {
+    display: block;
 }
 
 </style>
@@ -144,9 +182,16 @@ body {
 
 <body>
 
+<!-- TOP -->
 <div class="topbar">
-<div class="logo">ASIL RESEARCH INSTITUTE</div>
-<div class="status">SYSTEM: ACTIVE • ARCHIVE: STABLE • MODE: OBSERVATION</div>
+
+<div class="logo">
+<div class="logo-mark"></div>
+ASIL INSTITUTE
+</div>
+
+<div class="status">SYSTEM: ACTIVE • RESEARCH MODE • STABLE</div>
+
 </div>
 
 <div class="layout">
@@ -155,9 +200,10 @@ body {
 <div class="nav">
 
 <div class="nav-item" onclick="show('home')">CORE</div>
-<div class="nav-item" onclick="show('research')">RESEARCH ENGINE</div>
+<div class="nav-item" onclick="show('research')">RESEARCH</div>
 <div class="nav-item" onclick="show('pub')">PUBLICATIONS</div>
-<div class="nav-item" onclick="show('system')">SYSTEM LAYERS</div>
+<div class="nav-item" onclick="show('system')">SYSTEM</div>
+<div class="nav-item" onclick="show('contact')">ACCESS</div>
 
 </div>
 
@@ -165,87 +211,124 @@ body {
 <div class="center">
 
 <!-- HOME -->
-<div id="home" class="fade">
+<div id="home" class="view show">
 
-<div class="title">ASIL Institute Core</div>
-<div class="sub">Distributed systems research framework for synchronization and emergent behavior analysis</div>
+<div class="title">ASIL Research Institute</div>
+<div class="sub">Distributed system for modeling synchronization, emergence and structural stability</div>
 
 <div class="panel">
-The system operates as a layered model for analyzing coherence in multi-agent environments under dynamic constraints.
+Operational state: stable<br>
+System mode: observation<br>
+Compute layer: active
 </div>
 
 </div>
 
 <!-- RESEARCH -->
-<div id="research" style="display:none;" class="fade">
+<div id="research" class="view">
 
 <div class="title">Research Engine</div>
 
 <div class="panel">
-Focus domains:<br><br>
+Focus areas:<br><br>
 
-• Synchronization dynamics in distributed networks<br>
-• Emergent structures in multi-agent systems<br>
-• Stability conditions under perturbation<br>
-• Feedback-driven adaptation mechanisms
+• multi-agent system dynamics<br>
+• synchronization theory<br>
+• emergent structure formation<br>
+• adaptive stability modeling
 </div>
 
 </div>
 
 <!-- PUBLICATIONS -->
-<div id="pub" style="display:none;" class="fade">
+<div id="pub" class="view">
 
-<div class="title">Research Publications Archive</div>
+<div class="title">Research Publications</div>
 
-<!-- ARTICLE 1 -->
-<div class="paper" onclick="openArticle(1)">
-ASIL-01 — Foundations of Synchronization<br>
-<span class="small">Mathematical and conceptual basis of phase coherence in distributed systems</span>
+<div class="paper">
+ASIL-01 — Synchronization Foundations<br>
+<span class="small">phase coherence in distributed environments</span>
 </div>
 
-<div class="paper" onclick="openArticle(2)">
-ASIL-02 — Multi-Agent Interaction Theory<br>
-<span class="small">Local interaction rules and global behavioral emergence</span>
+<div class="paper">
+ASIL-02 — Multi-Agent Interaction Models<br>
+<span class="small">local rules → global emergent behavior</span>
 </div>
 
-<div class="paper" onclick="openArticle(3)">
-ASIL-03 — Structural Stability Models<br>
-<span class="small">Resilience of complex systems under external perturbations</span>
+<div class="paper">
+ASIL-03 — Structural Stability Theory<br>
+<span class="small">resilience under perturbation</span>
 </div>
 
-<div class="paper" onclick="openArticle(4)">
-ASIL-04 — Emergence in Distributed Architectures<br>
-<span class="small">Transition from stochastic interaction to structured order</span>
-</div>
-
-</div>
-
-<!-- ARTICLE VIEW -->
-<div id="article" class="article fade">
-
-<div class="panel">
-<div id="title" style="font-size:20px; margin-bottom:10px;"></div>
-<div id="text" class="mono"></div>
-
-<div style="margin-top:14px; color:#58a6ff; cursor:pointer;" onclick="back()">
-← Back to Archive
-</div>
-
+<div class="paper">
+ASIL-04 — Emergence in Complex Systems<br>
+<span class="small">order from decentralized interaction</span>
 </div>
 
 </div>
 
 <!-- SYSTEM -->
-<div id="system" style="display:none;" class="fade">
+<div id="system" class="view">
 
 <div class="title">System Architecture</div>
 
 <div class="panel mono">
-• Vision Layer — abstraction modeling of system states<br>
-• Intelligence Layer — computational inference structures<br>
-• Interaction Layer — multi-agent dynamics and exchange<br>
-• Stability Layer — coherence preservation mechanisms<br>
-• Feedback Layer — adaptive regulation processes
+Vision Layer — abstraction modeling<br>
+Intelligence Layer — computation logic<br>
+Interaction Layer — system dynamics<br>
+Stability Layer — coherence control<br>
+Feedback Layer — adaptive regulation
+</div>
+
+</div>
+
+<!-- CONTACT -->
+<div id="contact" class="view">
+
+<div class="title">Access & Collaboration</div>
+
+<div class="sub">Research interface for structured external queries</div>
+
+<div class="panel">
+
+ASIL operates as a distributed research environment.  
+External inputs are treated as computational research tasks.
+
+<br><br>
+
+Priority domains:<br>
+• complex system modeling<br>
+• AI-based analysis requests<br>
+• data structuring / synthesis<br>
+• experimental validation tasks
+
+</div>
+
+<div class="panel mono">
+
+Processing model:<br>
+1. Input definition<br>
+2. System evaluation<br>
+3. Compute allocation (if required)<br>
+4. Research response generation<br>
+
+<br>
+
+<span style="color:#58a6ff;">
+High complexity tasks may trigger extended compute allocation.
+</span>
+
+</div>
+
+<div class="panel">
+
+Contact:<br>
+<span class="contact-mail">asil.research.node@system-interface.io</span><br><br>
+
+<span class="small">
+Requests are handled through internal research allocation protocols.
+</span>
+
 </div>
 
 </div>
@@ -259,11 +342,11 @@ ASIL-04 — Emergence in Distributed Architectures<br>
 
 <div class="panel mono">
 Nodes: 128 ACTIVE<br>
-Stability: HIGH<br>
-Signal Integrity: STABLE<br>
-Observation Mode: ENABLED<br><br>
+Integrity: HIGH<br>
+Latency: LOW<br>
+Visibility: PARTIAL<br><br>
 
-Research Archive: 4 ACTIVE PAPERS
+Compute: AVAILABLE
 </div>
 
 </div>
@@ -274,50 +357,13 @@ Research Archive: 4 ACTIVE PAPERS
 
 function show(id){
 
-let sections = ['home','research','pub','system','article'];
+let views = ['home','research','pub','system','contact'];
 
-sections.forEach(s => {
-let el = document.getElementById(s);
-if(el) el.style.display = 'none';
+views.forEach(v => {
+document.getElementById(v).classList.remove('show');
 });
 
-document.getElementById(id).style.display = 'block';
-}
-
-/* SERIOUS ACADEMIC ARTICLES */
-function openArticle(id){
-
-show('article');
-
-let title = "";
-let text = "";
-
-if(id === 1){
-title = "ASIL-01 — Foundations of Synchronization";
-text = "This work establishes a theoretical framework for synchronization in distributed systems. It formalizes how independent agents achieve phase coherence through iterative interaction dynamics and constrained feedback loops. The model emphasizes stability emergence without centralized control.";
-}
-
-if(id === 2){
-title = "ASIL-02 — Multi-Agent Interaction Theory";
-text = "This paper analyzes how local interaction rules between autonomous agents lead to global emergent behavior. It focuses on non-linear propagation of state changes across networked systems and identifies conditions under which structured order arises spontaneously.";
-}
-
-if(id === 3){
-title = "ASIL-03 — Structural Stability Models";
-text = "The study investigates resilience properties of complex systems under stochastic perturbations. It defines stability as a function of adaptive feedback resistance and structural redundancy across system layers.";
-}
-
-if(id === 4){
-title = "ASIL-04 — Emergence in Distributed Architectures";
-text = "This research explores the transition from unstructured interaction patterns to coherent macroscopic order. It examines emergent properties arising from decentralized computational environments and self-organizing dynamics.";
-}
-
-document.getElementById('title').innerText = title;
-document.getElementById('text').innerText = text;
-}
-
-function back(){
-show('pub');
+document.getElementById(id).classList.add('show');
 }
 
 </script>
