@@ -3,52 +3,76 @@
 
 <head>
 <meta charset="UTF-8">
-<title>ASIL Research Platform</title>
+<title>ASIL Systems Institute</title>
 
 <style>
 
 body {
     margin: 0;
     font-family: Arial;
-    background: #0a0f18;
+    background: #070b12;
     color: #d7e6f2;
 }
 
 /* TOP BAR */
 .topbar {
-    height: 50px;
+    height: 52px;
     background: rgba(10,14,20,0.95);
     display: flex;
     align-items: center;
-    padding: 0 20px;
+    padding: 0 22px;
     border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 
 .logo {
-    color: #58a6ff;
     font-weight: bold;
+    color: #58a6ff;
     font-size: 13px;
 }
 
+.nav {
+    margin-left: 30px;
+    display: flex;
+    gap: 18px;
+}
+
+.nav div {
+    font-size: 12px;
+    opacity: 0.7;
+    cursor: pointer;
+}
+
+.nav div:hover {
+    opacity: 1;
+}
+
+/* LAYOUT */
 .container {
     display: flex;
-    height: calc(100vh - 50px);
+    height: calc(100vh - 52px);
 }
 
-/* LEFT MENU */
-.left {
+/* SIDEBAR */
+.sidebar {
     width: 300px;
-    background: rgba(10,14,20,0.7);
+    background: rgba(10,14,20,0.6);
     border-right: 1px solid rgba(255,255,255,0.08);
-    padding: 12px;
+    padding: 14px;
 }
 
+.section-title {
+    font-size: 11px;
+    opacity: 0.5;
+    margin: 10px 0;
+}
+
+/* CARD */
 .card {
     background: rgba(255,255,255,0.03);
     border: 1px solid rgba(255,255,255,0.06);
     padding: 10px;
-    margin-bottom: 10px;
     border-radius: 8px;
+    margin-bottom: 10px;
     cursor: pointer;
 }
 
@@ -56,43 +80,56 @@ body {
     background: rgba(88,166,255,0.08);
 }
 
-.title {
+.card-title {
     font-size: 12px;
     color: #58a6ff;
 }
 
-.text {
+.card-text {
     font-size: 11px;
     opacity: 0.7;
 }
 
-/* CENTER */
-.center {
+/* MAIN */
+.main {
     flex: 1;
-    padding: 20px;
+    padding: 24px;
 }
 
-h2 {
+h1 {
     color: #58a6ff;
+    font-size: 20px;
+}
+
+.subtitle {
+    opacity: 0.7;
+    font-size: 12px;
 }
 
 /* RIGHT PANEL */
 .panel {
-    position: absolute;
-    right: 10px;
-    top: 60px;
-    width: 320px;
-    padding: 12px;
-    background: rgba(10,14,20,0.85);
-    border-radius: 10px;
-    border: 1px solid rgba(255,255,255,0.08);
+    width: 340px;
+    background: rgba(10,14,20,0.75);
+    border-left: 1px solid rgba(255,255,255,0.08);
+    padding: 14px;
 }
 
-.item {
+.paper {
     font-size: 11px;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
     padding-left: 10px;
     border-left: 2px solid rgba(88,166,255,0.4);
+}
+
+/* CONTACT */
+.contact {
+    margin-top: 20px;
+    padding: 12px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 8px;
+    font-size: 11px;
+    opacity: 0.85;
 }
 
 </style>
@@ -102,91 +139,136 @@ h2 {
 <body>
 
 <div class="topbar">
-<div class="logo">ASIL RESEARCH INSTITUTE</div>
+<div class="logo">ASIL SYSTEMS INSTITUTE</div>
+
+<div class="nav">
+<div onclick="view('home')">Home</div>
+<div onclick="view('research')">Research</div>
+<div onclick="view('publications')">Publications</div>
+<div onclick="view('contact')">Contact</div>
+</div>
+
 </div>
 
 <div class="container">
 
-<!-- LEFT -->
-<div class="left">
+<!-- SIDEBAR -->
+<div class="sidebar">
+
+<div class="section-title">RESEARCH DOMAINS</div>
 
 <div class="card" onclick="openProject('teleport')">
-<div class="title">Teleportation Engine</div>
-<div class="text">State transfer model</div>
+<div class="card-title">Teleportation Engine</div>
+<div class="card-text">State transfer systems</div>
 </div>
 
 <div class="card" onclick="openProject('coherence')">
-<div class="title">Coherence Field</div>
-<div class="text">System stability research</div>
+<div class="card-title">Coherence Field</div>
+<div class="card-text">Stability architecture</div>
 </div>
 
 <div class="card" onclick="openProject('asil')">
-<div class="title">ASIL Core Framework</div>
-<div class="text">Unified architecture system</div>
+<div class="card-title">ASIL Core System</div>
+<div class="card-text">Unified intelligence framework</div>
 </div>
 
 </div>
 
-<!-- CENTER -->
-<div class="center" id="center">
-<h2>ASIL Research Platform</h2>
-<p>Select a project to view publications.</p>
+<!-- MAIN -->
+<div class="main" id="main">
+
+<h1>ASIL Systems Institute</h1>
+<div class="subtitle">
+Research-grade architecture for adaptive knowledge systems and structural intelligence modeling.
+</div>
+
+<div class="contact">
+Institutional Research Platform v1<br>
+Status: ACTIVE DEVELOPMENT<br>
+Focus: Knowledge Systems / AI Architecture / Structural Modeling
 </div>
 
 </div>
 
-<!-- RIGHT PANEL -->
+<!-- PANEL -->
 <div class="panel" id="panel">
-<div class="item">Publications will appear here</div>
+<div class="paper">Select a research domain to view publications.</div>
+</div>
+
 </div>
 
 <script>
 
-/* FULL RESEARCH STRUCTURE */
-const data = {
+/* RESEARCH ARCHITECTURE */
+const db = {
 
 teleport: [
-"Project: Teleportation Engine",
-"Paper I: State Transfer Theory",
-"Paper II: Distributed Mapping Systems",
-"Paper III: Synchronization Across Nodes",
-"Result: Cross-system coherence model"
+"Paper I: State Transfer Formalization",
+"Paper II: Distributed Synchronization Theory",
+"Paper III: Identity Mapping Across Systems",
+"Result: Cross-system state continuity model"
 ],
 
 coherence: [
-"Project: Coherence Field Research",
-"Paper I: Stability Fundamentals",
-"Paper II: Multi-agent Synchronization",
-"Paper III: Dynamic Balance Systems",
-"Result: Stable network architecture"
+"Paper I: System Stability Foundations",
+"Paper II: Multi-node Synchronization",
+"Paper III: Dynamic Equilibrium Structures",
+"Result: Stable adaptive networks"
 ],
 
 asil: [
-"Project: ASIL Core System",
 "Paper I: Vision Abstraction Layer",
 "Paper II: Intelligence Computation Layer",
 "Paper III: Interaction Dynamics Layer",
 "Paper IV: Stability Control Layer",
-"Result: Unified adaptive knowledge system"
+"Result: Unified adaptive knowledge architecture"
 ]
 
 };
 
 function openProject(id){
 
-/* CENTER VIEW */
-document.getElementById("center").innerHTML =
-`<h2>${id.toUpperCase()}</h2>
-<p>Research papers and system structure loaded.</p>`;
-
-/* RIGHT PANEL */
 let html = "";
 
-data[id].forEach((p,i)=>{
-html += `<div class="item">${i+1}. ${p}</div>`;
+db[id].forEach((p,i)=>{
+html += `<div class="paper">${i+1}. ${p}</div>`;
 });
 
 document.getElementById("panel").innerHTML = html;
+
+document.getElementById("main").innerHTML = `
+<h1>${id.toUpperCase()}</h1>
+<div class="subtitle">Research cluster loaded from institutional database.</div>
+`;
+
+}
+
+/* NAV VIEWS */
+function view(page){
+
+if(page === 'home'){
+location.reload();
+}
+
+if(page === 'contact'){
+document.getElementById("main").innerHTML = `
+<h1>Contact ASIL Institute</h1>
+<div class="subtitle">Research collaboration / computational projects / AI systems</div>
+<div class="contact">
+Email: research@asil.systems<br>
+Status: Open for advanced computational inquiries
+</div>
+`;
+}
+
+if(page === 'publications'){
+document.getElementById("panel").innerHTML = `
+<div class="paper">Publication Archive</div>
+<div class="paper">- ASIL Core Paper Series (I–IV)</div>
+<div class="paper">- Teleportation Model Research</div>
+<div class="paper">- Coherence Field Studies</div>
+`;
+}
 
 }
 
