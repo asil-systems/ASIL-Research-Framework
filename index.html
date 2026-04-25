@@ -37,7 +37,7 @@ body {
     justify-content: center;
     gap: 18px;
     padding: 14px;
-    background: rgba(11,15,20,0.75);
+    background: rgba(11,15,20,0.78);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid rgba(88,166,255,0.12);
 }
@@ -56,7 +56,7 @@ body {
     transform: translateY(-1px);
 }
 
-/* LANGUAGE */
+/* LANG */
 .lang {
     position: fixed;
     right: 20px;
@@ -86,7 +86,7 @@ body {
 
 /* CARDS */
 .card {
-    background: rgba(17, 24, 35, 0.85);
+    background: rgba(17, 24, 35, 0.88);
     padding: 26px;
     border-radius: 14px;
     margin-bottom: 20px;
@@ -97,21 +97,13 @@ body {
 .card:hover {
     transform: translateY(-6px);
     border-color: rgba(88,166,255,0.55);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
 }
 
-h1 {
-    font-size: 36px;
-}
-
-h2 {
-    color: #58a6ff;
-    margin-bottom: 10px;
-}
-
-p {
-    color: #c9d1d9;
-}
+/* TEXT */
+h1 { font-size: 36px; }
+h2 { color: #58a6ff; }
+p { color: #c9d1d9; }
 
 /* ANIMATION */
 .card {
@@ -119,13 +111,8 @@ p {
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(12px); }
+    from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
-}
-
-/* subtle glow */
-h2 {
-    text-shadow: 0 0 10px rgba(88,166,255,0.15);
 }
 
 </style>
@@ -175,11 +162,11 @@ ASIL is a research institute focused on synchronization, emergence, and structur
 <h2>Research</h2>
 
 <p>
-ASIL studies how independent systems achieve synchronization through interaction, constraints, and feedback dynamics.
+ASIL studies synchronization in distributed systems where independent agents converge into stable structures through interaction and feedback loops.
 </p>
 
 <p>
-Focus areas include emergence, adaptive coordination, and stability in multi-agent environments.
+Key focus: emergence, adaptive coordination, and systemic stability.
 </p>
 
 </div>
@@ -196,7 +183,7 @@ Focus areas include emergence, adaptive coordination, and stability in multi-age
 <p><b>Part IV:</b> Emergent Coordination Models</p>
 
 <p style="opacity:0.65; margin-top:12px;">
-Status: conceptual research archive
+Archive: conceptual research framework
 </p>
 
 </div>
@@ -208,11 +195,11 @@ Status: conceptual research archive
 <h2>Manifesto</h2>
 
 <p>
-ASIL is a study of how independent structures converge into synchronized stability through interaction and constraint.
+ASIL is the study of how independent structures converge into synchronized stability.
 </p>
 
 <p>
-We explore systems where order emerges from distributed complexity.
+Order emerges from distributed complexity through interaction and constraint.
 </p>
 
 </div>
@@ -231,7 +218,7 @@ function show(id){
     document.getElementById(id).style.display='block';
 }
 
-/* LANGUAGE */
+/* LANG */
 function setLang(l){
 
 if(l==='en'){
@@ -249,7 +236,7 @@ document.getElementById('overview').innerText="ASIL — исследовател
 if(l==='cn'){
 document.getElementById('title').innerText="ASIL 研究院";
 document.getElementById('subtitle').innerText="同步与多系统动态框架";
-document.getElementById('overview').innerText="ASIL 是一个研究复杂系统同步与结构稳定性的研究机构。";
+document.getElementById('overview').innerText="ASIL 是一个研究复杂系统同步与结构稳定性的研究机构.";
 }
 
 }
