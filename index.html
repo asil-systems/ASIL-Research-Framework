@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 <meta charset="UTF-8">
 <title>ASIL Systems Institute</title>
@@ -14,26 +13,26 @@ body {
     color: #d7e6f2;
 }
 
-/* TOP BAR */
+/* TOP */
 .topbar {
     height: 52px;
     background: rgba(10,14,20,0.95);
     display: flex;
     align-items: center;
-    padding: 0 22px;
+    padding: 0 20px;
     border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 
 .logo {
-    font-weight: bold;
     color: #58a6ff;
+    font-weight: bold;
     font-size: 13px;
 }
 
 .nav {
     margin-left: 30px;
     display: flex;
-    gap: 18px;
+    gap: 20px;
 }
 
 .nav div {
@@ -52,7 +51,6 @@ body {
     height: calc(100vh - 52px);
 }
 
-/* SIDEBAR */
 .sidebar {
     width: 300px;
     background: rgba(10,14,20,0.6);
@@ -60,13 +58,6 @@ body {
     padding: 14px;
 }
 
-.section-title {
-    font-size: 11px;
-    opacity: 0.5;
-    margin: 10px 0;
-}
-
-/* CARD */
 .card {
     background: rgba(255,255,255,0.03);
     border: 1px solid rgba(255,255,255,0.06);
@@ -81,8 +72,8 @@ body {
 }
 
 .card-title {
-    font-size: 12px;
     color: #58a6ff;
+    font-size: 12px;
 }
 
 .card-text {
@@ -93,7 +84,8 @@ body {
 /* MAIN */
 .main {
     flex: 1;
-    padding: 24px;
+    padding: 20px;
+    overflow-y: auto;
 }
 
 h1 {
@@ -101,39 +93,36 @@ h1 {
     font-size: 20px;
 }
 
-.subtitle {
-    opacity: 0.7;
+.paper {
+    margin-bottom: 25px;
+    padding: 15px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px;
+}
+
+.section {
+    margin-top: 10px;
     font-size: 12px;
 }
 
-/* RIGHT PANEL */
-.panel {
-    width: 340px;
-    background: rgba(10,14,20,0.75);
-    border-left: 1px solid rgba(255,255,255,0.08);
-    padding: 14px;
+.en {
+    opacity: 0.85;
 }
 
-.paper {
-    font-size: 11px;
-    margin-bottom: 8px;
-    padding-left: 10px;
-    border-left: 2px solid rgba(88,166,255,0.4);
+.ru {
+    opacity: 0.85;
+    color: #9ecbff;
 }
 
 /* CONTACT */
 .contact {
+    font-size: 12px;
     margin-top: 20px;
-    padding: 12px;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 8px;
-    font-size: 11px;
-    opacity: 0.85;
+    opacity: 0.8;
 }
 
 </style>
-
 </head>
 
 <body>
@@ -142,133 +131,153 @@ h1 {
 <div class="logo">ASIL SYSTEMS INSTITUTE</div>
 
 <div class="nav">
-<div onclick="view('home')">Home</div>
-<div onclick="view('research')">Research</div>
-<div onclick="view('publications')">Publications</div>
-<div onclick="view('contact')">Contact</div>
+<div onclick="home()">Home</div>
+<div onclick="showPapers()">Publications</div>
+<div onclick="contact()">Contact</div>
 </div>
-
 </div>
 
 <div class="container">
 
-<!-- SIDEBAR -->
 <div class="sidebar">
 
-<div class="section-title">RESEARCH DOMAINS</div>
-
-<div class="card" onclick="openProject('teleport')">
-<div class="card-title">Teleportation Engine</div>
-<div class="card-text">State transfer systems</div>
+<div class="card" onclick="showPaper(1)">
+<div class="card-title">ASIL Core Architecture</div>
+<div class="card-text">System foundation</div>
 </div>
 
-<div class="card" onclick="openProject('coherence')">
+<div class="card" onclick="showPaper(2)">
+<div class="card-title">Teleportation Model</div>
+<div class="card-text">State transfer</div>
+</div>
+
+<div class="card" onclick="showPaper(3)">
 <div class="card-title">Coherence Field</div>
-<div class="card-text">Stability architecture</div>
+<div class="card-text">Stability theory</div>
 </div>
 
-<div class="card" onclick="openProject('asil')">
-<div class="card-title">ASIL Core System</div>
-<div class="card-text">Unified intelligence framework</div>
+<div class="card" onclick="showPaper(4)">
+<div class="card-title">Emergence</div>
+<div class="card-text">Structure formation</div>
+</div>
+
+<div class="card" onclick="showPaper(5)">
+<div class="card-title">System Synthesis</div>
+<div class="card-text">Unified model</div>
 </div>
 
 </div>
 
-<!-- MAIN -->
 <div class="main" id="main">
-
-<h1>ASIL Systems Institute</h1>
-<div class="subtitle">
-Research-grade architecture for adaptive knowledge systems and structural intelligence modeling.
-</div>
-
-<div class="contact">
-Institutional Research Platform v1<br>
-Status: ACTIVE DEVELOPMENT<br>
-Focus: Knowledge Systems / AI Architecture / Structural Modeling
-</div>
-
-</div>
-
-<!-- PANEL -->
-<div class="panel" id="panel">
-<div class="paper">Select a research domain to view publications.</div>
+<h1>ASIL Research Platform</h1>
+<p>Select a paper to read.</p>
 </div>
 
 </div>
 
 <script>
 
-/* RESEARCH ARCHITECTURE */
-const db = {
-
-teleport: [
-"Paper I: State Transfer Formalization",
-"Paper II: Distributed Synchronization Theory",
-"Paper III: Identity Mapping Across Systems",
-"Result: Cross-system state continuity model"
-],
-
-coherence: [
-"Paper I: System Stability Foundations",
-"Paper II: Multi-node Synchronization",
-"Paper III: Dynamic Equilibrium Structures",
-"Result: Stable adaptive networks"
-],
-
-asil: [
-"Paper I: Vision Abstraction Layer",
-"Paper II: Intelligence Computation Layer",
-"Paper III: Interaction Dynamics Layer",
-"Paper IV: Stability Control Layer",
-"Result: Unified adaptive knowledge architecture"
-]
-
-};
-
-function openProject(id){
-
-let html = "";
-
-db[id].forEach((p,i)=>{
-html += `<div class="paper">${i+1}. ${p}</div>`;
-});
-
-document.getElementById("panel").innerHTML = html;
-
+function home(){
 document.getElementById("main").innerHTML = `
-<h1>${id.toUpperCase()}</h1>
-<div class="subtitle">Research cluster loaded from institutional database.</div>
+<h1>ASIL Systems Institute</h1>
+<p>Research platform for adaptive knowledge systems.</p>
 `;
-
 }
 
-/* NAV VIEWS */
-function view(page){
-
-if(page === 'home'){
-location.reload();
-}
-
-if(page === 'contact'){
+function contact(){
 document.getElementById("main").innerHTML = `
-<h1>Contact ASIL Institute</h1>
-<div class="subtitle">Research collaboration / computational projects / AI systems</div>
+<h1>Contact</h1>
 <div class="contact">
 Email: research@asil.systems<br>
-Status: Open for advanced computational inquiries
+Open for computational research collaboration
 </div>
 `;
 }
 
-if(page === 'publications'){
-document.getElementById("panel").innerHTML = `
-<div class="paper">Publication Archive</div>
-<div class="paper">- ASIL Core Paper Series (I–IV)</div>
-<div class="paper">- Teleportation Model Research</div>
-<div class="paper">- Coherence Field Studies</div>
+function showPapers(){
+document.getElementById("main").innerHTML = `
+<h1>Publications</h1>
+<p>Select a paper from the left panel.</p>
 `;
 }
+
+function showPaper(id){
+
+let content = "";
+
+if(id === 1){
+content = `
+<div class="paper">
+<h1>ASIL Core Architecture</h1>
+
+<div class="section en">EN: Adaptive graph-based knowledge system.</div>
+<div class="section ru">RU: Адаптивная графовая система знаний.</div>
+
+<div class="section en">System layers: Vision, Intelligence, Interaction, Stability.</div>
+<div class="section ru">Уровни: Зрение, Интеллект, Взаимодействие, Стабильность.</div>
+
+<div class="section en">Result: self-evolving structure.</div>
+<div class="section ru">Результат: саморазвивающаяся система.</div>
+</div>`;
+}
+
+if(id === 2){
+content = `
+<div class="paper">
+<h1>Teleportation Model</h1>
+
+<div class="section en">EN: State transfer preserving identity.</div>
+<div class="section ru">RU: Перенос состояния с сохранением идентичности.</div>
+
+<div class="section en">State = structure + context + weight.</div>
+<div class="section ru">Состояние = структура + контекст + вес.</div>
+
+<div class="section en">Result: cross-system transfer.</div>
+<div class="section ru">Результат: перенос между системами.</div>
+</div>`;
+}
+
+if(id === 3){
+content = `
+<div class="paper">
+<h1>Coherence Field</h1>
+
+<div class="section en">EN: Stability of system connections.</div>
+<div class="section ru">RU: Устойчивость связей системы.</div>
+
+<div class="section en">High coherence → stability.</div>
+<div class="section ru">Высокая согласованность → стабильность.</div>
+
+</div>`;
+}
+
+if(id === 4){
+content = `
+<div class="paper">
+<h1>Emergence</h1>
+
+<div class="section en">EN: Complex structures from simple rules.</div>
+<div class="section ru">RU: Сложные структуры из простых правил.</div>
+
+<div class="section en">Result: knowledge clusters.</div>
+<div class="section ru">Результат: кластеры знаний.</div>
+</div>`;
+}
+
+if(id === 5){
+content = `
+<div class="paper">
+<h1>System Synthesis</h1>
+
+<div class="section en">EN: Unified ASIL system.</div>
+<div class="section ru">RU: Единая система ASIL.</div>
+
+<div class="section en">ASIL = Nodes + Relations + Dynamics + Stability</div>
+<div class="section ru">ASIL = Узлы + Связи + Динамика + Стабильность</div>
+</div>`;
+}
+
+document.getElementById("main").innerHTML = content;
 
 }
 
