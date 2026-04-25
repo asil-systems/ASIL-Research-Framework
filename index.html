@@ -1,273 +1,72 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>ASIL Systems Institute</title>
-
-<style>
-
-body {
-    margin: 0;
-    font-family: Arial;
-    background: #070b12;
-    color: #d7e6f2;
-}
-
-/* TOPBAR */
-.topbar {
-    height: 60px;
-    background: rgba(10,14,20,0.95);
-    display: flex;
-    align-items: center;
-    padding: 0 25px;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-    position: relative;
-}
-
-/* GLOW LINE */
-.topbar::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, #58a6ff, transparent);
-}
-
-/* LOGO */
-.logo {
-    display: flex;
-    flex-direction: column;
-}
-
-.logo-main {
-    font-size: 26px;
-    font-weight: 900;
-    letter-spacing: 4px;
-
-    background: linear-gradient(90deg, #58a6ff, #9ecbff, #58a6ff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-
-    text-shadow:
-        0 0 10px rgba(88,166,255,0.7),
-        0 0 25px rgba(88,166,255,0.4);
-}
-
-.logo-sub {
-    font-size: 9px;
-    letter-spacing: 2px;
-    opacity: 0.6;
-}
-
-/* NAV */
-.nav {
-    margin-left: 40px;
-    display: flex;
-    gap: 20px;
-}
-
-.nav div {
-    font-size: 12px;
-    opacity: 0.7;
-    cursor: pointer;
-}
-
-.nav div:hover {
-    opacity: 1;
-}
-
-/* LAYOUT */
-.container {
-    display: flex;
-    height: calc(100vh - 60px);
-}
-
-.sidebar {
-    width: 300px;
-    background: rgba(10,14,20,0.6);
-    border-right: 1px solid rgba(255,255,255,0.08);
-    padding: 14px;
-}
-
-.card {
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.06);
-    padding: 10px;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    cursor: pointer;
-}
-
-.card:hover {
-    background: rgba(88,166,255,0.08);
-}
-
-.card-title {
-    color: #58a6ff;
-    font-size: 12px;
-}
-
-.card-text {
-    font-size: 11px;
-    opacity: 0.7;
-}
-
-/* MAIN */
-.main {
-    flex: 1;
-    padding: 20px;
-    overflow-y: auto;
-}
-
-h1 {
-    color: #58a6ff;
-}
-
-.paper {
-    margin-bottom: 25px;
-    padding: 15px;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 10px;
-}
-
-.section {
-    margin-top: 8px;
-    font-size: 12px;
-}
-
-.en { opacity: 0.85; }
-.ru { opacity: 0.85; color: #9ecbff; }
-
-.contact {
-    margin-top: 20px;
-    font-size: 12px;
-}
-
-</style>
-</head>
-
-<body>
-
-<div class="topbar">
-<div class="logo">
-<div class="logo-main">ASIL</div>
-<div class="logo-sub">SYSTEMS INSTITUTE</div>
-</div>
-
-<div class="nav">
-<div onclick="home()">Home</div>
-<div onclick="showPapers()">Publications</div>
-<div onclick="contact()">Contact</div>
-</div>
-</div>
-
-<div class="container">
-
-<div class="sidebar">
-
-<div class="card" onclick="showPaper(1)">
-<div class="card-title">ASIL Core</div>
-<div class="card-text">Architecture</div>
-</div>
-
-<div class="card" onclick="showPaper(2)">
-<div class="card-title">Teleportation</div>
-<div class="card-text">State Transfer</div>
-</div>
-
-<div class="card" onclick="showPaper(3)">
-<div class="card-title">Coherence</div>
-<div class="card-text">Stability</div>
-</div>
-
-<div class="card" onclick="showPaper(4)">
-<div class="card-title">Emergence</div>
-<div class="card-text">Formation</div>
-</div>
-
-<div class="card" onclick="showPaper(5)">
-<div class="card-title">Synthesis</div>
-<div class="card-text">Full System</div>
-</div>
-
-</div>
-
-<div class="main" id="main">
-<h1>ASIL Systems Institute</h1>
-<p>Select a paper.</p>
-</div>
-
-</div>
-
 <script>
 
-function home(){
-document.getElementById("main").innerHTML =
-"<h1>ASIL Systems Institute</h1><p>Research platform for adaptive systems.</p>";
+let lang = "en";
+
+/* DATA */
+const papers = {
+
+1: {
+en: "Adaptive knowledge graph system.",
+ru: "Адаптивная графовая система знаний.",
+cn: "自适应知识图系统。"
+},
+
+2: {
+en: "State transfer preserving identity.",
+ru: "Перенос состояния с сохранением идентичности.",
+cn: "保持身份的状态转移。"
+},
+
+3: {
+en: "System stability model.",
+ru: "Модель устойчивости системы.",
+cn: "系统稳定性模型。"
+},
+
+4: {
+en: "Structures from simple rules.",
+ru: "Структуры из простых правил.",
+cn: "从简单规则形成结构。"
+},
+
+5: {
+en: "Unified ASIL system.",
+ru: "Единая система ASIL.",
+cn: "统一的ASIL系统。"
 }
 
+};
+
+/* LANGUAGE SWITCH */
+function setLang(l){
+lang = l;
+home();
+}
+
+/* HOME */
+function home(){
+document.getElementById("main").innerHTML =
+"<h1>ASIL Systems Institute</h1><p>Research platform</p>";
+}
+
+/* CONTACT */
 function contact(){
 document.getElementById("main").innerHTML =
 "<h1>Contact</h1><div class='contact'>research@asil.systems</div>";
 }
 
-function showPapers(){
-document.getElementById("main").innerHTML =
-"<h1>Publications</h1><p>Select a paper.</p>";
-}
-
+/* PAPER */
 function showPaper(id){
 
-let content = "";
+let text = papers[id][lang];
 
-if(id==1){
-content=`<div class="paper">
-<h1>ASIL Core</h1>
-<div class="section en">Adaptive knowledge graph system.</div>
-<div class="section ru">Адаптивная графовая система знаний.</div>
-</div>`;
-}
-
-if(id==2){
-content=`<div class="paper">
-<h1>Teleportation</h1>
-<div class="section en">State transfer preserving identity.</div>
-<div class="section ru">Перенос состояния с сохранением идентичности.</div>
-</div>`;
-}
-
-if(id==3){
-content=`<div class="paper">
-<h1>Coherence</h1>
-<div class="section en">System stability model.</div>
-<div class="section ru">Модель устойчивости системы.</div>
-</div>`;
-}
-
-if(id==4){
-content=`<div class="paper">
-<h1>Emergence</h1>
-<div class="section en">Structures from simple rules.</div>
-<div class="section ru">Структуры из простых правил.</div>
-</div>`;
-}
-
-if(id==5){
-content=`<div class="paper">
-<h1>Synthesis</h1>
-<div class="section en">Unified ASIL system.</div>
-<div class="section ru">Единая система ASIL.</div>
-</div>`;
-}
-
-document.getElementById("main").innerHTML = content;
+document.getElementById("main").innerHTML = `
+<div class="paper">
+<h1>Paper ${id}</h1>
+<div class="section">${text}</div>
+</div>
+`;
 
 }
 
 </script>
-
-</body>
-</html>
