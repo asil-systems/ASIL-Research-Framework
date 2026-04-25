@@ -3,7 +3,7 @@
 
 <head>
 <meta charset="UTF-8">
-<title>ASIL Space Station Core System</title>
+<title>ASIL Interactive Fix System</title>
 
 <style>
 
@@ -66,40 +66,28 @@ canvas {
 .text {
     font-size: 11px;
     opacity: 0.8;
-    line-height: 1.5;
 }
 
-/* SPACE STATION CORE */
+/* STATION */
 .station {
     position: absolute;
     width: 110px;
     height: 110px;
     border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%, #ffffff, #8aa0ff 40%, #2a3b7a 80%);
-    box-shadow:
-        0 0 40px rgba(120,150,255,0.6),
-        0 0 100px rgba(80,120,255,0.3);
-
+    background: radial-gradient(circle at 30% 30%, #fff, #7a8fff 40%, #2a3b7a 80%);
+    box-shadow: 0 0 40px rgba(120,150,255,0.6);
     cursor: pointer;
-    z-index: 10;
 }
 
-/* ring */
-.station::after {
-    content: "";
+/* NODE HINT (hover glow effect) */
+.glow {
     position: absolute;
-    width: 160px;
-    height: 160px;
-    top: -25px;
-    left: -25px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
-    border: 1px solid rgba(120,150,255,0.25);
-    animation: rotate 6s linear infinite;
-}
-
-@keyframes rotate {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    background: rgba(88,166,255,0.3);
+    pointer-events: none;
+    display: none;
 }
 
 </style>
@@ -111,16 +99,15 @@ canvas {
 <canvas id="c"></canvas>
 
 <div class="header">
-<div class="title">ASIL SPACE RESEARCH GRAPH</div>
-<div class="sub">orbital knowledge system with central station core</div>
+<div class="title">ASIL INTERACTIVE GRAPH</div>
+<div class="sub">fixed hit detection + enlarged nodes</div>
 </div>
 
 <div class="info" id="info">
 <div class="node-title">SYSTEM READY</div>
-<div class="text">Hover nodes or click space station to explore system state.</div>
+<div class="text">Click nodes or station to interact.</div>
 </div>
 
-<!-- SPACE STATION CORE -->
 <div class="station" id="station"></div>
 
 <script>
@@ -144,24 +131,24 @@ mouse.x = e.clientX;
 mouse.y = e.clientY;
 });
 
-/* SPACE STATION */
+/* STATION */
 const station = document.getElementById("station");
 
-let t = 0;
 let sx = innerWidth/2;
 let sy = innerHeight/2;
+let t = 0;
 
-/* NODES */
+/* BIGGER NODES (FIXED) */
 const nodes = [
-{x:250,y:200,vx:0.1,vy:0.08,name:"Teleportation Model",desc:"State transfer abstraction between systems."},
-{x:700,y:180,vx:-0.1,vy:0.07,name:"Coherence Field",desc:"Synchronization stability model."},
+{x:250,y:200,vx:0.1,vy:0.08,name:"Teleportation Model",desc:"State transfer abstraction."},
+{x:700,y:180,vx:-0.1,vy:0.07,name:"Coherence Field",desc:"System stability model."},
 {x:650,y:450,vx:0.08,vy:-0.09,name:"Navigation Logic",desc:"Graph traversal structure."},
-{x:300,y:520,vx:-0.07,vy:-0.08,name:"Emergence Layer",desc:"Pattern formation from interaction."}
+{x:300,y:520,vx:-0.07,vy:-0.08,name:"Emergence Layer",desc:"Pattern formation system."}
 ];
 
-let hoverNode = null;
+let selected = null;
 
-/* MOVE STATION (ORBIT) */
+/* MOVE STATION */
 function moveStation(){
 
 t += 0.005;
@@ -169,8 +156,8 @@ t += 0.005;
 sx = innerWidth/2 + Math.cos(t)*200;
 sy = innerHeight/2 + Math.sin(t*1.3)*140;
 
-station.style.left = (sx - 55) + "px";
-station.style.top = (sy - 55) + "px";
+station.style.left = (sx-55)+"px";
+station.style.top = (sy-55)+"px";
 
 }
 
@@ -182,29 +169,28 @@ nodes.forEach(n=>{
 n.x += n.vx;
 n.y += n.vy;
 
-/* slow stable motion */
 n.vx *= 0.995;
 n.vy *= 0.995;
 
 /* bounds */
-if(n.x<50||n.x>innerWidth-50) n.vx*=-1;
-if(n.y<50||n.y>innerHeight-50) n.vy*=-1;
+if(n.x<60||n.x>innerWidth-60) n.vx*=-1;
+if(n.y<60||n.y>innerHeight-60) n.vy*=-1;
 
 /* station gravity */
-let dx = sx - n.x;
-let dy = sy - n.y;
+let dx = sx-n.x;
+let dy = sy-n.y;
 
 n.x += dx*0.0007;
 n.y += dy*0.0007;
 
 });
 
-/* hover */
-hoverNode = null;
+/* hover detect */
+selected = null;
 
 nodes.forEach(n=>{
 let d = Math.hypot(mouse.x-n.x,mouse.y-n.y);
-if(d<25) hoverNode = n;
+if(d < 35) selected = n;   /* ⬅ FIXED HITBOX (was too small) */
 });
 
 }
@@ -236,20 +222,31 @@ ctx.lineTo(sx,sy);
 ctx.stroke();
 });
 
-/* nodes */
+/* NODES (⬅ BIGGER NOW) */
 nodes.forEach(n=>{
 
+let isSel = (selected===n);
+
+/* 🔵 BIGGER DOTS */
 ctx.beginPath();
-ctx.fillStyle = (hoverNode===n) ? "#ffffff" : "#58a6ff";
-ctx.arc(n.x,n.y, hoverNode===n ? 7 : 5,0,Math.PI*2);
+ctx.fillStyle = isSel ? "#ffffff" : "#58a6ff";
+ctx.arc(n.x,n.y, isSel ? 12 : 10, 0, Math.PI*2);
 ctx.fill();
 
 /* label */
 ctx.fillStyle = "rgba(220,235,255,0.9)";
-ctx.font = "11px Arial";
-ctx.fillText(n.name,n.x+10,n.y-10);
+ctx.font = "12px Arial";
+ctx.fillText(n.name, n.x+14, n.y-10);
 
 });
+
+/* info */
+if(selected){
+document.getElementById("info").innerHTML = `
+<div class="node-title">${selected.name}</div>
+<div class="text">${selected.desc}</div>
+`;
+}
 
 }
 
@@ -263,17 +260,12 @@ requestAnimationFrame(loop);
 
 loop();
 
-/* CLICK STATION */
+/* STATION CLICK */
 station.onclick = ()=>{
-
 document.getElementById("info").innerHTML = `
-<div class="node-title">SPACE STATION CORE ACTIVE</div>
-<div class="text">
-Central orbital structure stabilizing knowledge graph interactions.<br><br>
-System state: ACTIVE COHERENCE MODE
-</div>
+<div class="node-title">SPACE STATION ACTIVE</div>
+<div class="text">System core engaged. Graph stabilized around orbital structure.</div>
 `;
-
 };
 
 </script>
