@@ -3,54 +3,32 @@
 
 <head>
 <meta charset="UTF-8">
-<title>ASIL Research Interface</title>
+<title>ASIL Knowledge System</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
 
-/* =========================
-   FUTURISTIC BACKGROUND
-========================= */
-
 body {
     margin: 0;
     font-family: 'Inter', sans-serif;
-    color: #d7e6f2;
+    background: radial-gradient(circle at top, #05070c, #02040a);
+    color: #d8e6f2;
     overflow: hidden;
-
-    /* futuristic gradient */
-    background: radial-gradient(circle at 20% 20%, #0b1b2e, transparent 40%),
-                radial-gradient(circle at 80% 30%, #1a0f2e, transparent 45%),
-                radial-gradient(circle at 50% 90%, #04131f, #02060b);
 }
 
-/* subtle glow layer */
-body::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle, rgba(88,166,255,0.08), transparent 60%);
-    pointer-events: none;
-}
-
-/* =========================
-   TOP NAVIGATION SYSTEM
-========================= */
-
+/* TOP */
 .topbar {
     height: 56px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 18px;
-
-    background: rgba(8,10,14,0.6);
-    backdrop-filter: blur(18px);
+    background: rgba(10,12,18,0.85);
+    backdrop-filter: blur(14px);
     border-bottom: 1px solid rgba(255,255,255,0.06);
 }
 
-/* logo */
 .logo {
     display: flex;
     align-items: center;
@@ -60,142 +38,89 @@ body::before {
     color: #58a6ff;
 }
 
-.logo-mark {
-    width: 14px;
-    height: 14px;
-    background: linear-gradient(135deg, #58a6ff, #7c4dff);
-    transform: rotate(45deg);
+.dot {
+    width: 10px;
+    height: 10px;
     border-radius: 3px;
+    background: linear-gradient(135deg,#58a6ff,#7c4dff);
+    transform: rotate(45deg);
 }
 
-/* =========================
-   DROPDOWN MENU (CHAIN NAV)
-========================= */
-
-.menu {
-    display: flex;
-    gap: 18px;
-    font-size: 11px;
-}
-
-.menu-item {
-    cursor: pointer;
-    position: relative;
-    opacity: 0.8;
-    transition: 0.2s;
-}
-
-.menu-item:hover {
-    opacity: 1;
-    color: #58a6ff;
-}
-
-/* dropdown chain */
-.dropdown {
-    position: absolute;
-    top: 22px;
-    left: 0;
-    background: rgba(10,12,18,0.95);
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 8px;
-    padding: 8px;
-    display: none;
-    min-width: 160px;
-}
-
-.menu-item:hover .dropdown {
-    display: block;
-}
-
-.dropdown div {
-    padding: 6px;
-    font-size: 11px;
-    cursor: pointer;
-    opacity: 0.8;
-}
-
-.dropdown div:hover {
-    opacity: 1;
-    color: #58a6ff;
-}
-
-/* =========================
-   LAYOUT
-========================= */
-
+/* LAYOUT */
 .layout {
     display: grid;
-    grid-template-columns: 1fr 340px;
+    grid-template-columns: 280px 1fr 320px;
     height: calc(100vh - 56px);
 }
 
+/* LEFT GRAPH NAV */
+.nav {
+    background: #070a10;
+    border-right: 1px solid rgba(255,255,255,0.05);
+    padding: 16px;
+}
+
+.node {
+    font-size: 11px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    color: #b8c6d3;
+    transition: 0.2s;
+}
+
+.node:hover {
+    color: #58a6ff;
+    transform: translateX(4px);
+}
+
+/* CENTER */
 .center {
     padding: 26px;
     overflow-y: auto;
 }
 
+/* RIGHT INFO */
 .right {
-    background: rgba(8,10,14,0.6);
+    background: #070a10;
     border-left: 1px solid rgba(255,255,255,0.05);
     padding: 18px;
-    backdrop-filter: blur(12px);
 }
 
-/* =========================
-   CONTENT BLOCKS
-========================= */
-
-.title {
-    font-size: 28px;
-    margin-bottom: 6px;
-}
-
-.sub {
-    font-size: 12px;
-    opacity: 0.7;
-    margin-bottom: 18px;
-}
-
-.panel {
-    background: rgba(10,14,22,0.8);
+/* CARDS */
+.card {
+    background: rgba(12,16,24,0.8);
     border: 1px solid rgba(255,255,255,0.06);
-    padding: 18px;
+    padding: 16px;
     border-radius: 12px;
     margin-bottom: 12px;
     transition: 0.2s;
 }
 
-.panel:hover {
+.card:hover {
     border-color: rgba(88,166,255,0.4);
-    transform: translateY(-2px);
+    transform: translateY(-3px);
 }
 
-/* publications */
-.paper {
-    background: rgba(10,14,20,0.85);
-    border: 1px solid rgba(255,255,255,0.06);
-    padding: 14px;
-    border-radius: 10px;
-    margin-bottom: 10px;
+/* LINKS */
+.link {
+    color: #58a6ff;
     cursor: pointer;
-    transition: 0.2s;
 }
 
-.paper:hover {
-    border-color: rgba(88,166,255,0.5);
-    transform: translateX(4px);
+/* HIDDEN VIEWS */
+.view { display: none; }
+.show { display: block; }
+
+/* GRAPH STYLE */
+.chain {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
-.small {
+.arrow {
+    opacity: 0.4;
     font-size: 11px;
-    opacity: 0.65;
-}
-
-/* system text */
-.mono {
-    font-size: 11px;
-    line-height: 1.6;
-    opacity: 0.85;
 }
 
 </style>
@@ -204,118 +129,84 @@ body::before {
 
 <body>
 
-<!-- TOP BAR -->
 <div class="topbar">
-
-<div class="logo">
-<div class="logo-mark"></div>
-ASIL SYSTEM
+<div class="logo"><div class="dot"></div>ASIL KNOWLEDGE SYSTEM</div>
+<div style="font-size:10px; opacity:0.6;">LIVE GRAPH MODE</div>
 </div>
 
-<!-- MENU -->
-<div class="menu">
-
-<div class="menu-item">
-CORE
-<div class="dropdown">
-<div onclick="show('home')">Overview</div>
-<div onclick="show('system')">Architecture</div>
-</div>
-</div>
-
-<div class="menu-item">
-RESEARCH
-<div class="dropdown">
-<div onclick="show('research')">Engine</div>
-<div onclick="show('pub')">Publications</div>
-</div>
-</div>
-
-<div class="menu-item">
-ACCESS
-<div class="dropdown">
-<div onclick="show('contact')">Collaboration</div>
-</div>
-</div>
-
-</div>
-
-<div style="font-size:10px; opacity:0.6;">
-SYSTEM: ACTIVE
-</div>
-
-</div>
-
-<!-- LAYOUT -->
 <div class="layout">
+
+<!-- NAV GRAPH -->
+<div class="nav">
+
+<div class="node" onclick="show('teleport')">TELEPORT THEORY</div>
+<div class="node" onclick="show('effects')">SYSTEM EFFECTS</div>
+<div class="node" onclick="show('navigation')">NAVIGATION MODEL</div>
+<div class="node" onclick="show('materials')">RESEARCH MATERIALS</div>
+
+</div>
 
 <!-- CENTER -->
 <div class="center">
 
-<div id="home">
+<!-- TELEPORT THEORY -->
+<div id="teleport" class="view show">
 
-<div class="title">ASIL Research System</div>
-<div class="sub">Distributed intelligence architecture for emergent system analysis</div>
+<div class="card">
+<h3>Teleportation Theory (ASIL Model)</h3>
+Conceptual framework describing state transfer between distributed systems without classical continuity.
+</div>
 
-<div class="panel">
-Operational mode: observation<br>
-System integrity: stable<br>
-Compute layer: active
+<div class="card chain">
+
+<div onclick="show('effects')" class="link">→ coherence collapse conditions</div>
+<div class="arrow">↓</div>
+<div onclick="show('navigation')" class="link">→ navigation mapping system</div>
+<div class="arrow">↓</div>
+<div onclick="show('materials')" class="link">→ derived computational models</div>
+
 </div>
 
 </div>
 
-<div id="research" style="display:none;">
+<!-- EFFECTS -->
+<div id="effects" class="view">
 
-<div class="title">Research Engine</div>
-
-<div class="panel">
-Focus areas:<br><br>
-• synchronization dynamics<br>
-• multi-agent systems<br>
-• emergent structures<br>
-• stability modeling
+<div class="card">
+<h3>System Effects</h3>
+Teleportation model produces:
+<br><br>
+• phase discontinuity simulation<br>
+• structural state reassembly<br>
+• coherence reconstruction logic
 </div>
 
 </div>
 
-<div id="pub" style="display:none;">
+<!-- NAVIGATION -->
+<div id="navigation" class="view">
 
-<div class="title">Publications</div>
-
-<div class="paper">ASIL-01 — Synchronization Foundations<br><span class="small">coherence in distributed systems</span></div>
-<div class="paper">ASIL-02 — Multi-Agent Interaction<br><span class="small">local rules → global emergence</span></div>
-<div class="paper">ASIL-03 — Stability Models<br><span class="small">resilience under perturbation</span></div>
-<div class="paper">ASIL-04 — Emergence Theory<br><span class="small">order from complexity</span></div>
-
+<div class="card">
+<h3>Navigation Model</h3>
+System navigation is treated as graph traversal across state clusters.
 </div>
 
-<div id="system" style="display:none;">
-
-<div class="title">Architecture</div>
-
-<div class="panel mono">
-Vision Layer — abstraction modeling<br>
-Intelligence Layer — computation logic<br>
-Interaction Layer — system dynamics<br>
-Stability Layer — coherence control<br>
-Feedback Layer — adaptive regulation
+<div class="card">
+Nodes are not pages — they are state transitions in a knowledge field.
 </div>
 
 </div>
 
-<div id="contact" style="display:none;">
+<!-- MATERIALS -->
+<div id="materials" class="view">
 
-<div class="title">Collaboration Access</div>
+<div class="card">
+<h3>Research Materials</h3>
 
-<div class="panel">
-External queries are processed as structured research tasks within system allocation limits.
-</div>
-
-<div class="panel mono">
-Contact:<br>
-asil.research.node@system-interface.io<br><br>
-Priority allocation may be required for high-complexity requests.
+• ASIL-TP01 — State Transfer Theory<br>
+• ASIL-TP02 — Coherence Mapping<br>
+• ASIL-TP03 — Distributed Identity Models<br>
+• ASIL-TP04 — System Continuity Collapse
 </div>
 
 </div>
@@ -325,15 +216,14 @@ Priority allocation may be required for high-complexity requests.
 <!-- RIGHT -->
 <div class="right">
 
-<div class="title">System Monitor</div>
+<div class="card">
+System Status:<br>
+ACTIVE GRAPH MODE
+</div>
 
-<div class="panel mono">
-Nodes: 128<br>
-Status: ACTIVE<br>
-Latency: LOW<br>
-Visibility: PARTIAL<br><br>
-
-Compute: AVAILABLE
+<div class="card">
+Knowledge Nodes:<br>
+TELEPORT / EFFECTS / NAV / MATERIALS
 </div>
 
 </div>
@@ -344,14 +234,13 @@ Compute: AVAILABLE
 
 function show(id){
 
-let sections = ['home','research','pub','system','contact'];
+let views = ['teleport','effects','navigation','materials'];
 
-sections.forEach(s => {
-let el = document.getElementById(s);
-if(el) el.style.display = 'none';
+views.forEach(v=>{
+document.getElementById(v).classList.remove('show');
 });
 
-document.getElementById(id).style.display = 'block';
+document.getElementById(id).classList.add('show');
 }
 
 </script>
