@@ -11,121 +11,153 @@
 
 body {
     margin: 0;
-    background: #0a0f14;
+    background: radial-gradient(circle at top, #0b1220, #05070c);
     color: #e6edf3;
     font-family: 'Inter', sans-serif;
 }
 
-/* TOPBAR */
+/* TOP BAR */
 .topbar {
     position: fixed;
     top: 0;
     width: 100%;
-    height: 58px;
-    background: rgba(10,14,20,0.98);
+    height: 62px;
+    background: rgba(10,14,20,0.7);
+    backdrop-filter: blur(16px);
     border-bottom: 1px solid rgba(255,255,255,0.06);
     display: flex;
     align-items: center;
-    padding: 0 20px;
+    padding: 0 22px;
+    z-index: 20;
 }
 
 .logo {
     font-size: 12px;
-    letter-spacing: 7px;
+    letter-spacing: 8px;
     color: #58a6ff;
 }
 
 /* LAYOUT */
 .wrapper {
     display: flex;
-    margin-top: 58px;
+    margin-top: 62px;
 }
 
 /* SIDEBAR */
 .sidebar {
-    width: 260px;
-    height: calc(100vh - 58px);
-    border-right: 1px solid rgba(255,255,255,0.06);
-    padding: 20px;
+    width: 280px;
+    height: calc(100vh - 62px);
     position: fixed;
+    padding: 24px;
     background: rgba(10,14,20,0.4);
-    backdrop-filter: blur(12px);
+    backdrop-filter: blur(18px);
+    border-right: 1px solid rgba(255,255,255,0.06);
 }
 
 .node {
     font-size: 12.5px;
-    margin-bottom: 14px;
+    margin-bottom: 16px;
     cursor: pointer;
     color: #c9d1d9;
     transition: 0.2s;
+    letter-spacing: 0.3px;
 }
 
 .node:hover {
     color: #58a6ff;
-    transform: translateX(4px);
+    transform: translateX(5px);
 }
 
 /* CONTENT */
 .content {
-    margin-left: 260px;
-    padding: 50px;
-    max-width: 1000px;
+    margin-left: 280px;
+    padding: 60px;
+    max-width: 1100px;
 }
 
-/* CARDS */
+/* HERO */
+.hero {
+    font-size: 40px;
+    font-weight: 600;
+    letter-spacing: -1px;
+}
+
+/* GLASS CARD */
 .card {
-    background: #0f1622;
-    border: 1px solid rgba(255,255,255,0.06);
-    padding: 26px;
-    border-radius: 12px;
+    background: linear-gradient(145deg, rgba(17,24,35,0.9), rgba(10,14,20,0.9));
+    border: 1px solid rgba(255,255,255,0.07);
+    padding: 28px;
+    border-radius: 16px;
     margin-bottom: 20px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
     transition: 0.25s;
 }
 
 .card:hover {
-    border-color: rgba(88,166,255,0.45);
-    transform: translateY(-5px);
-    box-shadow: 0 14px 40px rgba(0,0,0,0.5);
+    transform: translateY(-6px);
+    border-color: rgba(88,166,255,0.5);
 }
 
-h1 { font-size: 38px; }
-h2 { color: #58a6ff; }
-p { color: #c9d1d9; line-height: 1.65; }
+/* TEXT */
+h1 { font-size: 42px; }
+h2 { color: #58a6ff; margin-bottom: 10px; }
+p { color: #c9d1d9; line-height: 1.7; font-size: 14px; }
 
-/* PAPER */
+.small { opacity: 0.6; font-size: 12px; }
+
+/* PUBLICATION GRID (PREMIUM) */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+}
+
+/* PAPER CARD (REAL ARCHIVE LOOK) */
 .paper {
-    background: #0b111a;
+    background: rgba(11,17,26,0.9);
     border: 1px solid rgba(255,255,255,0.06);
-    padding: 18px;
-    border-radius: 10px;
-    margin-bottom: 14px;
+    padding: 20px;
+    border-radius: 14px;
     cursor: pointer;
-    transition: 0.2s;
+    transition: 0.25s;
+    position: relative;
+    overflow: hidden;
 }
 
 .paper:hover {
-    border-color: rgba(88,166,255,0.4);
-    transform: translateX(5px);
+    border-color: rgba(88,166,255,0.5);
+    transform: translateY(-4px);
 }
 
-/* HIDDEN ARTICLE VIEW */
+.paper::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(88,166,255,0.08), transparent);
+    opacity: 0;
+    transition: 0.3s;
+}
+
+.paper:hover::before {
+    opacity: 1;
+}
+
+/* ARTICLE VIEW */
 .article {
     display: none;
 }
 
 /* FADE */
 .fade {
-    animation: fadeIn 0.3s ease;
+    animation: fadeIn 0.35s ease;
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(8px); }
+    from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
-}
-
-.small {
-    opacity: 0.6;
-    font-size: 12px;
 }
 
 </style>
@@ -145,7 +177,7 @@ p { color: #c9d1d9; line-height: 1.65; }
 
 <div class="node" onclick="show('home')">CORE OVERVIEW</div>
 <div class="node" onclick="show('research')">RESEARCH ENGINE</div>
-<div class="node" onclick="show('pub')">PUBLICATIONS</div>
+<div class="node" onclick="show('pub')">PUBLICATIONS ARCHIVE</div>
 <div class="node" onclick="show('system')">SYSTEM ARCHITECTURE</div>
 <div class="node" onclick="show('manifesto')">MANIFESTO</div>
 
@@ -157,12 +189,12 @@ p { color: #c9d1d9; line-height: 1.65; }
 <!-- HOME -->
 <div id="home" class="fade">
 
-<h1>ASIL Research Institute</h1>
+<div class="hero">ASIL Research Institute</div>
 
 <div class="card">
 <h2>Overview</h2>
 <p>
-ASIL is a structured research institute focused on synchronization, emergence, and stability in complex distributed systems.
+ASIL is a high-level research framework analyzing synchronization, emergence, and structural stability in complex distributed systems.
 </p>
 </div>
 
@@ -174,49 +206,59 @@ ASIL is a structured research institute focused on synchronization, emergence, a
 <div class="card">
 <h2>Research Engine</h2>
 
-<p>Synchronization Theory in Multi-Agent Systems</p>
-<p>Emergent Structural Behavior</p>
-<p>Feedback-Driven Stability Models</p>
+<p>Synchronization Dynamics</p>
+<p>Multi-Agent Systems Modeling</p>
+<p>Emergent Structure Analysis</p>
+<p>Feedback Loop Stability</p>
 
 </div>
 
 </div>
 
-<!-- PUBLICATIONS LIST -->
+<!-- PUBLICATIONS -->
 <div id="pub" style="display:none;" class="fade">
 
+<div class="card">
 <h2>Publications Archive</h2>
+
+<div class="grid">
 
 <div class="paper" onclick="openArticle(1)">
 <b>Part I — Foundations of Synchronization</b>
-<p class="small">Core principles of system synchronization and emergence.</p>
+<p class="small">Core mathematical and conceptual basis of synchronization theory in distributed systems.</p>
 </div>
 
 <div class="paper" onclick="openArticle(2)">
 <b>Part II — Multi-Agent Dynamics</b>
-<p class="small">Interaction models in distributed intelligent systems.</p>
+<p class="small">Behavioral emergence from interacting autonomous agents.</p>
 </div>
 
 <div class="paper" onclick="openArticle(3)">
 <b>Part III — Structural Stability</b>
-<p class="small">How systems maintain coherence under perturbation.</p>
+<p class="small">System resilience under perturbation and external noise.</p>
 </div>
 
 <div class="paper" onclick="openArticle(4)">
 <b>Part IV — Emergence Theory</b>
-<p class="small">Transition from chaos to structured behavior.</p>
+<p class="small">Transition from disorder to structured collective behavior.</p>
 </div>
 
 </div>
 
-<!-- ARTICLE VIEW -->
+</div>
+
+</div>
+
+<!-- ARTICLE -->
 <div id="article" class="article fade">
 
 <div class="card">
-<h2 id="articleTitle"></h2>
-<p id="articleText"></p>
+<h2 id="title"></h2>
+<p id="text"></p>
 
-<div style="margin-top:15px; cursor:pointer; color:#58a6ff;" onclick="back()">← Back to Publications</div>
+<div style="margin-top:18px; color:#58a6ff; cursor:pointer;" onclick="back()">
+← Back to Archive
+</div>
 
 </div>
 
@@ -228,11 +270,11 @@ ASIL is a structured research institute focused on synchronization, emergence, a
 <div class="card">
 <h2>System Architecture</h2>
 
-<p>Vision Layer</p>
-<p>Intelligence Layer</p>
-<p>Structure Layer</p>
-<p>Interaction Layer</p>
-<p>Feedback Layer</p>
+<p>Vision Layer — conceptual modeling</p>
+<p>Intelligence Layer — processing logic</p>
+<p>Structure Layer — system organization</p>
+<p>Interaction Layer — dynamic exchange</p>
+<p>Stability Layer — coherence control</p>
 
 </div>
 
@@ -245,11 +287,11 @@ ASIL is a structured research institute focused on synchronization, emergence, a
 <h2>Manifesto</h2>
 
 <p>
-ASIL studies how independent systems converge into synchronized stability through interaction and constraint.
+ASIL investigates how independent systems converge into synchronized stability through interaction, constraints, and emergent organization.
 </p>
 
 <p>
-Order is not designed — it emerges.
+Order is not imposed — it emerges from system dynamics.
 </p>
 
 </div>
@@ -283,26 +325,26 @@ let text = "";
 
 if(id === 1){
 title = "Part I — Foundations of Synchronization";
-text = "This paper explores fundamental principles of synchronization in distributed systems, focusing on how independent nodes achieve coherence through interaction and feedback loops.";
+text = "This paper establishes the fundamental principles governing synchronization in distributed systems, focusing on phase alignment and coherence emergence.";
 }
 
 if(id === 2){
 title = "Part II — Multi-Agent Dynamics";
-text = "Analysis of interacting agents in complex environments, where local rules generate global behavior patterns.";
+text = "Analysis of interacting autonomous agents producing emergent macro-level patterns through local decision rules.";
 }
 
 if(id === 3){
 title = "Part III — Structural Stability";
-text = "Study of system resilience under perturbations and external disruptions.";
+text = "Investigation of system robustness under noise, perturbations, and dynamic instability.";
 }
 
 if(id === 4){
 title = "Part IV — Emergence Theory";
-text = "How ordered structures emerge from chaotic multi-agent interactions.";
+text = "Study of how global order arises spontaneously from decentralized interactions.";
 }
 
-document.getElementById('articleTitle').innerText = title;
-document.getElementById('articleText').innerText = text;
+document.getElementById('title').innerText = title;
+document.getElementById('text').innerText = text;
 }
 
 function back(){
