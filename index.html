@@ -9,17 +9,17 @@
 body {
     margin: 0;
     font-family: Arial;
-    background: #070b12;
+    background: #050914;
     color: #d7e6f2;
 }
 
 /* TOPBAR */
 .topbar {
-    height: 60px;
-    background: rgba(10,14,20,0.95);
+    height: 62px;
     display: flex;
     align-items: center;
     padding: 0 25px;
+    background: rgba(10,14,20,0.95);
     border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 
@@ -35,50 +35,55 @@ body {
 
 .logo-sub {
     font-size: 9px;
-    opacity: 0.6;
+    opacity: 0.5;
+    letter-spacing: 2px;
 }
 
 /* NAV */
 .nav {
     margin-left: 40px;
     display: flex;
-    gap: 20px;
+    gap: 18px;
 }
 
 .nav div {
     cursor: pointer;
     opacity: 0.7;
+    font-size: 12px;
 }
 
-.nav div:hover { opacity: 1; }
+.nav div:hover {
+    opacity: 1;
+}
 
-/* LANG */
-.lang {
+/* RIGHT PANEL */
+.right {
     margin-left: auto;
     display: flex;
     gap: 12px;
 }
 
-.lang div {
+.right div {
     cursor: pointer;
+    font-size: 12px;
     opacity: 0.5;
 }
 
-.lang .active {
-    opacity: 1;
+.active {
+    opacity: 1 !important;
     color: #58a6ff;
 }
 
 /* LAYOUT */
 .container {
     display: flex;
-    height: calc(100vh - 60px);
+    height: calc(100vh - 62px);
 }
 
 .sidebar {
-    width: 260px;
-    padding: 15px;
+    width: 270px;
     border-right: 1px solid rgba(255,255,255,0.08);
+    padding: 15px;
 }
 
 .card {
@@ -89,17 +94,36 @@ body {
 }
 
 .card:hover {
-    background: rgba(88,166,255,0.1);
+    background: rgba(88,166,255,0.08);
 }
 
 .main {
     flex: 1;
-    padding: 20px;
+    padding: 25px;
 }
 
+/* PAPER */
 .paper {
-    padding: 15px;
+    padding: 18px;
     border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 8px;
+    background: rgba(255,255,255,0.02);
+}
+
+.section {
+    margin-top: 10px;
+    font-size: 13px;
+    opacity: 0.9;
+}
+
+pre {
+    white-space: pre-wrap;
+    font-size: 13px;
+}
+
+/* TITLE */
+h1 {
+    color: #58a6ff;
 }
 
 </style>
@@ -108,6 +132,7 @@ body {
 <body>
 
 <div class="topbar">
+
 <div>
 <div class="logo-main">ASIL</div>
 <div class="logo-sub">SYSTEMS INSTITUTE</div>
@@ -115,25 +140,31 @@ body {
 
 <div class="nav">
 <div onclick="home()">Home</div>
-<div onclick="showPapers()">Publications</div>
+<div onclick="papersView()">Publications</div>
 <div onclick="contact()">Contact</div>
 </div>
 
-<div class="lang">
+<div class="right">
 <div id="en" onclick="setLang('en')">EN</div>
 <div id="ru" onclick="setLang('ru')">RU</div>
-<div id="cn" onclick="setLang('cn')">中文</div>
+<div id="cn" onclick="setLang('cn')">CN</div>
+
+<div id="rbtn" onclick="setLevel('l2')">R</div>
+<div id="pbtn" onclick="setLevel('l3')">P</div>
 </div>
+
 </div>
 
 <div class="container">
 
 <div class="sidebar">
-<div class="card" onclick="showPaper(1)">ASIL Core</div>
-<div class="card" onclick="showPaper(2)">Teleportation</div>
-<div class="card" onclick="showPaper(3)">Coherence</div>
-<div class="card" onclick="showPaper(4)">Emergence</div>
-<div class="card" onclick="showPaper(5)">Synthesis</div>
+
+<div class="card" onclick="openPaper(1)">ASIL Core Architecture</div>
+<div class="card" onclick="openPaper(2)">Teleportation Model</div>
+<div class="card" onclick="openPaper(3)">Coherence Field</div>
+<div class="card" onclick="openPaper(4)">Emergence Theory</div>
+<div class="card" onclick="openPaper(5)">System Synthesis</div>
+
 </div>
 
 <div class="main" id="main"></div>
@@ -143,113 +174,154 @@ body {
 <script>
 
 let lang = "en";
-let currentView = { type: "home" };
+let level = "l2";
+let current = { type: "home" };
 
+/* PAPERS (FINAL STRUCTURE) */
 const papers = {
 
 1: {
 title: "ASIL Core Architecture",
-en: "Adaptive knowledge graph system.",
-ru: "Адаптивная графовая система знаний.",
-cn: "自适应知识图系统。"
+l2: "Adaptive graph system where nodes evolve through weighted interaction dynamics.",
+l3: `
+Abstract — Adaptive graph-based knowledge system.
+
+Method — Graph G = (N, E), node evolution via N(t+1)=f(N(t),E(t))
+
+Result — Stable semantic clustering emerges under interaction load.
+`
 },
 
 2: {
 title: "Teleportation Model",
-en: "State transfer preserving identity.",
-ru: "Перенос состояния с сохранением идентичности.",
-cn: "保持身份的状态转移。"
+l2: "State transfer preserving identity under structural constraints.",
+l3: `
+Abstract — Structural state preservation model.
+
+Method — S = {structure, context, weight}
+
+Transformation T(S1→S2) with minimal loss.
+
+Result — Identity preserved across transformation space.
+`
 },
 
 3: {
 title: "Coherence Field",
-en: "System stability model.",
-ru: "Модель устойчивости системы.",
-cn: "系统稳定性模型。"
+l2: "System stability defined by persistent interaction ratio.",
+l3: `
+Abstract — Stability metric for distributed systems.
+
+Method — C = Σ stable_edges / Σ total_edges
+
+Result — High C leads to structural convergence.
+`
 },
 
 4: {
 title: "Emergence Theory",
-en: "Structures formed from simple rules.",
-ru: "Структуры формируются из простых правил.",
-cn: "结构由简单规则形成。"
+l2: "Global structures arise from local interaction rules.",
+l3: `
+Abstract — Emergent structural formation.
+
+Method — iterative rule system Rⁿ
+
+Result — Macro-structures emerge from micro-interactions.
+`
 },
 
 5: {
 title: "System Synthesis",
-en: "Unified ASIL system.",
-ru: "Единая система ASIL.",
-cn: "统一的ASIL系统。"
+l2: "Unified model of nodes, relations, and stability.",
+l3: `
+Abstract — Unified adaptive system model.
+
+Method — ASIL = (N, E, D, S)
+
+Result — Self-organizing knowledge architecture.
+`
 }
 
 };
 
-/* LANGUAGE SWITCH */
+/* LANGUAGE */
 function setLang(l){
 lang = l;
-updateLangUI();
+updateUI();
 render();
 }
 
-function updateLangUI(){
-document.querySelectorAll(".lang div").forEach(el => el.classList.remove("active"));
+/* LEVEL */
+function setLevel(l){
+level = l;
+updateUI();
+render();
+}
+
+/* UI UPDATE */
+function updateUI(){
+
+["en","ru","cn"].forEach(id=>{
+document.getElementById(id).classList.remove("active");
+});
+
 document.getElementById(lang).classList.add("active");
-}
 
-/* RENDER */
-function render(){
+document.getElementById("rbtn").classList.remove("active");
+document.getElementById("pbtn").classList.remove("active");
 
-if(currentView.type === "home") home();
-if(currentView.type === "contact") contact();
-if(currentView.type === "publications") showPapers();
-if(currentView.type === "paper") showPaper(currentView.id);
+if(level==="l2") document.getElementById("rbtn").classList.add("active");
+if(level==="l3") document.getElementById("pbtn").classList.add("active");
 
 }
 
-/* VIEWS */
-
+/* NAV */
 function home(){
-currentView = { type: "home" };
-
+current = { type:"home" };
 document.getElementById("main").innerHTML =
-(lang === "ru") ? "<h1>ASIL Институт</h1>" :
-(lang === "cn") ? "<h1>ASIL 研究所</h1>" :
+(lang==="ru") ? "<h1>ASIL Институт</h1>" :
+(lang==="cn") ? "<h1>ASIL 研究所</h1>" :
 "<h1>ASIL Systems Institute</h1>";
 }
 
 function contact(){
-currentView = { type: "contact" };
-
+current = { type:"contact" };
 document.getElementById("main").innerHTML =
-(lang === "ru") ? "<h1>Контакты</h1><p>research@asil.systems</p>" :
-(lang === "cn") ? "<h1>联系</h1><p>research@asil.systems</p>" :
 "<h1>Contact</h1><p>research@asil.systems</p>";
 }
 
-function showPapers(){
-currentView = { type: "publications" };
-
+function papersView(){
+current = { type:"papers" };
 document.getElementById("main").innerHTML =
-(lang === "ru") ? "<h1>Публикации</h1>" :
-(lang === "cn") ? "<h1>出版物</h1>" :
-"<h1>Publications</h1>";
+"<h1>Publications</h1><p>Select a paper</p>";
 }
 
-function showPaper(id){
-currentView = { type: "paper", id: id };
+function openPaper(id){
+
+current = { type:"paper", id:id };
 
 let p = papers[id];
+let text = (level==="l2") ? p.l2 : p.l3;
 
 document.getElementById("main").innerHTML = `
 <div class="paper">
 <h1>${p.title}</h1>
-<p>${p[lang]}</p>
+<pre>${text}</pre>
 </div>
 `;
+
+}
+
+/* RENDER */
+function render(){
+if(current.type==="home") home();
+if(current.type==="papers") papersView();
+if(current.type==="paper") openPaper(current.id);
+if(current.type==="contact") contact();
 }
 
 /* INIT */
-updateLangUI();
+updateUI();
 home();
 
 </script>
