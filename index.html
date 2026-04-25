@@ -21,24 +21,9 @@ body {
     align-items: center;
     padding: 0 25px;
     border-bottom: 1px solid rgba(255,255,255,0.08);
-    position: relative;
-}
-
-.topbar::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, #58a6ff, transparent);
 }
 
 /* LOGO */
-.logo {
-    display: flex;
-    flex-direction: column;
-}
-
 .logo-main {
     font-size: 26px;
     font-weight: 900;
@@ -46,12 +31,10 @@ body {
     background: linear-gradient(90deg, #58a6ff, #9ecbff, #58a6ff);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    text-shadow: 0 0 15px rgba(88,166,255,0.6);
 }
 
 .logo-sub {
     font-size: 9px;
-    letter-spacing: 2px;
     opacity: 0.6;
 }
 
@@ -63,14 +46,11 @@ body {
 }
 
 .nav div {
-    font-size: 12px;
-    opacity: 0.7;
     cursor: pointer;
+    opacity: 0.7;
 }
 
-.nav div:hover {
-    opacity: 1;
-}
+.nav div:hover { opacity: 1; }
 
 /* LANG */
 .lang {
@@ -81,12 +61,12 @@ body {
 
 .lang div {
     cursor: pointer;
-    font-size: 12px;
-    opacity: 0.6;
+    opacity: 0.5;
 }
 
-.lang div:hover {
+.lang .active {
     opacity: 1;
+    color: #58a6ff;
 }
 
 /* LAYOUT */
@@ -96,61 +76,30 @@ body {
 }
 
 .sidebar {
-    width: 300px;
-    background: rgba(10,14,20,0.6);
+    width: 260px;
+    padding: 15px;
     border-right: 1px solid rgba(255,255,255,0.08);
-    padding: 14px;
 }
 
 .card {
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.06);
     padding: 10px;
-    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.06);
     margin-bottom: 10px;
     cursor: pointer;
 }
 
 .card:hover {
-    background: rgba(88,166,255,0.08);
+    background: rgba(88,166,255,0.1);
 }
 
-.card-title {
-    color: #58a6ff;
-    font-size: 12px;
-}
-
-.card-text {
-    font-size: 11px;
-    opacity: 0.7;
-}
-
-/* MAIN */
 .main {
     flex: 1;
     padding: 20px;
 }
 
-h1 {
-    color: #58a6ff;
-}
-
 .paper {
     padding: 15px;
-    background: rgba(255,255,255,0.03);
     border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 10px;
-}
-
-.section {
-    margin-top: 10px;
-    font-size: 13px;
-    opacity: 0.9;
-}
-
-.contact {
-    margin-top: 20px;
-    font-size: 13px;
 }
 
 </style>
@@ -159,7 +108,7 @@ h1 {
 <body>
 
 <div class="topbar">
-<div class="logo">
+<div>
 <div class="logo-main">ASIL</div>
 <div class="logo-sub">SYSTEMS INSTITUTE</div>
 </div>
@@ -171,56 +120,31 @@ h1 {
 </div>
 
 <div class="lang">
-<div onclick="setLang('en')">EN</div>
-<div onclick="setLang('ru')">RU</div>
-<div onclick="setLang('cn')">中文</div>
+<div id="en" onclick="setLang('en')">EN</div>
+<div id="ru" onclick="setLang('ru')">RU</div>
+<div id="cn" onclick="setLang('cn')">中文</div>
 </div>
 </div>
 
 <div class="container">
 
 <div class="sidebar">
-
-<div class="card" onclick="showPaper(1)">
-<div class="card-title">ASIL Core</div>
-<div class="card-text">Architecture</div>
+<div class="card" onclick="showPaper(1)">ASIL Core</div>
+<div class="card" onclick="showPaper(2)">Teleportation</div>
+<div class="card" onclick="showPaper(3)">Coherence</div>
+<div class="card" onclick="showPaper(4)">Emergence</div>
+<div class="card" onclick="showPaper(5)">Synthesis</div>
 </div>
 
-<div class="card" onclick="showPaper(2)">
-<div class="card-title">Teleportation</div>
-<div class="card-text">State Transfer</div>
-</div>
-
-<div class="card" onclick="showPaper(3)">
-<div class="card-title">Coherence</div>
-<div class="card-text">Stability</div>
-</div>
-
-<div class="card" onclick="showPaper(4)">
-<div class="card-title">Emergence</div>
-<div class="card-text">Formation</div>
-</div>
-
-<div class="card" onclick="showPaper(5)">
-<div class="card-title">Synthesis</div>
-<div class="card-text">Full System</div>
-</div>
-
-</div>
-
-<div class="main" id="main">
-<h1>ASIL Systems Institute</h1>
-<p>Research platform for adaptive systems.</p>
-</div>
+<div class="main" id="main"></div>
 
 </div>
 
 <script>
 
-/* LANGUAGE */
 let lang = "en";
+let currentView = { type: "home" };
 
-/* DATA */
 const papers = {
 
 1: {
@@ -246,53 +170,87 @@ cn: "系统稳定性模型。"
 
 4: {
 title: "Emergence Theory",
-en: "Structures formed from simple interaction rules.",
-ru: "Структуры формируются из простых правил взаимодействия.",
+en: "Structures formed from simple rules.",
+ru: "Структуры формируются из простых правил.",
 cn: "结构由简单规则形成。"
 },
 
 5: {
 title: "System Synthesis",
-en: "Unified ASIL system model.",
-ru: "Единая модель системы ASIL.",
-cn: "统一的ASIL系统模型。"
+en: "Unified ASIL system.",
+ru: "Единая система ASIL.",
+cn: "统一的ASIL系统。"
 }
 
 };
 
-/* FUNCTIONS */
-
+/* LANGUAGE SWITCH */
 function setLang(l){
 lang = l;
+updateLangUI();
+render();
 }
 
+function updateLangUI(){
+document.querySelectorAll(".lang div").forEach(el => el.classList.remove("active"));
+document.getElementById(lang).classList.add("active");
+}
+
+/* RENDER */
+function render(){
+
+if(currentView.type === "home") home();
+if(currentView.type === "contact") contact();
+if(currentView.type === "publications") showPapers();
+if(currentView.type === "paper") showPaper(currentView.id);
+
+}
+
+/* VIEWS */
+
 function home(){
+currentView = { type: "home" };
+
 document.getElementById("main").innerHTML =
-"<h1>ASIL Systems Institute</h1><p>Research platform for adaptive systems.</p>";
+(lang === "ru") ? "<h1>ASIL Институт</h1>" :
+(lang === "cn") ? "<h1>ASIL 研究所</h1>" :
+"<h1>ASIL Systems Institute</h1>";
 }
 
 function contact(){
+currentView = { type: "contact" };
+
 document.getElementById("main").innerHTML =
-"<h1>Contact</h1><div class='contact'>research@asil.systems</div>";
+(lang === "ru") ? "<h1>Контакты</h1><p>research@asil.systems</p>" :
+(lang === "cn") ? "<h1>联系</h1><p>research@asil.systems</p>" :
+"<h1>Contact</h1><p>research@asil.systems</p>";
 }
 
 function showPapers(){
+currentView = { type: "publications" };
+
 document.getElementById("main").innerHTML =
-"<h1>Publications</h1><p>Select a paper.</p>";
+(lang === "ru") ? "<h1>Публикации</h1>" :
+(lang === "cn") ? "<h1>出版物</h1>" :
+"<h1>Publications</h1>";
 }
 
 function showPaper(id){
+currentView = { type: "paper", id: id };
 
 let p = papers[id];
 
 document.getElementById("main").innerHTML = `
 <div class="paper">
 <h1>${p.title}</h1>
-<div class="section">${p[lang]}</div>
+<p>${p[lang]}</p>
 </div>
 `;
-
 }
+
+/* INIT */
+updateLangUI();
+home();
 
 </script>
 
