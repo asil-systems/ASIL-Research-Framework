@@ -3,7 +3,7 @@
 
 <head>
 <meta charset="UTF-8">
-<title>ASIL Graph System + ISS Node</title>
+<title>ASIL Core Graph System</title>
 
 <style>
 
@@ -12,7 +12,6 @@ body {
     overflow: hidden;
     font-family: Arial;
     background: radial-gradient(circle at top, #03060a, #010208);
-    color: #d8e6f5;
 }
 
 /* CANVAS */
@@ -46,38 +45,49 @@ canvas {
     opacity: 0.6;
 }
 
-/* ISS BUTTON */
+/* ISS BUTTON — NOW BIG & NOTICEABLE */
 .iss {
     position: absolute;
-    width: 90px;
-    height: 40px;
-    border-radius: 20px;
-    background: linear-gradient(135deg, #ffffff, #cfd8ff);
+    width: 140px;
+    height: 56px;
+    border-radius: 28px;
+    background: linear-gradient(135deg, #ffffff, #b8c7ff);
     color: #000;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 10px;
+    font-size: 12px;
+    font-weight: bold;
     cursor: pointer;
-    box-shadow: 0 0 20px rgba(255,255,255,0.4);
+
+    box-shadow: 0 0 30px rgba(255,255,255,0.6),
+                0 0 80px rgba(88,166,255,0.3);
+
+    z-index: 10;
     user-select: none;
+}
+
+/* WARNING LABEL */
+.warn {
+    position: absolute;
+    font-size: 10px;
+    color: #ff4d4d;
+    top: -18px;
+    left: 20px;
+    letter-spacing: 2px;
+    opacity: 0.9;
 }
 
 /* GRAPH MODE */
 .graph-mode {
     position: absolute;
     inset: 0;
-    background: #02040a;
     display: none;
+    background: #02040a;
     padding: 40px;
     overflow-y: auto;
 }
 
-.graph-mode h1 {
-    color: #58a6ff;
-}
-
-/* CLOSE */
 .close {
     position: absolute;
     top: 14px;
@@ -98,43 +108,26 @@ canvas {
 <canvas id="c"></canvas>
 
 <div class="panel">
-<div class="title">ASIL EVOLUTION GRAPH</div>
-<div class="small">nodes / links / adaptive field</div>
+<div class="title">ASIL CORE SYSTEM</div>
+<div class="small">graph + central anchor node</div>
 </div>
 
-<!-- ISS NODE -->
-<div class="iss" id="iss">DO NOT PRESS</div>
+<!-- ISS CORE NODE -->
+<div class="iss" id="iss">
+<div class="warn">DO NOT PRESS</div>
+ISS CORE NODE
+</div>
 
 <!-- GRAPH MODE -->
 <div class="graph-mode" id="graph">
 
 <div class="close" onclick="closeGraph()">EXIT</div>
 
-<h1>GRAPHIC MODE — SYSTEM DESCRIPTION</h1>
+<h1>GRAPH MODE</h1>
 
-<p>
-ASIL system represents a conceptual knowledge graph where each node is a dynamic representation of an abstract research domain.
-</p>
+<p>System collapsed into textual representation layer.</p>
 
-<p>
-Nodes are not static entities but evolving state clusters that interact through proximity-based relational forces.
-</p>
-
-<p>
-Teleport Theory node describes conceptual state transfer between distributed systems without physical continuity.
-</p>
-
-<p>
-System Effects describe emergent behavior arising from interaction density and structural resonance between nodes.
-</p>
-
-<p>
-Navigation Model represents traversal logic across knowledge space rather than traditional UI navigation.
-</p>
-
-<p>
-Research Materials are derived abstractions that emerge from repeated structural interactions within the graph.
-</p>
+<p>Core node defines initial coherence anchor for all distributed states.</p>
 
 </div>
 
@@ -146,19 +139,23 @@ const ctx = c.getContext("2d");
 c.width = innerWidth;
 c.height = innerHeight;
 
-let graphMode = false;
-
-/* ISS BUTTON */
+/* ISS */
 const iss = document.getElementById("iss");
 
-let issX = 200;
-let issY = 200;
 let t = 0;
+let issX = innerWidth/2;
+let issY = innerHeight/2;
+
+/* CORE NODE (MAIN ANCHOR) */
+const core = {
+x: innerWidth/2,
+y: innerHeight/2
+};
 
 /* NODES */
 const nodes = [];
 
-for(let i=0;i<10;i++){
+for(let i=0;i<12;i++){
 nodes.push({
 x: Math.random()*innerWidth,
 y: Math.random()*innerHeight,
@@ -167,25 +164,65 @@ vy: (Math.random()-0.5)*1.2
 });
 }
 
-/* MOVE ISS LIKE ORBIT */
+/* MOVE ISS */
 function moveISS(){
 
 t += 0.01;
 
-issX = innerWidth/2 + Math.cos(t)*200;
-issY = innerHeight/2 + Math.sin(t*1.3)*120;
+issX = innerWidth/2 + Math.cos(t)*220;
+issY = innerHeight/2 + Math.sin(t*1.4)*140;
 
 iss.style.left = issX + "px";
 iss.style.top = issY + "px";
+}
+
+/* UPDATE SYSTEM */
+function update(){
+
+nodes.forEach(n=>{
+
+n.x += n.vx;
+n.y += n.vy;
+
+/* bounds */
+if(n.x<0||n.x>innerWidth) n.vx*=-1;
+if(n.y<0||n.y>innerHeight) n.vy*=-1;
+
+/* ISS attraction */
+let dx1 = issX - n.x;
+let dy1 = issY - n.y;
+
+n.x += dx1*0.0005;
+n.y += dy1*0.0005;
+
+/* CORE ATTRACTION (NEW MAIN LINK) */
+let dx2 = core.x - n.x;
+let dy2 = core.y - n.y;
+
+n.x += dx2*0.0008;
+n.y += dy2*0.0008;
+
+});
 
 }
 
-/* GRAPH */
+/* DRAW */
 function draw(){
 
 ctx.clearRect(0,0,innerWidth,innerHeight);
 
-/* links */
+/* CORE LINKS (NEW PRIMARY CONNECTION) */
+nodes.forEach(n=>{
+
+ctx.strokeStyle = "rgba(255,255,255,0.08)";
+ctx.beginPath();
+ctx.moveTo(n.x,n.y);
+ctx.lineTo(core.x,core.y);
+ctx.stroke();
+
+});
+
+/* NODE LINKS */
 for(let i=0;i<nodes.length;i++){
 for(let j=i+1;j<nodes.length;j++){
 
@@ -195,17 +232,31 @@ let b = nodes[j];
 let d = Math.hypot(a.x-b.x,a.y-b.y);
 
 if(d < 180){
+
 ctx.strokeStyle = "rgba(88,166,255,0.15)";
 ctx.beginPath();
 ctx.moveTo(a.x,a.y);
 ctx.lineTo(b.x,b.y);
 ctx.stroke();
+
 }
 
 }
 }
 
-/* nodes */
+/* CORE NODE */
+ctx.beginPath();
+ctx.fillStyle = "#ffffff";
+ctx.arc(core.x,core.y,8,0,Math.PI*2);
+ctx.fill();
+
+/* ISS NODE */
+ctx.beginPath();
+ctx.fillStyle = "#7c4dff";
+ctx.arc(issX,issY,6,0,Math.PI*2);
+ctx.fill();
+
+/* NODES */
 nodes.forEach(n=>{
 ctx.beginPath();
 ctx.fillStyle = "#58a6ff";
@@ -215,37 +266,11 @@ ctx.fill();
 
 }
 
-/* UPDATE */
-function update(){
-
-nodes.forEach(n=>{
-n.x += n.vx;
-n.y += n.vy;
-
-if(n.x<0||n.x>innerWidth) n.vx*=-1;
-if(n.y<0||n.y>innerHeight) n.vy*=-1;
-});
-
-/* ISS interaction gravity */
-nodes.forEach(n=>{
-let dx = issX - n.x;
-let dy = issY - n.y;
-
-n.x += dx*0.0005;
-n.y += dy*0.0005;
-});
-
-}
-
 /* LOOP */
 function loop(){
-
-if(!graphMode){
 update();
 draw();
 moveISS();
-}
-
 requestAnimationFrame(loop);
 }
 
@@ -253,13 +278,11 @@ loop();
 
 /* CLICK ISS */
 iss.onclick = ()=>{
-graphMode = true;
 document.getElementById("graph").style.display = "block";
 };
 
 /* CLOSE */
 function closeGraph(){
-graphMode = false;
 document.getElementById("graph").style.display = "none";
 }
 
