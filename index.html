@@ -1,72 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ASIL Systems Institute</title>
+
+<style>
+
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #070b12;
+    color: #d7e6f2;
+}
+
+/* TOPBAR */
+.topbar {
+    height: 60px;
+    background: rgba(10,14,20,0.95);
+    display: flex;
+    align-items: center;
+    padding: 0 25px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    position: relative;
+}
+
+.topbar::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #58a6ff, transparent);
+}
+
+/* LOGO */
+.logo {
+    display: flex;
+    flex-direction: column;
+}
+
+.logo-main {
+    font-size: 26px;
+    font-weight: 900;
+    letter-spacing: 4px;
+    background: linear-gradient(90deg, #58a6ff, #9ecbff, #58a6ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 15px rgba(88,166,255,0.6);
+}
+
+.logo-sub {
+    font-size: 9px;
+    letter-spacing: 2px;
+    opacity: 0.6;
+}
+
+/* NAV */
+.nav {
+    margin-left: 40px;
+    display: flex;
+    gap: 20px;
+}
+
+.nav div {
+    font-size: 12px;
+    opacity: 0.7;
+    cursor: pointer;
+}
+
+.nav div:hover {
+    opacity: 1;
+}
+
+/* LANG */
+.lang {
+    margin-left: auto;
+    display: flex;
+    gap: 12px;
+}
+
+.lang div {
+    cursor: pointer;
+    font-size: 12px;
+    opacity: 0.6;
+}
+
+.lang div:hover {
+    opacity: 1;
+}
+
+/* LAYOUT */
+.container {
+    display: flex;
+    height: calc(100vh - 60px);
+}
+
+.sidebar {
+    width: 300px;
+    background: rgba(10,14,20,0.6);
+    border-right: 1px solid rgba(255,255,255,0.08);
+    padding: 14px;
+}
+
+.card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.card:hover {
+    background: rgba(88,166,255,0.08);
+}
+
+.card-title {
+    color: #58a6ff;
+    font-size: 12px;
+}
+
+.card-text {
+    font-size: 11px;
+    opacity: 0.7;
+}
+
+/* MAIN */
+.main {
+    flex: 1;
+    padding: 20px;
+}
+
+h1 {
+    color: #58a6ff;
+}
+
+.paper {
+    padding: 15px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px;
+}
+
+.section {
+    margin-top: 10px;
+    font-size: 13px;
+    opacity: 0.9;
+}
+
+.contact {
+    margin-top: 20px;
+    font-size: 13px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+<div class="logo">
+<div class="logo-main">ASIL</div>
+<div class="logo-sub">SYSTEMS INSTITUTE</div>
+</div>
+
+<div class="nav">
+<div onclick="home()">Home</div>
+<div onclick="showPapers()">Publications</div>
+<div onclick="contact()">Contact</div>
+</div>
+
+<div class="lang">
+<div onclick="setLang('en')">EN</div>
+<div onclick="setLang('ru')">RU</div>
+<div onclick="setLang('cn')">中文</div>
+</div>
+</div>
+
+<div class="container">
+
+<div class="sidebar">
+
+<div class="card" onclick="showPaper(1)">
+<div class="card-title">ASIL Core</div>
+<div class="card-text">Architecture</div>
+</div>
+
+<div class="card" onclick="showPaper(2)">
+<div class="card-title">Teleportation</div>
+<div class="card-text">State Transfer</div>
+</div>
+
+<div class="card" onclick="showPaper(3)">
+<div class="card-title">Coherence</div>
+<div class="card-text">Stability</div>
+</div>
+
+<div class="card" onclick="showPaper(4)">
+<div class="card-title">Emergence</div>
+<div class="card-text">Formation</div>
+</div>
+
+<div class="card" onclick="showPaper(5)">
+<div class="card-title">Synthesis</div>
+<div class="card-text">Full System</div>
+</div>
+
+</div>
+
+<div class="main" id="main">
+<h1>ASIL Systems Institute</h1>
+<p>Research platform for adaptive systems.</p>
+</div>
+
+</div>
+
 <script>
 
+/* LANGUAGE */
 let lang = "en";
 
 /* DATA */
 const papers = {
 
 1: {
+title: "ASIL Core Architecture",
 en: "Adaptive knowledge graph system.",
 ru: "Адаптивная графовая система знаний.",
 cn: "自适应知识图系统。"
 },
 
 2: {
+title: "Teleportation Model",
 en: "State transfer preserving identity.",
 ru: "Перенос состояния с сохранением идентичности.",
 cn: "保持身份的状态转移。"
 },
 
 3: {
+title: "Coherence Field",
 en: "System stability model.",
 ru: "Модель устойчивости системы.",
 cn: "系统稳定性模型。"
 },
 
 4: {
-en: "Structures from simple rules.",
-ru: "Структуры из простых правил.",
-cn: "从简单规则形成结构。"
+title: "Emergence Theory",
+en: "Structures formed from simple interaction rules.",
+ru: "Структуры формируются из простых правил взаимодействия.",
+cn: "结构由简单规则形成。"
 },
 
 5: {
-en: "Unified ASIL system.",
-ru: "Единая система ASIL.",
-cn: "统一的ASIL系统。"
+title: "System Synthesis",
+en: "Unified ASIL system model.",
+ru: "Единая модель системы ASIL.",
+cn: "统一的ASIL系统模型。"
 }
 
 };
 
-/* LANGUAGE SWITCH */
+/* FUNCTIONS */
+
 function setLang(l){
 lang = l;
-home();
 }
 
-/* HOME */
 function home(){
 document.getElementById("main").innerHTML =
-"<h1>ASIL Systems Institute</h1><p>Research platform</p>";
+"<h1>ASIL Systems Institute</h1><p>Research platform for adaptive systems.</p>";
 }
 
-/* CONTACT */
 function contact(){
 document.getElementById("main").innerHTML =
 "<h1>Contact</h1><div class='contact'>research@asil.systems</div>";
 }
 
-/* PAPER */
+function showPapers(){
+document.getElementById("main").innerHTML =
+"<h1>Publications</h1><p>Select a paper.</p>";
+}
+
 function showPaper(id){
 
-let text = papers[id][lang];
+let p = papers[id];
 
 document.getElementById("main").innerHTML = `
 <div class="paper">
-<h1>Paper ${id}</h1>
-<div class="section">${text}</div>
+<h1>${p.title}</h1>
+<div class="section">${p[lang]}</div>
 </div>
 `;
 
 }
 
 </script>
+
+</body>
+</html>
