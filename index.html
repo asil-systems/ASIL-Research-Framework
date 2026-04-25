@@ -3,15 +3,16 @@
 
 <head>
 <meta charset="UTF-8">
-<title>ASIL Evolution System</title>
+<title>ASIL Graph System + ISS Node</title>
 
 <style>
 
 body {
     margin: 0;
     overflow: hidden;
-    background: radial-gradient(circle at top, #03060a, #010208);
     font-family: Arial;
+    background: radial-gradient(circle at top, #03060a, #010208);
+    color: #d8e6f5;
 }
 
 /* CANVAS */
@@ -24,25 +25,68 @@ canvas {
 /* PANEL */
 .panel {
     position: absolute;
-    top: 16px;
-    left: 16px;
-    width: 260px;
+    top: 14px;
+    left: 14px;
+    width: 270px;
     padding: 14px;
-    background: rgba(10,14,20,0.65);
-    border: 1px solid rgba(255,255,255,0.06);
+    background: rgba(10,14,20,0.7);
     border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.06);
     backdrop-filter: blur(12px);
 }
 
 .title {
     font-size: 13px;
     color: #58a6ff;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 .small {
     font-size: 11px;
     opacity: 0.6;
+}
+
+/* ISS BUTTON */
+.iss {
+    position: absolute;
+    width: 90px;
+    height: 40px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #ffffff, #cfd8ff);
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(255,255,255,0.4);
+    user-select: none;
+}
+
+/* GRAPH MODE */
+.graph-mode {
+    position: absolute;
+    inset: 0;
+    background: #02040a;
+    display: none;
+    padding: 40px;
+    overflow-y: auto;
+}
+
+.graph-mode h1 {
+    color: #58a6ff;
+}
+
+/* CLOSE */
+.close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    padding: 8px 10px;
+    font-size: 11px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 8px;
+    cursor: pointer;
 }
 
 </style>
@@ -54,8 +98,44 @@ canvas {
 <canvas id="c"></canvas>
 
 <div class="panel">
-<div class="title">ASIL EVOLUTION SYSTEM</div>
-<div class="small">adaptive graph / self-organizing structure</div>
+<div class="title">ASIL EVOLUTION GRAPH</div>
+<div class="small">nodes / links / adaptive field</div>
+</div>
+
+<!-- ISS NODE -->
+<div class="iss" id="iss">DO NOT PRESS</div>
+
+<!-- GRAPH MODE -->
+<div class="graph-mode" id="graph">
+
+<div class="close" onclick="closeGraph()">EXIT</div>
+
+<h1>GRAPHIC MODE — SYSTEM DESCRIPTION</h1>
+
+<p>
+ASIL system represents a conceptual knowledge graph where each node is a dynamic representation of an abstract research domain.
+</p>
+
+<p>
+Nodes are not static entities but evolving state clusters that interact through proximity-based relational forces.
+</p>
+
+<p>
+Teleport Theory node describes conceptual state transfer between distributed systems without physical continuity.
+</p>
+
+<p>
+System Effects describe emergent behavior arising from interaction density and structural resonance between nodes.
+</p>
+
+<p>
+Navigation Model represents traversal logic across knowledge space rather than traditional UI navigation.
+</p>
+
+<p>
+Research Materials are derived abstractions that emerge from repeated structural interactions within the graph.
+</p>
+
 </div>
 
 <script>
@@ -66,107 +146,122 @@ const ctx = c.getContext("2d");
 c.width = innerWidth;
 c.height = innerHeight;
 
-window.onresize = () => {
-c.width = innerWidth;
-c.height = innerHeight;
-};
+let graphMode = false;
 
-let mouse = {x: innerWidth/2, y: innerHeight/2};
+/* ISS BUTTON */
+const iss = document.getElementById("iss");
 
-window.addEventListener("mousemove", e=>{
-mouse.x = e.clientX;
-mouse.y = e.clientY;
-});
+let issX = 200;
+let issY = 200;
+let t = 0;
 
 /* NODES */
 const nodes = [];
 
-for(let i=0;i<12;i++){
+for(let i=0;i<10;i++){
 nodes.push({
 x: Math.random()*innerWidth,
 y: Math.random()*innerHeight,
 vx: (Math.random()-0.5)*1.2,
-vy: (Math.random()-0.5)*1.2,
-mass: Math.random()*2+1
+vy: (Math.random()-0.5)*1.2
 });
 }
 
-/* EVOLUTION RULES */
-function evolve(){
+/* MOVE ISS LIKE ORBIT */
+function moveISS(){
 
-nodes.forEach(n=>{
+t += 0.01;
 
-// base movement
-n.x += n.vx;
-n.y += n.vy;
+issX = innerWidth/2 + Math.cos(t)*200;
+issY = innerHeight/2 + Math.sin(t*1.3)*120;
 
-// mouse influence
-let dx = mouse.x - n.x;
-let dy = mouse.y - n.y;
-
-n.x += dx * 0.0006;
-n.y += dy * 0.0006;
-
-// slight self-growth drift (evolution effect)
-n.vx += (Math.random()-0.5)*0.02;
-n.vy += (Math.random()-0.5)*0.02;
-
-// bounds
-if(n.x < 0 || n.x > innerWidth) n.vx *= -1;
-if(n.y < 0 || n.y > innerHeight) n.vy *= -1;
-
-});
+iss.style.left = issX + "px";
+iss.style.top = issY + "px";
 
 }
 
-/* DRAW SYSTEM */
+/* GRAPH */
 function draw(){
 
 ctx.clearRect(0,0,innerWidth,innerHeight);
 
-/* LINKS (dynamic strength) */
+/* links */
 for(let i=0;i<nodes.length;i++){
 for(let j=i+1;j<nodes.length;j++){
 
 let a = nodes[i];
 let b = nodes[j];
 
-let dist = Math.hypot(a.x-b.x, a.y-b.y);
+let d = Math.hypot(a.x-b.x,a.y-b.y);
 
-if(dist < 200){
-
-ctx.strokeStyle = `rgba(88,166,255,${1 - dist/200})`;
-
+if(d < 180){
+ctx.strokeStyle = "rgba(88,166,255,0.15)";
 ctx.beginPath();
 ctx.moveTo(a.x,a.y);
 ctx.lineTo(b.x,b.y);
 ctx.stroke();
-
 }
 
 }
 }
 
-/* NODES */
+/* nodes */
 nodes.forEach(n=>{
-
 ctx.beginPath();
 ctx.fillStyle = "#58a6ff";
-ctx.arc(n.x,n.y,4 + n.mass,0,Math.PI*2);
+ctx.arc(n.x,n.y,4,0,Math.PI*2);
 ctx.fill();
+});
 
+}
+
+/* UPDATE */
+function update(){
+
+nodes.forEach(n=>{
+n.x += n.vx;
+n.y += n.vy;
+
+if(n.x<0||n.x>innerWidth) n.vx*=-1;
+if(n.y<0||n.y>innerHeight) n.vy*=-1;
+});
+
+/* ISS interaction gravity */
+nodes.forEach(n=>{
+let dx = issX - n.x;
+let dy = issY - n.y;
+
+n.x += dx*0.0005;
+n.y += dy*0.0005;
 });
 
 }
 
 /* LOOP */
 function loop(){
-evolve();
+
+if(!graphMode){
+update();
 draw();
+moveISS();
+}
+
 requestAnimationFrame(loop);
 }
 
 loop();
+
+/* CLICK ISS */
+iss.onclick = ()=>{
+graphMode = true;
+document.getElementById("graph").style.display = "block";
+};
+
+/* CLOSE */
+function closeGraph(){
+graphMode = false;
+document.getElementById("graph").style.display = "none";
+}
 
 </script>
 
