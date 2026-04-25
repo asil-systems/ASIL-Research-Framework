@@ -3,56 +3,66 @@
 
 <head>
 <meta charset="UTF-8">
-<title>ASIL Research Console</title>
+<title>ASIL Institute Control System</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
 
-/* ===== BASE ===== */
+/* =========================
+   GLOBAL SYSTEM UI
+========================= */
+
 body {
     margin: 0;
-    background: #070b10;
-    color: #d7e1ea;
+    background: radial-gradient(circle at top, #070b12, #05070c);
+    color: #d7e2ea;
     font-family: 'Inter', sans-serif;
     overflow: hidden;
 }
 
-/* ===== TOP BAR ===== */
+/* TOP CONTROL BAR (NASA STYLE) */
 .topbar {
-    height: 52px;
-    background: #0a0f15;
+    height: 54px;
+    background: rgba(10,14,20,0.85);
+    backdrop-filter: blur(14px);
     border-bottom: 1px solid rgba(255,255,255,0.06);
     display: flex;
     align-items: center;
-    padding: 0 18px;
+    justify-content: space-between;
+    padding: 0 20px;
 }
 
 .logo {
     font-size: 12px;
-    letter-spacing: 6px;
+    letter-spacing: 7px;
     color: #58a6ff;
 }
 
-/* ===== MAIN GRID ===== */
-.layout {
-    display: grid;
-    grid-template-columns: 260px 1fr 320px;
-    height: calc(100vh - 52px);
+.status {
+    font-size: 11px;
+    opacity: 0.7;
 }
 
-/* ===== LEFT NAV ===== */
+/* MAIN GRID (CONTROL SYSTEM) */
+.layout {
+    display: grid;
+    grid-template-columns: 240px 1fr 340px;
+    height: calc(100vh - 54px);
+}
+
+/* LEFT NAV (SYSTEM MODULES) */
 .nav {
     background: #0a0f15;
     border-right: 1px solid rgba(255,255,255,0.06);
-    padding: 20px;
+    padding: 18px;
 }
 
 .nav-item {
     font-size: 12px;
     margin-bottom: 14px;
     cursor: pointer;
-    color: #b9c7d3;
+    color: #c1cfda;
     transition: 0.2s;
 }
 
@@ -61,51 +71,69 @@ body {
     transform: translateX(4px);
 }
 
-/* ===== CENTER ===== */
+/* CENTER DASHBOARD */
 .center {
-    padding: 28px;
+    padding: 26px;
     overflow-y: auto;
 }
 
-/* ===== RIGHT PANEL ===== */
+/* RIGHT SYSTEM FEED */
 .right {
     background: #0a0f15;
     border-left: 1px solid rgba(255,255,255,0.06);
-    padding: 20px;
+    padding: 18px;
 }
 
-/* ===== HEAD ===== */
+/* =========================
+   UI COMPONENTS
+========================= */
+
 .title {
     font-size: 28px;
-    margin-bottom: 10px;
+    letter-spacing: -0.5px;
 }
 
 .sub {
-    font-size: 13px;
+    font-size: 12px;
     opacity: 0.7;
+    margin-bottom: 20px;
 }
 
-/* ===== BLOCKS ===== */
-.block {
-    background: #0e141d;
+/* SYSTEM CARDS */
+.card {
+    background: linear-gradient(145deg, #0e1520, #0a0f15);
     border: 1px solid rgba(255,255,255,0.06);
-    padding: 18px;
-    border-radius: 10px;
-    margin-bottom: 12px;
+    padding: 22px;
+    border-radius: 12px;
+    margin-bottom: 14px;
     transition: 0.2s;
 }
 
-.block:hover {
-    border-color: rgba(88,166,255,0.4);
-    transform: translateY(-3px);
+.card:hover {
+    border-color: rgba(88,166,255,0.45);
+    transform: translateY(-4px);
 }
 
-/* ===== PAPER ===== */
+/* NASA-STYLE DATA BLOCK */
+.metric {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    margin-bottom: 8px;
+    opacity: 0.85;
+}
+
+/* PUBLICATION GRID (CERN STYLE) */
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
 .paper {
-    background: #0c1118;
+    background: #0b111a;
     border: 1px solid rgba(255,255,255,0.07);
     padding: 16px;
-    margin-bottom: 10px;
     border-radius: 10px;
     cursor: pointer;
     transition: 0.2s;
@@ -116,20 +144,26 @@ body {
     transform: translateX(4px);
 }
 
-/* ===== RIGHT DATA ===== */
-.data {
+/* SYSTEM STATUS PANEL */
+.status-box {
     font-size: 12px;
-    opacity: 0.75;
     line-height: 1.6;
+    opacity: 0.85;
 }
 
-/* ===== SECTIONS ===== */
-.section {
-    display: none;
+/* FADE */
+.fade {
+    animation: fadeIn 0.3s ease;
 }
 
-.show {
-    display: block;
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.small {
+    font-size: 11px;
+    opacity: 0.6;
 }
 
 </style>
@@ -138,93 +172,121 @@ body {
 
 <body>
 
+<!-- TOP BAR -->
 <div class="topbar">
-<div class="logo">ASIL RESEARCH CONSOLE</div>
+<div class="logo">ASIL INSTITUTE CONTROL SYSTEM</div>
+<div class="status">SYSTEM STATUS: ACTIVE • SYNCHRONIZATION: STABLE</div>
 </div>
 
 <div class="layout">
 
-<!-- NAV -->
+<!-- LEFT NAV -->
 <div class="nav">
-<div class="nav-item" onclick="openTab('home')">CORE OVERVIEW</div>
-<div class="nav-item" onclick="openTab('research')">RESEARCH ENGINE</div>
-<div class="nav-item" onclick="openTab('pub')">PUBLICATION ARCHIVE</div>
-<div class="nav-item" onclick="openTab('system')">SYSTEM LAYERS</div>
-<div class="nav-item" onclick="openTab('manifesto')">MANIFESTO</div>
+
+<div class="nav-item" onclick="show('home')">CORE OVERVIEW</div>
+<div class="nav-item" onclick="show('mission')">MISSION ENGINE</div>
+<div class="nav-item" onclick="show('pub')">RESEARCH ARCHIVE</div>
+<div class="nav-item" onclick="show('system')">SYSTEM LAYERS</div>
+<div class="nav-item" onclick="show('feed')">DATA FEED</div>
+
 </div>
 
-<!-- CENTER -->
+<!-- CENTER DASHBOARD -->
 <div class="center">
 
 <!-- HOME -->
-<div id="home" class="section show">
+<div id="home" class="fade">
 
-<div class="title">ASIL Institute System</div>
-<div class="sub">Distributed research framework for synchronization & emergence</div>
+<div class="title">ASIL Research Institute</div>
+<div class="sub">Hybrid scientific control system for distributed intelligence and emergence modeling</div>
 
-<div class="block">
-Core system operates on layered interaction between autonomous agents and structured feedback loops.
+<div class="card">
+<div class="metric"><span>Nodes</span><span>128 ACTIVE</span></div>
+<div class="metric"><span>Synchronization</span><span>STABLE</span></div>
+<div class="metric"><span>System Load</span><span>LOW</span></div>
 </div>
 
 </div>
 
-<!-- RESEARCH -->
-<div id="research" class="section">
+<!-- MISSION ENGINE -->
+<div id="mission" style="display:none;" class="fade">
 
-<div class="title">Research Engine</div>
+<div class="title">Mission Engine</div>
 
-<div class="block">Synchronization dynamics in distributed systems</div>
-<div class="block">Emergent behavior in multi-agent networks</div>
-<div class="block">Structural stability under perturbation</div>
+<div class="card">
+Research operations:
+<br><br>
+• Synchronization modeling<br>
+• Multi-agent system behavior<br>
+• Emergence detection<br>
+• Stability mapping
+</div>
 
 </div>
 
 <!-- PUBLICATIONS -->
-<div id="pub" class="section">
+<div id="pub" style="display:none;" class="fade">
 
-<div class="title">Publication Archive</div>
+<div class="title">Research Archive</div>
+
+<div class="grid">
 
 <div class="paper">
-<b>ASIL-01</b> Foundations of Synchronization<br>
-<small>Phase alignment and coherence emergence in distributed networks</small>
+<b>ASIL-01</b><br>
+Foundations of Synchronization<br>
+<span class="small">Phase coherence in distributed systems</span>
 </div>
 
 <div class="paper">
-<b>ASIL-02</b> Multi-Agent Dynamics<br>
-<small>Local rule systems generating global structures</small>
+<b>ASIL-02</b><br>
+Multi-Agent Dynamics<br>
+<span class="small">Emergent behavioral structures</span>
 </div>
 
 <div class="paper">
-<b>ASIL-03</b> Structural Stability<br>
-<small>System resilience under external noise and disruption</small>
+<b>ASIL-03</b><br>
+Structural Stability<br>
+<span class="small">Resilience under perturbation</span>
 </div>
 
 <div class="paper">
-<b>ASIL-04</b> Emergence Theory<br>
-<small>Transition from chaotic to structured states</small>
+<b>ASIL-04</b><br>
+Emergence Theory<br>
+<span class="small">Order from distributed interaction</span>
+</div>
+
 </div>
 
 </div>
 
 <!-- SYSTEM -->
-<div id="system" class="section">
+<div id="system" style="display:none;" class="fade">
 
-<div class="title">System Layers</div>
+<div class="title">System Architecture</div>
 
-<div class="block">Vision Layer — abstraction & modeling</div>
-<div class="block">Logic Layer — computation structure</div>
-<div class="block">Interaction Layer — agent dynamics</div>
-<div class="block">Stability Layer — coherence control</div>
+<div class="card">
+• Vision Layer — abstraction modeling<br>
+• Intelligence Layer — computation logic<br>
+• Interaction Layer — system dynamics<br>
+• Stability Layer — coherence control<br>
+</div>
 
 </div>
 
-<!-- MANIFESTO -->
-<div id="manifesto" class="section">
+<!-- DATA FEED -->
+<div id="feed" style="display:none;" class="fade">
 
-<div class="title">Manifesto</div>
+<div class="title">Live System Feed</div>
 
-<div class="block">
-ASIL defines order as an emergent property of interacting systems under constraint and feedback.
+<div class="card">
+<div class="status-box">
+> synchronization_loop: active<br>
+> emergence_detection: running<br>
+> structural_integrity: high<br>
+> anomaly_scan: clean<br>
+<br>
+SYSTEM OPERATING NORMALLY
+</div>
 </div>
 
 </div>
@@ -234,15 +296,19 @@ ASIL defines order as an emergent property of interacting systems under constrai
 <!-- RIGHT PANEL -->
 <div class="right">
 
-<div class="title">System Status</div>
+<div class="title">System Monitor</div>
 
-<div class="data">
-• Nodes: ACTIVE<br>
-• Synchronization: STABLE<br>
-• Emergence Field: RUNNING<br>
-• Structural Integrity: HIGH<br><br>
-
-ASIL operates as a continuous distributed research environment.
+<div class="card">
+<div class="status-box">
+NETWORK STATUS<br>
+• Nodes: ONLINE<br>
+• Latency: LOW<br>
+• Stability: HIGH<br>
+<br>
+RESEARCH STATE<br>
+• Papers: 4 ACTIVE<br>
+• Archive: STABLE<br>
+</div>
 </div>
 
 </div>
@@ -251,14 +317,16 @@ ASIL operates as a continuous distributed research environment.
 
 <script>
 
-function openTab(id){
+function show(id){
 
-let sections = document.querySelectorAll('.section');
+let sections = ['home','mission','pub','system','feed'];
 
-sections.forEach(s => s.classList.remove('show'));
+sections.forEach(s => {
+let el = document.getElementById(s);
+if(el) el.style.display = 'none';
+});
 
-document.getElementById(id).classList.add('show');
-
+document.getElementById(id).style.display = 'block';
 }
 
 </script>
