@@ -3,29 +3,24 @@
 
 <head>
 <meta charset="UTF-8">
-<title>NODE // SYSTEM INTERFACE</title>
+<title>ASIL Research Institute</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
 
-/* =========================
-   BLACKBOX UI SYSTEM
-========================= */
-
 body {
     margin: 0;
-    background: #05070c;
-    color: #d7e3ee;
+    background: radial-gradient(circle at top, #05070c, #03040a);
+    color: #dbe7f2;
     font-family: 'Inter', sans-serif;
     overflow: hidden;
 }
 
-/* TOP BAR (NO SEMANTICS) */
 .topbar {
-    height: 52px;
+    height: 54px;
     background: rgba(8,10,14,0.95);
-    border-bottom: 1px solid rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -33,35 +28,33 @@ body {
 }
 
 .logo {
-    font-size: 11px;
-    letter-spacing: 6px;
+    font-size: 12px;
+    letter-spacing: 7px;
     color: #58a6ff;
 }
 
-.tag {
+.status {
     font-size: 10px;
-    opacity: 0.5;
+    opacity: 0.6;
 }
 
-/* LAYOUT */
 .layout {
     display: grid;
-    grid-template-columns: 210px 1fr 300px;
-    height: calc(100vh - 52px);
+    grid-template-columns: 240px 1fr 340px;
+    height: calc(100vh - 54px);
 }
 
-/* LEFT (OBFUSCATED NAV) */
 .nav {
     background: #070a10;
     border-right: 1px solid rgba(255,255,255,0.05);
-    padding: 16px;
+    padding: 18px;
 }
 
 .nav-item {
     font-size: 11px;
-    margin-bottom: 12px;
+    margin-bottom: 14px;
     cursor: pointer;
-    color: #b9c6d2;
+    color: #b9c7d3;
     transition: 0.2s;
 }
 
@@ -70,82 +63,79 @@ body {
     transform: translateX(3px);
 }
 
-/* CENTER */
 .center {
-    padding: 22px;
+    padding: 24px;
     overflow-y: auto;
 }
 
-/* RIGHT */
 .right {
     background: #070a10;
     border-left: 1px solid rgba(255,255,255,0.05);
-    padding: 16px;
+    padding: 18px;
 }
 
-/* =========================
-   GENERIC UI BLOCKS (NO MEANING LABELS)
-========================= */
-
-.unit {
-    background: #0b0f16;
-    border: 1px solid rgba(255,255,255,0.06);
-    padding: 16px;
-    border-radius: 10px;
-    margin-bottom: 10px;
-    transition: 0.2s;
-}
-
-.unit:hover {
-    border-color: rgba(88,166,255,0.4);
-    transform: translateY(-3px);
-}
+/* ===== CORE ===== */
 
 .title {
-    font-size: 22px;
+    font-size: 26px;
     margin-bottom: 6px;
 }
 
 .sub {
-    font-size: 11px;
-    opacity: 0.6;
+    font-size: 12px;
+    opacity: 0.7;
+    margin-bottom: 16px;
+}
+
+.panel {
+    background: #0b111a;
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 18px;
+    border-radius: 10px;
     margin-bottom: 12px;
 }
 
-.grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-}
+/* ===== PUBLICATIONS ===== */
 
-.tile {
-    background: #0a0d14;
-    border: 1px solid rgba(255,255,255,0.06);
-    padding: 14px;
-    border-radius: 8px;
+.paper {
+    background: #0b111a;
+    border: 1px solid rgba(255,255,255,0.07);
+    padding: 16px;
+    border-radius: 10px;
+    margin-bottom: 10px;
     cursor: pointer;
     transition: 0.2s;
 }
 
-.tile:hover {
+.paper:hover {
     border-color: rgba(88,166,255,0.5);
-    transform: translateX(3px);
+    transform: translateX(4px);
 }
 
-/* SYSTEM TEXT (NO SEMANTIC CLUES) */
-.mono {
+.small {
     font-size: 11px;
-    line-height: 1.6;
-    opacity: 0.8;
+    opacity: 0.65;
 }
 
-/* VIEW CONTROL */
-.view {
+/* ARTICLE */
+
+.article {
     display: none;
 }
 
-.show {
-    display: block;
+.fade {
+    animation: fadeIn 0.25s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.mono {
+    font-size: 11px;
+    line-height: 1.6;
+    opacity: 0.85;
 }
 
 </style>
@@ -155,78 +145,107 @@ body {
 <body>
 
 <div class="topbar">
-<div class="logo">NODE INTERFACE SYSTEM</div>
-<div class="tag">STATUS: STABLE // SIGNAL: ACTIVE</div>
+<div class="logo">ASIL RESEARCH INSTITUTE</div>
+<div class="status">SYSTEM: ACTIVE • ARCHIVE: STABLE • MODE: OBSERVATION</div>
 </div>
 
 <div class="layout">
 
-<!-- LEFT -->
+<!-- NAV -->
 <div class="nav">
 
-<div class="nav-item" onclick="show('a')">NODE A</div>
-<div class="nav-item" onclick="show('b')">NODE B</div>
-<div class="nav-item" onclick="show('c')">NODE C</div>
-<div class="nav-item" onclick="show('d')">NODE D</div>
+<div class="nav-item" onclick="show('home')">CORE</div>
+<div class="nav-item" onclick="show('research')">RESEARCH ENGINE</div>
+<div class="nav-item" onclick="show('pub')">PUBLICATIONS</div>
+<div class="nav-item" onclick="show('system')">SYSTEM LAYERS</div>
 
 </div>
 
 <!-- CENTER -->
 <div class="center">
 
-<!-- A -->
-<div id="a" class="view show">
+<!-- HOME -->
+<div id="home" class="fade">
 
-<div class="title">Interface Node A</div>
-<div class="sub">system fragment / abstract layer</div>
+<div class="title">ASIL Institute Core</div>
+<div class="sub">Distributed systems research framework for synchronization and emergent behavior analysis</div>
 
-<div class="unit">
-Operational state: nominal
+<div class="panel">
+The system operates as a layered model for analyzing coherence in multi-agent environments under dynamic constraints.
 </div>
 
 </div>
 
-<!-- B -->
-<div id="b" class="view">
+<!-- RESEARCH -->
+<div id="research" style="display:none;" class="fade">
 
-<div class="title">Interface Node B</div>
+<div class="title">Research Engine</div>
 
-<div class="grid">
+<div class="panel">
+Focus domains:<br><br>
 
-<div class="tile">segment 01</div>
-<div class="tile">segment 02</div>
-<div class="tile">segment 03</div>
-<div class="tile">segment 04</div>
-
+• Synchronization dynamics in distributed networks<br>
+• Emergent structures in multi-agent systems<br>
+• Stability conditions under perturbation<br>
+• Feedback-driven adaptation mechanisms
 </div>
 
 </div>
 
-<!-- C -->
-<div id="c" class="view">
+<!-- PUBLICATIONS -->
+<div id="pub" style="display:none;" class="fade">
 
-<div class="title">Interface Node C</div>
+<div class="title">Research Publications Archive</div>
 
-<div class="unit mono">
-> stream: active<br>
-> integrity: stable<br>
-> deviation: minimal<br>
-> feedback: enabled
+<!-- ARTICLE 1 -->
+<div class="paper" onclick="openArticle(1)">
+ASIL-01 — Foundations of Synchronization<br>
+<span class="small">Mathematical and conceptual basis of phase coherence in distributed systems</span>
+</div>
+
+<div class="paper" onclick="openArticle(2)">
+ASIL-02 — Multi-Agent Interaction Theory<br>
+<span class="small">Local interaction rules and global behavioral emergence</span>
+</div>
+
+<div class="paper" onclick="openArticle(3)">
+ASIL-03 — Structural Stability Models<br>
+<span class="small">Resilience of complex systems under external perturbations</span>
+</div>
+
+<div class="paper" onclick="openArticle(4)">
+ASIL-04 — Emergence in Distributed Architectures<br>
+<span class="small">Transition from stochastic interaction to structured order</span>
 </div>
 
 </div>
 
-<!-- D -->
-<div id="d" class="view">
+<!-- ARTICLE VIEW -->
+<div id="article" class="article fade">
 
-<div class="title">Interface Node D</div>
+<div class="panel">
+<div id="title" style="font-size:20px; margin-bottom:10px;"></div>
+<div id="text" class="mono"></div>
 
-<div class="unit mono">
-system layer map:<br>
-• segment cluster A<br>
-• segment cluster B<br>
-• segment cluster C<br>
-• segment cluster D
+<div style="margin-top:14px; color:#58a6ff; cursor:pointer;" onclick="back()">
+← Back to Archive
+</div>
+
+</div>
+
+</div>
+
+<!-- SYSTEM -->
+<div id="system" style="display:none;" class="fade">
+
+<div class="title">System Architecture</div>
+
+<div class="panel mono">
+• Vision Layer — abstraction modeling of system states<br>
+• Intelligence Layer — computational inference structures<br>
+• Interaction Layer — multi-agent dynamics and exchange<br>
+• Stability Layer — coherence preservation mechanisms<br>
+• Feedback Layer — adaptive regulation processes
 </div>
 
 </div>
@@ -236,13 +255,15 @@ system layer map:<br>
 <!-- RIGHT -->
 <div class="right">
 
-<div class="title">Signal Monitor</div>
+<div class="title">System Monitor</div>
 
-<div class="unit mono">
-nodes: active<br>
-state: stable<br>
-visibility: partial<br>
-logic: encapsulated<br>
+<div class="panel mono">
+Nodes: 128 ACTIVE<br>
+Stability: HIGH<br>
+Signal Integrity: STABLE<br>
+Observation Mode: ENABLED<br><br>
+
+Research Archive: 4 ACTIVE PAPERS
 </div>
 
 </div>
@@ -253,13 +274,50 @@ logic: encapsulated<br>
 
 function show(id){
 
-let views = ['a','b','c','d'];
+let sections = ['home','research','pub','system','article'];
 
-views.forEach(v => {
-document.getElementById(v).classList.remove('show');
+sections.forEach(s => {
+let el = document.getElementById(s);
+if(el) el.style.display = 'none';
 });
 
-document.getElementById(id).classList.add('show');
+document.getElementById(id).style.display = 'block';
+}
+
+/* SERIOUS ACADEMIC ARTICLES */
+function openArticle(id){
+
+show('article');
+
+let title = "";
+let text = "";
+
+if(id === 1){
+title = "ASIL-01 — Foundations of Synchronization";
+text = "This work establishes a theoretical framework for synchronization in distributed systems. It formalizes how independent agents achieve phase coherence through iterative interaction dynamics and constrained feedback loops. The model emphasizes stability emergence without centralized control.";
+}
+
+if(id === 2){
+title = "ASIL-02 — Multi-Agent Interaction Theory";
+text = "This paper analyzes how local interaction rules between autonomous agents lead to global emergent behavior. It focuses on non-linear propagation of state changes across networked systems and identifies conditions under which structured order arises spontaneously.";
+}
+
+if(id === 3){
+title = "ASIL-03 — Structural Stability Models";
+text = "The study investigates resilience properties of complex systems under stochastic perturbations. It defines stability as a function of adaptive feedback resistance and structural redundancy across system layers.";
+}
+
+if(id === 4){
+title = "ASIL-04 — Emergence in Distributed Architectures";
+text = "This research explores the transition from unstructured interaction patterns to coherent macroscopic order. It examines emergent properties arising from decentralized computational environments and self-organizing dynamics.";
+}
+
+document.getElementById('title').innerText = title;
+document.getElementById('text').innerText = text;
+}
+
+function back(){
+show('pub');
 }
 
 </script>
