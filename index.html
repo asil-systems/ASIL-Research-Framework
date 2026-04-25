@@ -1,35 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 <meta charset="UTF-8">
 <title>ASIL Research Platform</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
 <style>
+
 body {
     margin: 0;
-    background: #0b0f14;
+    background: radial-gradient(circle at top, #0f1722, #0b0f14);
     color: #e6edf3;
-    font-family: Arial, sans-serif;
+    font-family: 'Inter', Arial, sans-serif;
+    line-height: 1.6;
 }
 
-.container {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 80px 20px;
+/* LOGO */
+.logo {
+    position: fixed;
+    left: 20px;
+    top: 14px;
+    font-size: 14px;
+    letter-spacing: 6px;
+    font-weight: 600;
+    color: #58a6ff;
 }
 
-/* NAVBAR */
+/* NAV */
 .nav {
     position: fixed;
     top: 0;
     width: 100%;
-    background: rgba(11,15,20,0.9);
-    backdrop-filter: blur(10px);
     display: flex;
     justify-content: center;
-    gap: 20px;
-    padding: 15px;
-    border-bottom: 1px solid #1f2a37;
+    gap: 18px;
+    padding: 14px;
+    background: rgba(11,15,20,0.7);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(88,166,255,0.1);
 }
 
 .nav button {
@@ -37,43 +47,25 @@ body {
     border: none;
     color: #e6edf3;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 13px;
 }
 
 .nav button:hover {
     color: #58a6ff;
 }
 
-/* CARDS */
-.card {
-    background: #111823;
-    padding: 20px;
-    border-radius: 12px;
-    margin-bottom: 20px;
-    border: 1px solid #1f2a37;
-}
-
-h1 {
-    font-size: 32px;
-}
-
-h2 {
-    color: #58a6ff;
-}
-
-/* LANGUAGE SWITCH */
+/* LANGUAGE */
 .lang {
     position: fixed;
     right: 20px;
-    top: 15px;
+    top: 14px;
 }
 
 .lang button {
     background: #1f2a37;
     border: none;
-    color: #e6edf3;
+    color: white;
     padding: 5px 10px;
-    margin-left: 5px;
     border-radius: 6px;
     cursor: pointer;
 }
@@ -81,13 +73,45 @@ h2 {
 .lang button:hover {
     background: #58a6ff;
 }
+
+/* LAYOUT */
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 100px 20px;
+}
+
+/* CARDS */
+.card {
+    background: rgba(17, 24, 35, 0.8);
+    padding: 24px;
+    border-radius: 14px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(88,166,255,0.15);
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(88,166,255,0.5);
+}
+
+h1 {
+    font-size: 34px;
+}
+
+h2 {
+    color: #58a6ff;
+}
+
 </style>
 
 </head>
 
 <body>
 
-<!-- NAV -->
+<div class="logo">ASIL</div>
+
 <div class="nav">
     <button onclick="show('home')">Home</button>
     <button onclick="show('research')">Research</button>
@@ -95,7 +119,6 @@ h2 {
     <button onclick="show('manifesto')">Manifesto</button>
 </div>
 
-<!-- LANGUAGE -->
 <div class="lang">
     <button onclick="setLang('en')">EN</button>
     <button onclick="setLang('ru')">RU</button>
@@ -108,7 +131,10 @@ h2 {
 <div id="home">
 
 <h1 id="title">ASIL Research Platform</h1>
-<p id="subtitle">Synchronization and multi-system dynamics framework</p>
+
+<p id="subtitle">
+Synchronization and multi-system dynamics framework
+</p>
 
 <div class="card">
 <h2>Overview</h2>
@@ -135,7 +161,7 @@ ASIL is a conceptual research structure focused on synchronization dynamics in c
 <div id="pub" style="display:none;">
 <div class="card">
 <h2>Publications</h2>
-<p>ASIL research papers and structured outputs (Part I–IV)</p>
+<p>ASIL structured research outputs (Part I–IV)</p>
 </div>
 </div>
 
@@ -160,29 +186,27 @@ function show(id){
     document.getElementById(id).style.display='block';
 }
 
-/* LANGUAGE SYSTEM */
-let lang = 'en';
-
+/* LANGUAGE */
 function setLang(l){
-    lang = l;
 
-    if(l === 'en'){
-        document.getElementById('title').innerText = "ASIL Research Platform";
-        document.getElementById('subtitle').innerText = "Synchronization and multi-system dynamics framework";
-        document.getElementById('overview').innerText = "ASIL is a conceptual research structure focused on synchronization dynamics in complex systems.";
-    }
+if(l==='en'){
+document.getElementById('title').innerText="ASIL Research Platform";
+document.getElementById('subtitle').innerText="Synchronization and multi-system dynamics framework";
+document.getElementById('overview').innerText="ASIL is a conceptual research structure focused on synchronization dynamics in complex systems.";
+}
 
-    if(l === 'ru'){
-        document.getElementById('title').innerText = "Исследовательская платформа ASIL";
-        document.getElementById('subtitle').innerText = "Система синхронизации и многосистемной динамики";
-        document.getElementById('overview').innerText = "ASIL — концептуальная исследовательская структура, изучающая динамику синхронизации сложных систем.";
-    }
+if(l==='ru'){
+document.getElementById('title').innerText="Исследовательская платформа ASIL";
+document.getElementById('subtitle').innerText="Система синхронизации и многосистемной динамики";
+document.getElementById('overview').innerText="ASIL — исследовательская структура, изучающая синхронизацию сложных систем.";
+}
 
-    if(l === 'cn'){
-        document.getElementById('title').innerText = "ASIL 研究平台";
-        document.getElementById('subtitle').innerText = "同步与多系统动态框架";
-        document.getElementById('overview').innerText = "ASIL 是一个研究复杂系统同步动态的概念性结构。";
-    }
+if(l==='cn'){
+document.getElementById('title').innerText="ASIL 研究平台";
+document.getElementById('subtitle').innerText="同步与多系统动态框架";
+document.getElementById('overview').innerText="ASIL 是研究复杂系统同步动态的概念性结构。";
+}
+
 }
 
 </script>
