@@ -3,42 +3,42 @@
 
 <head>
 <meta charset="UTF-8">
-<title>ASIL Graph System</title>
+<title>ASIL Live Intelligence System</title>
 
 <style>
 
 body {
     margin: 0;
     overflow: hidden;
-    background: radial-gradient(circle at top, #05070c, #02040a);
-    font-family: Arial, sans-serif;
-    color: #d6e6f5;
+    background: radial-gradient(circle at top, #04060a, #02030a);
+    font-family: Arial;
 }
 
-/* CANVAS BACKGROUND */
+/* CANVAS */
 canvas {
     position: absolute;
     top: 0;
     left: 0;
 }
 
-/* UI PANEL */
+/* PANEL */
 .panel {
     position: absolute;
-    top: 20px;
-    left: 20px;
+    top: 18px;
+    left: 18px;
     width: 260px;
-    background: rgba(10,14,20,0.7);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 12px;
     padding: 14px;
+    border-radius: 12px;
+
+    background: rgba(10,14,20,0.65);
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(255,255,255,0.06);
 }
 
 .title {
-    font-size: 14px;
-    margin-bottom: 10px;
+    font-size: 13px;
     color: #58a6ff;
+    margin-bottom: 10px;
 }
 
 .node {
@@ -58,6 +58,17 @@ canvas {
 .small {
     font-size: 11px;
     opacity: 0.6;
+    margin-top: 10px;
+}
+
+/* BLACKBOX LABEL */
+.blackbox {
+    position: absolute;
+    right: 18px;
+    top: 18px;
+    font-size: 10px;
+    opacity: 0.4;
+    color: #58a6ff;
 }
 
 </style>
@@ -69,101 +80,120 @@ canvas {
 <canvas id="c"></canvas>
 
 <div class="panel">
-<div class="title">ASIL Knowledge Graph</div>
+<div class="title">LIVE INTELLIGENCE GRAPH</div>
 
-<div class="node" onclick="focusNode(0)">Teleport Theory</div>
-<div class="node" onclick="focusNode(1)">System Effects</div>
-<div class="node" onclick="focusNode(2)">Navigation Model</div>
-<div class="node" onclick="focusNode(3)">Research Materials</div>
+<div class="node">Telemetry Node A</div>
+<div class="node">Inference Node B</div>
+<div class="node">System Node C</div>
+<div class="node">Research Node D</div>
 
-<div class="small" style="margin-top:10px;">
-LIVE GRAPH MODE • nodes connected dynamically
+<div class="small">graph state: dynamic / adaptive</div>
 </div>
-</div>
+
+<div class="blackbox">BLACKBOX MODE • INTERNAL LOGIC HIDDEN</div>
 
 <script>
 
 const canvas = document.getElementById("c");
 const ctx = canvas.getContext("2d");
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+canvas.width = innerWidth;
+canvas.height = innerHeight;
 
 window.onresize = () => {
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+canvas.width = innerWidth;
+canvas.height = innerHeight;
 };
 
-const nodes = [
-{ x: 200, y: 200, name: "Teleport Theory" },
-{ x: 600, y: 150, name: "System Effects" },
-{ x: 500, y: 450, name: "Navigation Model" },
-{ x: 250, y: 500, name: "Research Materials" }
-];
+let mouse = { x: innerWidth/2, y: innerHeight/2 };
 
-let focus = null;
+window.addEventListener("mousemove", e=>{
+mouse.x = e.clientX;
+mouse.y = e.clientY;
+});
 
-/* DRAW LINKS */
-function drawLines(){
+/* NODES */
+const nodes = [];
 
-ctx.strokeStyle = "rgba(88,166,255,0.25)";
-ctx.lineWidth = 1;
-
-for(let i=0;i<nodes.length;i++){
-for(let j=i+1;j<nodes.length;j++){
-
-ctx.beginPath();
-ctx.moveTo(nodes[i].x, nodes[i].y);
-ctx.lineTo(nodes[j].x, nodes[j].y);
-ctx.stroke();
-
-}
-}
+for(let i=0;i<6;i++){
+nodes.push({
+x: Math.random()*innerWidth,
+y: Math.random()*innerHeight,
+vx: (Math.random()-0.5)*1.5,
+vy: (Math.random()-0.5)*1.5
+});
 }
 
-/* DRAW NODES */
-function drawNodes(){
+/* UPDATE */
+function update(){
 
-nodes.forEach((n,i)=>{
+nodes.forEach(n=>{
 
-ctx.beginPath();
-ctx.fillStyle = (focus === i) ? "#7c4dff" : "#58a6ff";
-ctx.arc(n.x, n.y, (focus === i) ? 10 : 7, 0, Math.PI*2);
-ctx.fill();
+/* motion */
+n.x += n.vx;
+n.y += n.vy;
 
-/* label */
-ctx.fillStyle = "rgba(255,255,255,0.8)";
-ctx.font = "12px Arial";
-ctx.fillText(n.name, n.x + 10, n.y - 10);
+/* mouse influence */
+let dx = mouse.x - n.x;
+let dy = mouse.y - n.y;
+
+n.x += dx * 0.0008;
+n.y += dy * 0.0008;
+
+/* bounds */
+if(n.x < 0 || n.x > innerWidth) n.vx *= -1;
+if(n.y < 0 || n.y > innerHeight) n.vy *= -1;
 
 });
 }
 
-/* ANIMATE */
+/* DRAW */
+function draw(){
+
+ctx.clearRect(0,0,innerWidth,innerHeight);
+
+/* links */
+for(let i=0;i<nodes.length;i++){
+for(let j=i+1;j<nodes.length;j++){
+
+let a = nodes[i];
+let b = nodes[j];
+
+let dist = Math.hypot(a.x-b.x, a.y-b.y);
+
+if(dist < 220){
+
+ctx.strokeStyle = "rgba(88,166,255,0.15)";
+ctx.beginPath();
+ctx.moveTo(a.x,a.y);
+ctx.lineTo(b.x,b.y);
+ctx.stroke();
+
+}
+
+}
+}
+
+/* nodes */
+nodes.forEach(n=>{
+
+ctx.beginPath();
+ctx.fillStyle = "#58a6ff";
+ctx.arc(n.x,n.y,5,0,Math.PI*2);
+ctx.fill();
+
+});
+
+}
+
+/* LOOP */
 function loop(){
-
-ctx.clearRect(0,0,canvas.width,canvas.height);
-
-drawLines();
-drawNodes();
-
+update();
+draw();
 requestAnimationFrame(loop);
 }
 
 loop();
-
-/* FOCUS NODE */
-function focusNode(i){
-focus = i;
-
-/* simple attraction effect */
-nodes.forEach((n,idx)=>{
-if(idx === i){
-n.x += (Math.random()-0.5)*10;
-n.y += (Math.random()-0.5)*10;
-}
-});
-}
 
 </script>
 
