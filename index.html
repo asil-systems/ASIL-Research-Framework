@@ -3,7 +3,7 @@
 
 <head>
 <meta charset="UTF-8">
-<title>ASIL Chain View System</title>
+<title>ASIL Unified System</title>
 
 <style>
 
@@ -20,52 +20,70 @@ canvas {
     left: 0;
 }
 
-/* HEADER */
-.header {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    padding: 10px;
-    background: rgba(10,14,20,0.7);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 10px;
-    font-size: 12px;
-    color: #58a6ff;
+/* TOP BAR */
+.topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
+    background: rgba(10,14,20,0.9);
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 
-/* RIGHT PANEL */
-.panel {
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    width: 320px;
-    padding: 12px;
-    background: rgba(10,14,20,0.8);
-    border-radius: 10px;
-    border: 1px solid rgba(255,255,255,0.08);
-}
-
-.title {
+.logo {
     color: #58a6ff;
+    font-weight: bold;
     font-size: 13px;
-    margin-bottom: 8px;
 }
 
-.item {
-    font-size: 11px;
-    opacity: 0.85;
-    margin-bottom: 6px;
-    padding-left: 10px;
-    border-left: 2px solid rgba(88,166,255,0.4);
+.tabs {
+    margin-left: 30px;
+    display: flex;
+    gap: 20px;
+}
+
+.tab {
+    font-size: 12px;
+    opacity: 0.6;
+    cursor: pointer;
+}
+
+.tab:hover {
+    opacity: 1;
+}
+
+/* LAYOUT */
+.container {
+    margin-top: 50px;
+    display: flex;
+    height: calc(100vh - 50px);
+}
+
+/* LEFT */
+.left {
+    width: 320px;
+    background: rgba(10,14,20,0.6);
+    border-right: 1px solid rgba(255,255,255,0.06);
+    padding: 10px;
+}
+
+/* CENTER */
+.center {
+    flex: 1;
+    padding: 20px;
 }
 
 /* NODE */
 .node {
-    position: absolute;
-    width: 14px;
-    height: 14px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
     background: #58a6ff;
+    position: absolute;
     cursor: pointer;
     box-shadow: 0 0 10px rgba(88,166,255,0.5);
 }
@@ -74,99 +92,189 @@ canvas {
     background: white;
 }
 
+/* CARD */
+.card {
+    background: rgba(255,255,255,0.03);
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.card:hover {
+    background: rgba(88,166,255,0.08);
+}
+
+.title {
+    font-size: 12px;
+    color: #58a6ff;
+}
+
+.text {
+    font-size: 11px;
+    opacity: 0.7;
+}
+
+/* PANEL */
+.panel {
+    position: absolute;
+    right: 10px;
+    top: 60px;
+    width: 320px;
+    padding: 12px;
+    background: rgba(10,14,20,0.85);
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+.item {
+    font-size: 11px;
+    margin-bottom: 6px;
+    padding-left: 10px;
+    border-left: 2px solid rgba(88,166,255,0.4);
+}
+
 </style>
 
 </head>
 
 <body>
 
-<div class="header">
-ASIL CHAIN SYSTEM — click node to expand knowledge graph
+<div class="topbar">
+<div class="logo">ASIL UNIFIED SYSTEM</div>
+
+<div class="tabs">
+<div class="tab" onclick="mode='product'">Product</div>
+<div class="tab" onclick="mode='engine'">AI Engine</div>
+<div class="tab" onclick="mode='chain'">Chain View</div>
+</div>
+</div>
+
+<div class="container">
+
+<div class="left">
+
+<div class="card" onclick="open('teleport')">
+<div class="title">Teleportation Model</div>
+<div class="text">State transfer systems</div>
+</div>
+
+<div class="card" onclick="open('coherence')">
+<div class="title">Coherence Field</div>
+<div class="text">Stability networks</div>
+</div>
+
+<div class="card" onclick="open('asil')">
+<div class="title">ASIL Core</div>
+<div class="text">Full system architecture</div>
+</div>
+
+</div>
+
+<div class="center" id="center">
+<h2>ASIL SYSTEM READY</h2>
+<p>Select mode and node.</p>
+</div>
+
 </div>
 
 <div class="panel" id="panel">
-<div class="title">CHAIN VIEW</div>
-<div class="item">Click a node to see full project + article chain</div>
+<div class="item">Click node to view data</div>
 </div>
-
-<canvas id="c"></canvas>
-
-<!-- NODES -->
-<div class="node" style="left:200px;top:200px;" onclick="openNode('teleport')"></div>
-<div class="node" style="left:500px;top:180px;" onclick="openNode('coherence')"></div>
-<div class="node" style="left:350px;top:420px;" onclick="openNode('asil')"></div>
 
 <script>
 
-/* KNOWLEDGE GRAPH (CHAIN STRUCTURE) */
+let mode = "product";
+
+/* MEMORY GRAPH */
+let graph = {
+teleport: 3,
+coherence: 2,
+asil: 5
+};
+
+/* CHAIN DATA */
 const chains = {
 
 teleport: [
-"Project: ASIL Teleportation Engine",
-"Article I: Quantum State Transfer Model",
-"Article II: Distributed Synchronization Theory",
-"Result: State mapping across systems"
+"Project: Teleportation Engine",
+"Article I: State Transfer Model",
+"Article II: Quantum Mapping",
+"Result: Distributed identity sync"
 ],
 
 coherence: [
-"Project: Stability Research Layer",
-"Article I: System Coherence Principles",
-"Article II: Multi-agent Synchronization",
-"Result: Stability in dynamic networks"
+"Project: Stability Layer",
+"Article I: Coherence Theory",
+"Article II: Synchronization Model",
+"Result: Multi-agent stability"
 ],
 
 asil: [
-"Root Project: ASIL Framework",
-"Layer 1: Vision Abstraction System",
-"Layer 2: Intelligence Computation Layer",
-"Layer 3: Interaction Dynamics",
-"Layer 4: Stability Control System",
-"Result: Full adaptive knowledge system"
+"ASIL Core System",
+"Vision Layer",
+"Intelligence Layer",
+"Interaction Layer",
+"Stability Layer",
+"Result: Full adaptive system"
 ]
 
 };
 
-function openNode(id){
+function open(id){
 
-let chain = chains[id];
+/* PRODUCT MODE */
+if(mode === "product"){
+document.getElementById("center").innerHTML =
+`<h2>${id}</h2><p>Weight: ${graph[id]||1}</p>`;
+}
 
-let html = `<div class="title">CHAIN EXPANSION</div>`;
+/* ENGINE MODE */
+if(mode === "engine"){
 
-chain.forEach((c,i)=>{
+graph[id] = (graph[id]||1)+1;
+
+Object.keys(graph).forEach(k=>{
+if(k!==id && Math.random()>0.5){
+graph[k]+=1;
+}
+});
+
+renderEngine();
+
+}
+
+/* CHAIN MODE */
+if(mode === "chain"){
+renderChain(id);
+}
+
+}
+
+function renderEngine(){
+
+let html = "<h2>AI ENGINE STATE</h2>";
+
+for(let k in graph){
+html += `<p>🔵 ${k} → ${graph[k]}</p>`;
+}
+
+document.getElementById("center").innerHTML = html;
+
+}
+
+function renderChain(id){
+
+let html = "<h3>CHAIN EXPANSION</h3>";
+
+chains[id].forEach((c,i)=>{
 html += `<div class="item">${i+1}. ${c}</div>`;
 });
 
 document.getElementById("panel").innerHTML = html;
 
 }
-
-/* OPTIONAL VISUAL BACKGROUND LINES */
-const c = document.getElementById("c");
-const ctx = c.getContext("2d");
-
-c.width = innerWidth;
-c.height = innerHeight;
-
-function draw(){
-
-ctx.clearRect(0,0,innerWidth,innerHeight);
-
-ctx.strokeStyle = "rgba(88,166,255,0.1)";
-
-ctx.beginPath();
-ctx.moveTo(200,200);
-ctx.lineTo(500,180);
-ctx.lineTo(350,420);
-ctx.stroke();
-
-}
-
-function loop(){
-draw();
-requestAnimationFrame(loop);
-}
-
-loop();
 
 </script>
 
