@@ -3,124 +3,61 @@
 
 <head>
 <meta charset="UTF-8">
-<title>ASIL Knowledge System</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<title>ASIL Graph System</title>
 
 <style>
 
 body {
     margin: 0;
-    font-family: 'Inter', sans-serif;
-    background: radial-gradient(circle at top, #05070c, #02040a);
-    color: #d8e6f2;
     overflow: hidden;
+    background: radial-gradient(circle at top, #05070c, #02040a);
+    font-family: Arial, sans-serif;
+    color: #d6e6f5;
 }
 
-/* TOP */
-.topbar {
-    height: 56px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 18px;
-    background: rgba(10,12,18,0.85);
-    backdrop-filter: blur(14px);
-    border-bottom: 1px solid rgba(255,255,255,0.06);
+/* CANVAS BACKGROUND */
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 12px;
-    letter-spacing: 6px;
+/* UI PANEL */
+.panel {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 260px;
+    background: rgba(10,14,20,0.7);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 14px;
+}
+
+.title {
+    font-size: 14px;
+    margin-bottom: 10px;
     color: #58a6ff;
 }
 
-.dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 3px;
-    background: linear-gradient(135deg,#58a6ff,#7c4dff);
-    transform: rotate(45deg);
-}
-
-/* LAYOUT */
-.layout {
-    display: grid;
-    grid-template-columns: 280px 1fr 320px;
-    height: calc(100vh - 56px);
-}
-
-/* LEFT GRAPH NAV */
-.nav {
-    background: #070a10;
-    border-right: 1px solid rgba(255,255,255,0.05);
-    padding: 16px;
-}
-
 .node {
-    font-size: 11px;
-    margin-bottom: 10px;
+    padding: 8px;
+    margin: 6px 0;
+    background: rgba(255,255,255,0.04);
+    border-radius: 8px;
     cursor: pointer;
-    color: #b8c6d3;
+    font-size: 12px;
     transition: 0.2s;
 }
 
 .node:hover {
-    color: #58a6ff;
-    transform: translateX(4px);
+    background: rgba(88,166,255,0.2);
 }
 
-/* CENTER */
-.center {
-    padding: 26px;
-    overflow-y: auto;
-}
-
-/* RIGHT INFO */
-.right {
-    background: #070a10;
-    border-left: 1px solid rgba(255,255,255,0.05);
-    padding: 18px;
-}
-
-/* CARDS */
-.card {
-    background: rgba(12,16,24,0.8);
-    border: 1px solid rgba(255,255,255,0.06);
-    padding: 16px;
-    border-radius: 12px;
-    margin-bottom: 12px;
-    transition: 0.2s;
-}
-
-.card:hover {
-    border-color: rgba(88,166,255,0.4);
-    transform: translateY(-3px);
-}
-
-/* LINKS */
-.link {
-    color: #58a6ff;
-    cursor: pointer;
-}
-
-/* HIDDEN VIEWS */
-.view { display: none; }
-.show { display: block; }
-
-/* GRAPH STYLE */
-.chain {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.arrow {
-    opacity: 0.4;
+.small {
     font-size: 11px;
+    opacity: 0.6;
 }
 
 </style>
@@ -129,118 +66,103 @@ body {
 
 <body>
 
-<div class="topbar">
-<div class="logo"><div class="dot"></div>ASIL KNOWLEDGE SYSTEM</div>
-<div style="font-size:10px; opacity:0.6;">LIVE GRAPH MODE</div>
+<canvas id="c"></canvas>
+
+<div class="panel">
+<div class="title">ASIL Knowledge Graph</div>
+
+<div class="node" onclick="focusNode(0)">Teleport Theory</div>
+<div class="node" onclick="focusNode(1)">System Effects</div>
+<div class="node" onclick="focusNode(2)">Navigation Model</div>
+<div class="node" onclick="focusNode(3)">Research Materials</div>
+
+<div class="small" style="margin-top:10px;">
+LIVE GRAPH MODE • nodes connected dynamically
 </div>
-
-<div class="layout">
-
-<!-- NAV GRAPH -->
-<div class="nav">
-
-<div class="node" onclick="show('teleport')">TELEPORT THEORY</div>
-<div class="node" onclick="show('effects')">SYSTEM EFFECTS</div>
-<div class="node" onclick="show('navigation')">NAVIGATION MODEL</div>
-<div class="node" onclick="show('materials')">RESEARCH MATERIALS</div>
-
-</div>
-
-<!-- CENTER -->
-<div class="center">
-
-<!-- TELEPORT THEORY -->
-<div id="teleport" class="view show">
-
-<div class="card">
-<h3>Teleportation Theory (ASIL Model)</h3>
-Conceptual framework describing state transfer between distributed systems without classical continuity.
-</div>
-
-<div class="card chain">
-
-<div onclick="show('effects')" class="link">→ coherence collapse conditions</div>
-<div class="arrow">↓</div>
-<div onclick="show('navigation')" class="link">→ navigation mapping system</div>
-<div class="arrow">↓</div>
-<div onclick="show('materials')" class="link">→ derived computational models</div>
-
-</div>
-
-</div>
-
-<!-- EFFECTS -->
-<div id="effects" class="view">
-
-<div class="card">
-<h3>System Effects</h3>
-Teleportation model produces:
-<br><br>
-• phase discontinuity simulation<br>
-• structural state reassembly<br>
-• coherence reconstruction logic
-</div>
-
-</div>
-
-<!-- NAVIGATION -->
-<div id="navigation" class="view">
-
-<div class="card">
-<h3>Navigation Model</h3>
-System navigation is treated as graph traversal across state clusters.
-</div>
-
-<div class="card">
-Nodes are not pages — they are state transitions in a knowledge field.
-</div>
-
-</div>
-
-<!-- MATERIALS -->
-<div id="materials" class="view">
-
-<div class="card">
-<h3>Research Materials</h3>
-
-• ASIL-TP01 — State Transfer Theory<br>
-• ASIL-TP02 — Coherence Mapping<br>
-• ASIL-TP03 — Distributed Identity Models<br>
-• ASIL-TP04 — System Continuity Collapse
-</div>
-
-</div>
-
-</div>
-
-<!-- RIGHT -->
-<div class="right">
-
-<div class="card">
-System Status:<br>
-ACTIVE GRAPH MODE
-</div>
-
-<div class="card">
-Knowledge Nodes:<br>
-TELEPORT / EFFECTS / NAV / MATERIALS
-</div>
-
-</div>
-
 </div>
 
 <script>
 
-function show(id){
+const canvas = document.getElementById("c");
+const ctx = canvas.getContext("2d");
 
-let views = ['teleport','effects','navigation','materials'];
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-views.forEach(v=>{
-document.getElementById(v).classList.remove('show');
+window.onresize = () => {
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+};
+
+const nodes = [
+{ x: 200, y: 200, name: "Teleport Theory" },
+{ x: 600, y: 150, name: "System Effects" },
+{ x: 500, y: 450, name: "Navigation Model" },
+{ x: 250, y: 500, name: "Research Materials" }
+];
+
+let focus = null;
+
+/* DRAW LINKS */
+function drawLines(){
+
+ctx.strokeStyle = "rgba(88,166,255,0.25)";
+ctx.lineWidth = 1;
+
+for(let i=0;i<nodes.length;i++){
+for(let j=i+1;j<nodes.length;j++){
+
+ctx.beginPath();
+ctx.moveTo(nodes[i].x, nodes[i].y);
+ctx.lineTo(nodes[j].x, nodes[j].y);
+ctx.stroke();
+
+}
+}
+}
+
+/* DRAW NODES */
+function drawNodes(){
+
+nodes.forEach((n,i)=>{
+
+ctx.beginPath();
+ctx.fillStyle = (focus === i) ? "#7c4dff" : "#58a6ff";
+ctx.arc(n.x, n.y, (focus === i) ? 10 : 7, 0, Math.PI*2);
+ctx.fill();
+
+/* label */
+ctx.fillStyle = "rgba(255,255,255,0.8)";
+ctx.font = "12px Arial";
+ctx.fillText(n.name, n.x + 10, n.y - 10);
+
 });
+}
 
-document.getElementById(id).classList.add('show');
+/* ANIMATE */
+function loop(){
+
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+drawLines();
+drawNodes();
+
+requestAnimationFrame(loop);
+}
+
+loop();
+
+/* FOCUS NODE */
+function focusNode(i){
+focus = i;
+
+/* simple attraction effect */
+nodes.forEach((n,idx)=>{
+if(idx === i){
+n.x += (Math.random()-0.5)*10;
+n.y += (Math.random()-0.5)*10;
+}
+});
 }
 
 </script>
