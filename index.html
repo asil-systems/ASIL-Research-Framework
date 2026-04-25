@@ -3,35 +3,86 @@
 
 <head>
 <meta charset="UTF-8">
-<title>ASIL Interactive Fix System</title>
+<title>ASIL Hybrid System</title>
 
 <style>
 
 body {
     margin: 0;
-    overflow: hidden;
     font-family: Arial;
-    background: radial-gradient(circle at top, #02040a, #010208);
+    background: #05070c;
     color: #d7e6f2;
 }
 
-canvas {
-    position: absolute;
+/* TOP BAR */
+.topbar {
+    position: fixed;
     top: 0;
     left: 0;
+    right: 0;
+    height: 50px;
+    background: rgba(10,14,20,0.9);
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 
-/* HEADER */
-.header {
-    position: absolute;
-    top: 12px;
-    left: 12px;
-    padding: 14px;
+.logo {
+    color: #58a6ff;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.tabs {
+    margin-left: 40px;
+    display: flex;
+    gap: 20px;
+}
+
+.tab {
+    font-size: 12px;
+    opacity: 0.6;
+    cursor: pointer;
+}
+
+.tab:hover {
+    opacity: 1;
+}
+
+/* LAYOUT */
+.container {
+    display: flex;
+    margin-top: 50px;
+    height: calc(100vh - 50px);
+}
+
+/* LEFT PANEL */
+.left {
     width: 320px;
-    background: rgba(10,14,20,0.75);
-    border-radius: 12px;
+    background: rgba(10,14,20,0.6);
+    border-right: 1px solid rgba(255,255,255,0.06);
+    padding: 15px;
+}
+
+/* CENTER */
+.center {
+    flex: 1;
+    padding: 20px;
+}
+
+/* CARD */
+.card {
+    background: rgba(255,255,255,0.03);
     border: 1px solid rgba(255,255,255,0.06);
-    backdrop-filter: blur(12px);
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.card:hover {
+    background: rgba(88,166,255,0.08);
 }
 
 .title {
@@ -39,55 +90,24 @@ canvas {
     color: #58a6ff;
 }
 
-.sub {
-    font-size: 11px;
-    opacity: 0.6;
-}
-
-/* INFO */
-.info {
-    position: absolute;
-    right: 12px;
-    top: 12px;
-    width: 320px;
-    padding: 14px;
-    background: rgba(10,14,20,0.75);
-    border-radius: 12px;
-    border: 1px solid rgba(255,255,255,0.06);
-    backdrop-filter: blur(12px);
-}
-
-.node-title {
-    color: #58a6ff;
-    font-size: 13px;
-    margin-bottom: 8px;
-}
-
 .text {
     font-size: 11px;
-    opacity: 0.8;
+    opacity: 0.7;
+    margin-top: 5px;
 }
 
-/* STATION */
-.station {
-    position: absolute;
-    width: 110px;
-    height: 110px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%, #fff, #7a8fff 40%, #2a3b7a 80%);
-    box-shadow: 0 0 40px rgba(120,150,255,0.6);
-    cursor: pointer;
-}
-
-/* NODE HINT (hover glow effect) */
-.glow {
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background: rgba(88,166,255,0.3);
-    pointer-events: none;
+/* ENGINE VIEW */
+.engine {
     display: none;
+}
+
+.node {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #58a6ff;
+    display: inline-block;
+    margin-right: 6px;
 }
 
 </style>
@@ -96,177 +116,98 @@ canvas {
 
 <body>
 
-<canvas id="c"></canvas>
+<div class="topbar">
+<div class="logo">ASIL HYBRID SYSTEM</div>
 
-<div class="header">
-<div class="title">ASIL INTERACTIVE GRAPH</div>
-<div class="sub">fixed hit detection + enlarged nodes</div>
+<div class="tabs">
+<div class="tab" onclick="mode='product'">Product Mode</div>
+<div class="tab" onclick="mode='engine'">AI Engine</div>
+</div>
 </div>
 
-<div class="info" id="info">
-<div class="node-title">SYSTEM READY</div>
-<div class="text">Click nodes or station to interact.</div>
+<div class="container">
+
+<!-- LEFT -->
+<div class="left">
+<div class="card" onclick="openNode('Teleportation')">
+<div class="title">Teleportation Model</div>
+<div class="text">State transfer abstraction between systems</div>
 </div>
 
-<div class="station" id="station"></div>
+<div class="card" onclick="openNode('Coherence')">
+<div class="title">Coherence Field</div>
+<div class="text">Stability of distributed structures</div>
+</div>
+
+<div class="card" onclick="openNode('Emergence')">
+<div class="title">Emergence Layer</div>
+<div class="text">Global patterns from local rules</div>
+</div>
+</div>
+
+<!-- CENTER -->
+<div class="center" id="center">
+
+<h2>ASIL SYSTEM</h2>
+<p>Choose a node or switch mode.</p>
+
+</div>
+
+</div>
 
 <script>
 
-const c = document.getElementById("c");
-const ctx = c.getContext("2d");
+let mode = "product";
 
-c.width = innerWidth;
-c.height = innerHeight;
-
-window.onresize = () => {
-c.width = innerWidth;
-c.height = innerHeight;
+/* SIMPLE AI ENGINE MEMORY */
+let graph = {
+"Teleportation": 5,
+"Coherence": 3,
+"Emergence": 2
 };
 
-/* MOUSE */
-let mouse = {x:0,y:0};
+function openNode(name){
 
-window.addEventListener("mousemove",(e)=>{
-mouse.x = e.clientX;
-mouse.y = e.clientY;
-});
-
-/* STATION */
-const station = document.getElementById("station");
-
-let sx = innerWidth/2;
-let sy = innerHeight/2;
-let t = 0;
-
-/* BIGGER NODES (FIXED) */
-const nodes = [
-{x:250,y:200,vx:0.1,vy:0.08,name:"Teleportation Model",desc:"State transfer abstraction."},
-{x:700,y:180,vx:-0.1,vy:0.07,name:"Coherence Field",desc:"System stability model."},
-{x:650,y:450,vx:0.08,vy:-0.09,name:"Navigation Logic",desc:"Graph traversal structure."},
-{x:300,y:520,vx:-0.07,vy:-0.08,name:"Emergence Layer",desc:"Pattern formation system."}
-];
-
-let selected = null;
-
-/* MOVE STATION */
-function moveStation(){
-
-t += 0.005;
-
-sx = innerWidth/2 + Math.cos(t)*200;
-sy = innerHeight/2 + Math.sin(t*1.3)*140;
-
-station.style.left = (sx-55)+"px";
-station.style.top = (sy-55)+"px";
-
-}
-
-/* UPDATE */
-function update(){
-
-nodes.forEach(n=>{
-
-n.x += n.vx;
-n.y += n.vy;
-
-n.vx *= 0.995;
-n.vy *= 0.995;
-
-/* bounds */
-if(n.x<60||n.x>innerWidth-60) n.vx*=-1;
-if(n.y<60||n.y>innerHeight-60) n.vy*=-1;
-
-/* station gravity */
-let dx = sx-n.x;
-let dy = sy-n.y;
-
-n.x += dx*0.0007;
-n.y += dy*0.0007;
-
-});
-
-/* hover detect */
-selected = null;
-
-nodes.forEach(n=>{
-let d = Math.hypot(mouse.x-n.x,mouse.y-n.y);
-if(d < 35) selected = n;   /* ⬅ FIXED HITBOX (was too small) */
-});
-
-}
-
-/* DRAW */
-function draw(){
-
-ctx.clearRect(0,0,innerWidth,innerHeight);
-
-/* links */
-for(let i=0;i<nodes.length;i++){
-for(let j=i+1;j<nodes.length;j++){
-
-ctx.strokeStyle = "rgba(88,166,255,0.15)";
-ctx.beginPath();
-ctx.moveTo(nodes[i].x,nodes[i].y);
-ctx.lineTo(nodes[j].x,nodes[j].y);
-ctx.stroke();
-
-}
-}
-
-/* station links */
-nodes.forEach(n=>{
-ctx.strokeStyle = "rgba(255,255,255,0.08)";
-ctx.beginPath();
-ctx.moveTo(n.x,n.y);
-ctx.lineTo(sx,sy);
-ctx.stroke();
-});
-
-/* NODES (⬅ BIGGER NOW) */
-nodes.forEach(n=>{
-
-let isSel = (selected===n);
-
-/* 🔵 BIGGER DOTS */
-ctx.beginPath();
-ctx.fillStyle = isSel ? "#ffffff" : "#58a6ff";
-ctx.arc(n.x,n.y, isSel ? 12 : 10, 0, Math.PI*2);
-ctx.fill();
-
-/* label */
-ctx.fillStyle = "rgba(220,235,255,0.9)";
-ctx.font = "12px Arial";
-ctx.fillText(n.name, n.x+14, n.y-10);
-
-});
-
-/* info */
-if(selected){
-document.getElementById("info").innerHTML = `
-<div class="node-title">${selected.name}</div>
-<div class="text">${selected.desc}</div>
+if(mode === "product"){
+document.getElementById("center").innerHTML = `
+<h2>${name}</h2>
+<p>Research module active.</p>
+<p>Connections strength: ${graph[name] || 1}</p>
 `;
 }
 
+/* ENGINE MODE */
+if(mode === "engine"){
+
+graph[name] = (graph[name] || 1) + 1;
+
+/* simulate growth */
+Object.keys(graph).forEach(k=>{
+if(k !== name && Math.random() > 0.5){
+graph[k] += 1;
+}
+});
+
+renderEngine();
+
 }
 
-/* LOOP */
-function loop(){
-update();
-draw();
-moveStation();
-requestAnimationFrame(loop);
 }
 
-loop();
+/* ENGINE VIEW */
+function renderEngine(){
 
-/* STATION CLICK */
-station.onclick = ()=>{
-document.getElementById("info").innerHTML = `
-<div class="node-title">SPACE STATION ACTIVE</div>
-<div class="text">System core engaged. Graph stabilized around orbital structure.</div>
+let html = "<h2>AI ENGINE STATE</h2>";
+
+Object.keys(graph).forEach(k=>{
+html += `
+<p><span class="node"></span>${k} → weight: ${graph[k]}</p>
 `;
-};
+});
+
+document.getElementById("center").innerHTML = html;
+
+}
 
 </script>
 
