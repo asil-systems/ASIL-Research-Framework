@@ -11,108 +11,137 @@
 
 body {
     margin: 0;
-    background: radial-gradient(circle at top, #0f1722, #0b0f14);
+    background: #0a0f14;
     color: #e6edf3;
-    font-family: 'Inter', Arial, sans-serif;
-    line-height: 1.6;
+    font-family: 'Inter', sans-serif;
 }
 
-/* LOGO */
-.logo {
-    position: fixed;
-    left: 20px;
-    top: 14px;
-    font-size: 14px;
-    letter-spacing: 6px;
-    font-weight: 600;
-    color: #58a6ff;
-}
-
-/* NAV */
-.nav {
+/* TOP BAR */
+.topbar {
     position: fixed;
     top: 0;
     width: 100%;
+    height: 58px;
+    background: rgba(10,14,20,0.98);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
     display: flex;
-    justify-content: center;
-    gap: 18px;
-    padding: 14px;
-    background: rgba(11,15,20,0.78);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(88,166,255,0.12);
+    align-items: center;
+    padding: 0 22px;
+    z-index: 10;
 }
 
-.nav button {
-    background: none;
-    border: none;
-    color: #e6edf3;
-    cursor: pointer;
-    font-size: 13px;
-    transition: 0.2s;
-}
-
-.nav button:hover {
+.logo {
+    font-size: 12px;
+    letter-spacing: 7px;
     color: #58a6ff;
-    transform: translateY(-1px);
-}
-
-/* LANG */
-.lang {
-    position: fixed;
-    right: 20px;
-    top: 14px;
-}
-
-.lang button {
-    background: #1f2a37;
-    border: none;
-    color: white;
-    padding: 5px 10px;
-    border-radius: 6px;
-    cursor: pointer;
-    margin-left: 5px;
-}
-
-.lang button:hover {
-    background: #58a6ff;
 }
 
 /* LAYOUT */
-.container {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 110px 20px;
+.wrapper {
+    display: flex;
+    margin-top: 58px;
 }
 
-/* CARDS */
+/* SIDEBAR */
+.sidebar {
+    width: 260px;
+    height: calc(100vh - 58px);
+    border-right: 1px solid rgba(255,255,255,0.06);
+    padding: 20px;
+    position: fixed;
+    background: rgba(10,14,20,0.4);
+    backdrop-filter: blur(12px);
+}
+
+.node {
+    font-size: 12.5px;
+    margin-bottom: 14px;
+    cursor: pointer;
+    color: #c9d1d9;
+    transition: 0.2s;
+    letter-spacing: 0.3px;
+}
+
+.node:hover {
+    color: #58a6ff;
+    transform: translateX(4px);
+}
+
+/* CONTENT */
+.content {
+    margin-left: 260px;
+    padding: 50px;
+    max-width: 980px;
+}
+
+/* CARD */
 .card {
-    background: rgba(17, 24, 35, 0.88);
-    padding: 26px;
-    border-radius: 14px;
+    background: #0f1622;
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 28px;
+    border-radius: 12px;
     margin-bottom: 20px;
-    border: 1px solid rgba(88,166,255,0.15);
     transition: 0.25s ease;
 }
 
 .card:hover {
-    transform: translateY(-6px);
-    border-color: rgba(88,166,255,0.55);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+    border-color: rgba(88,166,255,0.45);
+    transform: translateY(-5px);
+    box-shadow: 0 14px 40px rgba(0,0,0,0.5);
 }
 
 /* TEXT */
-h1 { font-size: 36px; }
-h2 { color: #58a6ff; }
-p { color: #c9d1d9; }
+h1 {
+    font-size: 38px;
+    letter-spacing: -0.5px;
+}
 
-/* ANIMATION */
-.card {
-    animation: fadeIn 0.5s ease;
+h2 {
+    color: #58a6ff;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+p {
+    color: #c9d1d9;
+    line-height: 1.65;
+    font-size: 14px;
+}
+
+/* GRID */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.block {
+    background: #0b111a;
+    border: 1px solid rgba(255,255,255,0.05);
+    padding: 16px;
+    border-radius: 10px;
+    font-size: 13px;
+    transition: 0.2s;
+}
+
+.block:hover {
+    border-color: rgba(88,166,255,0.35);
+    transform: scale(1.02);
+}
+
+/* FADE */
+.fade {
+    animation: fadeIn 0.35s ease;
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
+    from { opacity: 0; transform: translateY(8px); }
     to { opacity: 1; transform: translateY(0); }
+}
+
+.small {
+    opacity: 0.6;
+    font-size: 12px;
 }
 
 </style>
@@ -121,124 +150,142 @@ p { color: #c9d1d9; }
 
 <body>
 
-<div class="logo">ASIL</div>
-
-<div class="nav">
-    <button onclick="show('home')">Home</button>
-    <button onclick="show('research')">Research</button>
-    <button onclick="show('pub')">Publications</button>
-    <button onclick="show('manifesto')">Manifesto</button>
+<div class="topbar">
+<div class="logo">ASIL INSTITUTE</div>
 </div>
 
-<div class="lang">
-    <button onclick="setLang('en')">EN</button>
-    <button onclick="setLang('ru')">RU</button>
-    <button onclick="setLang('cn')">CN</button>
+<div class="wrapper">
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+
+<div class="node" onclick="show('home')">CORE OVERVIEW</div>
+<div class="node" onclick="show('research')">RESEARCH ENGINE</div>
+<div class="node" onclick="show('pub')">PUBLICATIONS</div>
+<div class="node" onclick="show('system')">SYSTEM ARCHITECTURE</div>
+<div class="node" onclick="show('network')">INSTITUTE MAP</div>
+<div class="node" onclick="show('manifesto')">MANIFESTO</div>
+
 </div>
 
-<div class="container">
+<!-- CONTENT -->
+<div class="content">
 
 <!-- HOME -->
-<div id="home">
+<div id="home" class="fade">
 
-<h1 id="title">ASIL Research Institute</h1>
-
-<p id="subtitle">
-Synchronization and multi-system dynamics framework
-</p>
+<h1>ASIL Research Institute</h1>
 
 <div class="card">
 <h2>Overview</h2>
-<p id="overview">
-ASIL is a research institute focused on synchronization, emergence, and structural stability in complex systems.
+<p>
+ASIL is a structured research institute focused on synchronization, emergence, and stability in complex distributed systems.
 </p>
 </div>
 
 </div>
 
 <!-- RESEARCH -->
-<div id="research" style="display:none;">
+<div id="research" style="display:none;" class="fade">
+
 <div class="card">
-<h2>Research</h2>
+<h2>Research Engine</h2>
 
-<p>
-ASIL studies synchronization in distributed systems where independent agents converge into stable structures through interaction and feedback loops.
-</p>
-
-<p>
-Key focus: emergence, adaptive coordination, and systemic stability.
-</p>
+<p>Synchronization Dynamics in Multi-Agent Systems</p>
+<p>Emergent Structural Behavior</p>
+<p>Feedback-Driven Stability Models</p>
 
 </div>
+
 </div>
 
 <!-- PUBLICATIONS -->
-<div id="pub" style="display:none;">
+<div id="pub" style="display:none;" class="fade">
+
 <div class="card">
-<h2>Publications</h2>
+<h2>Publications Archive</h2>
 
-<p><b>Part I:</b> Foundations of Synchronization Theory</p>
-<p><b>Part II:</b> Multi-Agent System Dynamics</p>
-<p><b>Part III:</b> Structural Stability in Network Systems</p>
-<p><b>Part IV:</b> Emergent Coordination Models</p>
+<p><b>Part I:</b> Foundations of Synchronization</p>
+<p><b>Part II:</b> System Dynamics</p>
+<p><b>Part III:</b> Structural Stability</p>
+<p><b>Part IV:</b> Emergence Theory</p>
 
-<p style="opacity:0.65; margin-top:12px;">
-Archive: conceptual research framework
-</p>
+<p class="small">Conceptual research framework</p>
 
 </div>
+
+</div>
+
+<!-- SYSTEM ARCHITECTURE -->
+<div id="system" style="display:none;" class="fade">
+
+<div class="card">
+<h2>System Architecture</h2>
+
+<div class="grid">
+<div class="block">Vision Layer</div>
+<div class="block">Intelligence Layer</div>
+<div class="block">Structure Layer</div>
+<div class="block">Interaction Layer</div>
+<div class="block">Feedback Layer</div>
+<div class="block">Stability Layer</div>
+</div>
+
+</div>
+
+</div>
+
+<!-- INSTITUTE MAP -->
+<div id="network" style="display:none;" class="fade">
+
+<div class="card">
+<h2>Institute Map</h2>
+
+<div class="grid">
+<div class="block">Core Theory</div>
+<div class="block">System Modeling</div>
+<div class="block">Simulation Layer</div>
+<div class="block">Data Structures</div>
+<div class="block">Control Logic</div>
+<div class="block">Emergence Field</div>
+</div>
+
+</div>
+
 </div>
 
 <!-- MANIFESTO -->
-<div id="manifesto" style="display:none;">
+<div id="manifesto" style="display:none;" class="fade">
+
 <div class="card">
 <h2>Manifesto</h2>
 
 <p>
-ASIL is the study of how independent structures converge into synchronized stability.
+ASIL studies how independent systems converge into synchronized stability through interaction, constraint, and emergent structure formation.
 </p>
 
 <p>
-Order emerges from distributed complexity through interaction and constraint.
+Order is not designed — it emerges from system interaction.
 </p>
 
 </div>
+
 </div>
 
+</div>
 </div>
 
 <script>
 
 function show(id){
-    document.getElementById('home').style.display='none';
-    document.getElementById('research').style.display='none';
-    document.getElementById('pub').style.display='none';
-    document.getElementById('manifesto').style.display='none';
 
-    document.getElementById(id).style.display='block';
-}
+let sections = ['home','research','pub','system','network','manifesto'];
 
-/* LANG */
-function setLang(l){
+sections.forEach(s => {
+document.getElementById(s).style.display = 'none';
+});
 
-if(l==='en'){
-document.getElementById('title').innerText="ASIL Research Institute";
-document.getElementById('subtitle').innerText="Synchronization and multi-system dynamics framework";
-document.getElementById('overview').innerText="ASIL is a research institute focused on synchronization, emergence, and structural stability in complex systems.";
-}
-
-if(l==='ru'){
-document.getElementById('title').innerText="Исследовательский институт ASIL";
-document.getElementById('subtitle').innerText="Синхронизация и многосистемная динамика";
-document.getElementById('overview').innerText="ASIL — исследовательский институт, изучающий синхронизацию и устойчивость сложных систем.";
-}
-
-if(l==='cn'){
-document.getElementById('title').innerText="ASIL 研究院";
-document.getElementById('subtitle').innerText="同步与多系统动态框架";
-document.getElementById('overview').innerText="ASIL 是一个研究复杂系统同步与结构稳定性的研究机构.";
-}
-
+document.getElementById(id).style.display = 'block';
 }
 
 </script>
