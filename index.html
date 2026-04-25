@@ -3,35 +3,54 @@
 
 <head>
 <meta charset="UTF-8">
-<title>ASIL Research Institute</title>
+<title>ASIL Research Interface</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
 
+/* =========================
+   FUTURISTIC BACKGROUND
+========================= */
+
 body {
     margin: 0;
-    background: radial-gradient(circle at top, #05070c, #03040a);
-    color: #dbe7f2;
     font-family: 'Inter', sans-serif;
+    color: #d7e6f2;
     overflow: hidden;
+
+    /* futuristic gradient */
+    background: radial-gradient(circle at 20% 20%, #0b1b2e, transparent 40%),
+                radial-gradient(circle at 80% 30%, #1a0f2e, transparent 45%),
+                radial-gradient(circle at 50% 90%, #04131f, #02060b);
+}
+
+/* subtle glow layer */
+body::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle, rgba(88,166,255,0.08), transparent 60%);
+    pointer-events: none;
 }
 
 /* =========================
-   TOP BAR
+   TOP NAVIGATION SYSTEM
 ========================= */
 
 .topbar {
     height: 56px;
-    background: rgba(8,10,14,0.95);
-    border-bottom: 1px solid rgba(255,255,255,0.06);
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 18px;
+
+    background: rgba(8,10,14,0.6);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
 }
 
-/* ===== LOGO ===== */
+/* logo */
 .logo {
     display: flex;
     align-items: center;
@@ -41,36 +60,63 @@ body {
     color: #58a6ff;
 }
 
-/* LOGO SYMBOL (ORIGINAL) */
 .logo-mark {
-    width: 18px;
-    height: 18px;
-    border-radius: 4px;
+    width: 14px;
+    height: 14px;
     background: linear-gradient(135deg, #58a6ff, #7c4dff);
-    position: relative;
     transform: rotate(45deg);
+    border-radius: 3px;
 }
 
-/* inner structure (meaning: layered system) */
-.logo-mark::before {
-    content: "";
+/* =========================
+   DROPDOWN MENU (CHAIN NAV)
+========================= */
+
+.menu {
+    display: flex;
+    gap: 18px;
+    font-size: 11px;
+}
+
+.menu-item {
+    cursor: pointer;
+    position: relative;
+    opacity: 0.8;
+    transition: 0.2s;
+}
+
+.menu-item:hover {
+    opacity: 1;
+    color: #58a6ff;
+}
+
+/* dropdown chain */
+.dropdown {
     position: absolute;
-    width: 6px;
-    height: 6px;
-    background: #05070c;
-    top: 6px;
-    left: 6px;
-    border-radius: 1px;
+    top: 22px;
+    left: 0;
+    background: rgba(10,12,18,0.95);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 8px;
+    padding: 8px;
+    display: none;
+    min-width: 160px;
 }
 
-/* meaning:
-   - outer square = system boundary
-   - inner void = blackbox core
-   - rotation = dynamic state */
+.menu-item:hover .dropdown {
+    display: block;
+}
 
-.status {
-    font-size: 10px;
-    opacity: 0.6;
+.dropdown div {
+    padding: 6px;
+    font-size: 11px;
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.dropdown div:hover {
+    opacity: 1;
+    color: #58a6ff;
 }
 
 /* =========================
@@ -79,67 +125,56 @@ body {
 
 .layout {
     display: grid;
-    grid-template-columns: 240px 1fr 340px;
+    grid-template-columns: 1fr 340px;
     height: calc(100vh - 56px);
 }
 
-.nav {
-    background: #070a10;
-    border-right: 1px solid rgba(255,255,255,0.05);
-    padding: 18px;
-}
-
-.nav-item {
-    font-size: 11px;
-    margin-bottom: 14px;
-    cursor: pointer;
-    color: #b9c7d3;
-    transition: 0.2s;
-}
-
-.nav-item:hover {
-    color: #58a6ff;
-    transform: translateX(3px);
-}
-
 .center {
-    padding: 24px;
+    padding: 26px;
     overflow-y: auto;
 }
 
 .right {
-    background: #070a10;
+    background: rgba(8,10,14,0.6);
     border-left: 1px solid rgba(255,255,255,0.05);
     padding: 18px;
+    backdrop-filter: blur(12px);
 }
 
 /* =========================
-   UI BLOCKS
+   CONTENT BLOCKS
 ========================= */
 
 .title {
-    font-size: 26px;
+    font-size: 28px;
     margin-bottom: 6px;
 }
 
 .sub {
     font-size: 12px;
     opacity: 0.7;
-    margin-bottom: 16px;
+    margin-bottom: 18px;
 }
 
 .panel {
-    background: #0b111a;
+    background: rgba(10,14,22,0.8);
     border: 1px solid rgba(255,255,255,0.06);
     padding: 18px;
-    border-radius: 10px;
+    border-radius: 12px;
     margin-bottom: 12px;
+    transition: 0.2s;
 }
 
+.panel:hover {
+    border-color: rgba(88,166,255,0.4);
+    transform: translateY(-2px);
+}
+
+/* publications */
 .paper {
-    background: #0b111a;
-    border: 1px solid rgba(255,255,255,0.07);
-    padding: 16px;
+    background: rgba(10,14,20,0.85);
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 14px;
     border-radius: 10px;
     margin-bottom: 10px;
     cursor: pointer;
@@ -156,24 +191,11 @@ body {
     opacity: 0.65;
 }
 
+/* system text */
 .mono {
     font-size: 11px;
     line-height: 1.6;
     opacity: 0.85;
-}
-
-/* CONTACT TAG */
-.contact-mail {
-    color: #58a6ff;
-    cursor: pointer;
-}
-
-.view {
-    display: none;
-}
-
-.show {
-    display: block;
 }
 
 </style>
@@ -182,95 +204,95 @@ body {
 
 <body>
 
-<!-- TOP -->
+<!-- TOP BAR -->
 <div class="topbar">
 
 <div class="logo">
 <div class="logo-mark"></div>
-ASIL INSTITUTE
+ASIL SYSTEM
 </div>
 
-<div class="status">SYSTEM: ACTIVE • RESEARCH MODE • STABLE</div>
+<!-- MENU -->
+<div class="menu">
+
+<div class="menu-item">
+CORE
+<div class="dropdown">
+<div onclick="show('home')">Overview</div>
+<div onclick="show('system')">Architecture</div>
+</div>
+</div>
+
+<div class="menu-item">
+RESEARCH
+<div class="dropdown">
+<div onclick="show('research')">Engine</div>
+<div onclick="show('pub')">Publications</div>
+</div>
+</div>
+
+<div class="menu-item">
+ACCESS
+<div class="dropdown">
+<div onclick="show('contact')">Collaboration</div>
+</div>
+</div>
 
 </div>
 
+<div style="font-size:10px; opacity:0.6;">
+SYSTEM: ACTIVE
+</div>
+
+</div>
+
+<!-- LAYOUT -->
 <div class="layout">
-
-<!-- NAV -->
-<div class="nav">
-
-<div class="nav-item" onclick="show('home')">CORE</div>
-<div class="nav-item" onclick="show('research')">RESEARCH</div>
-<div class="nav-item" onclick="show('pub')">PUBLICATIONS</div>
-<div class="nav-item" onclick="show('system')">SYSTEM</div>
-<div class="nav-item" onclick="show('contact')">ACCESS</div>
-
-</div>
 
 <!-- CENTER -->
 <div class="center">
 
-<!-- HOME -->
-<div id="home" class="view show">
+<div id="home">
 
-<div class="title">ASIL Research Institute</div>
-<div class="sub">Distributed system for modeling synchronization, emergence and structural stability</div>
+<div class="title">ASIL Research System</div>
+<div class="sub">Distributed intelligence architecture for emergent system analysis</div>
 
 <div class="panel">
-Operational state: stable<br>
-System mode: observation<br>
+Operational mode: observation<br>
+System integrity: stable<br>
 Compute layer: active
 </div>
 
 </div>
 
-<!-- RESEARCH -->
-<div id="research" class="view">
+<div id="research" style="display:none;">
 
 <div class="title">Research Engine</div>
 
 <div class="panel">
 Focus areas:<br><br>
-
-• multi-agent system dynamics<br>
-• synchronization theory<br>
-• emergent structure formation<br>
-• adaptive stability modeling
+• synchronization dynamics<br>
+• multi-agent systems<br>
+• emergent structures<br>
+• stability modeling
 </div>
 
 </div>
 
-<!-- PUBLICATIONS -->
-<div id="pub" class="view">
+<div id="pub" style="display:none;">
 
-<div class="title">Research Publications</div>
+<div class="title">Publications</div>
 
-<div class="paper">
-ASIL-01 — Synchronization Foundations<br>
-<span class="small">phase coherence in distributed environments</span>
-</div>
-
-<div class="paper">
-ASIL-02 — Multi-Agent Interaction Models<br>
-<span class="small">local rules → global emergent behavior</span>
-</div>
-
-<div class="paper">
-ASIL-03 — Structural Stability Theory<br>
-<span class="small">resilience under perturbation</span>
-</div>
-
-<div class="paper">
-ASIL-04 — Emergence in Complex Systems<br>
-<span class="small">order from decentralized interaction</span>
-</div>
+<div class="paper">ASIL-01 — Synchronization Foundations<br><span class="small">coherence in distributed systems</span></div>
+<div class="paper">ASIL-02 — Multi-Agent Interaction<br><span class="small">local rules → global emergence</span></div>
+<div class="paper">ASIL-03 — Stability Models<br><span class="small">resilience under perturbation</span></div>
+<div class="paper">ASIL-04 — Emergence Theory<br><span class="small">order from complexity</span></div>
 
 </div>
 
-<!-- SYSTEM -->
-<div id="system" class="view">
+<div id="system" style="display:none;">
 
-<div class="title">System Architecture</div>
+<div class="title">Architecture</div>
 
 <div class="panel mono">
 Vision Layer — abstraction modeling<br>
@@ -282,53 +304,18 @@ Feedback Layer — adaptive regulation
 
 </div>
 
-<!-- CONTACT -->
-<div id="contact" class="view">
+<div id="contact" style="display:none;">
 
-<div class="title">Access & Collaboration</div>
-
-<div class="sub">Research interface for structured external queries</div>
+<div class="title">Collaboration Access</div>
 
 <div class="panel">
-
-ASIL operates as a distributed research environment.  
-External inputs are treated as computational research tasks.
-
-<br><br>
-
-Priority domains:<br>
-• complex system modeling<br>
-• AI-based analysis requests<br>
-• data structuring / synthesis<br>
-• experimental validation tasks
-
+External queries are processed as structured research tasks within system allocation limits.
 </div>
 
 <div class="panel mono">
-
-Processing model:<br>
-1. Input definition<br>
-2. System evaluation<br>
-3. Compute allocation (if required)<br>
-4. Research response generation<br>
-
-<br>
-
-<span style="color:#58a6ff;">
-High complexity tasks may trigger extended compute allocation.
-</span>
-
-</div>
-
-<div class="panel">
-
 Contact:<br>
-<span class="contact-mail">asil.research.node@system-interface.io</span><br><br>
-
-<span class="small">
-Requests are handled through internal research allocation protocols.
-</span>
-
+asil.research.node@system-interface.io<br><br>
+Priority allocation may be required for high-complexity requests.
 </div>
 
 </div>
@@ -341,8 +328,8 @@ Requests are handled through internal research allocation protocols.
 <div class="title">System Monitor</div>
 
 <div class="panel mono">
-Nodes: 128 ACTIVE<br>
-Integrity: HIGH<br>
+Nodes: 128<br>
+Status: ACTIVE<br>
 Latency: LOW<br>
 Visibility: PARTIAL<br><br>
 
@@ -357,13 +344,14 @@ Compute: AVAILABLE
 
 function show(id){
 
-let views = ['home','research','pub','system','contact'];
+let sections = ['home','research','pub','system','contact'];
 
-views.forEach(v => {
-document.getElementById(v).classList.remove('show');
+sections.forEach(s => {
+let el = document.getElementById(s);
+if(el) el.style.display = 'none';
 });
 
-document.getElementById(id).classList.add('show');
+document.getElementById(id).style.display = 'block';
 }
 
 </script>
