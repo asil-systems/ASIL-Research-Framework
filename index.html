@@ -3,47 +3,75 @@
 
 <head>
 <meta charset="UTF-8">
-<title>ASIL Space Graph</title>
+<title>ASIL System v20</title>
 
 <style>
 
 body {
     margin: 0;
-    overflow: hidden;
     font-family: Arial;
-    background: black;
+    background: #05070c;
     color: #d7e6f2;
+    overflow: hidden;
 }
 
-/* CANVAS */
 canvas {
     position: absolute;
     top: 0;
     left: 0;
 }
 
-/* INFO */
-.info {
+/* HEADER */
+.header {
     position: absolute;
     top: 10px;
     left: 10px;
+    padding: 10px;
+    background: rgba(10,14,20,0.7);
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.08);
+    font-size: 12px;
+    color: #58a6ff;
+}
+
+/* INFO PANEL */
+.panel {
+    position: absolute;
+    right: 10px;
+    top: 10px;
     width: 320px;
     padding: 12px;
-    background: rgba(0,0,0,0.6);
-    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(10,14,20,0.8);
     border-radius: 10px;
-    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.08);
 }
 
 .title {
     color: #58a6ff;
     font-size: 13px;
+    margin-bottom: 8px;
 }
 
-.text {
+.item {
     font-size: 11px;
-    opacity: 0.8;
-    margin-top: 6px;
+    margin-bottom: 6px;
+    padding-left: 10px;
+    border-left: 2px solid rgba(88,166,255,0.4);
+}
+
+/* NODES */
+.node {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #58a6ff;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(88,166,255,0.5);
+}
+
+.node:hover {
+    background: white;
 }
 
 </style>
@@ -54,151 +82,87 @@ canvas {
 
 <canvas id="c"></canvas>
 
-<div class="info" id="info">
-<div class="title">ASIL SPACE SYSTEM</div>
-<div class="text">Click nodes. Center = black hole gravity field.</div>
+<div class="header">
+ASIL SYSTEM v20 — stable knowledge graph
 </div>
+
+<div class="panel" id="panel">
+<div class="title">CHAIN VIEW</div>
+<div class="item">Click node to view structure</div>
+</div>
+
+<!-- NODES -->
+<div class="node" style="left:250px;top:200px;" onclick="openNode('teleport')"></div>
+<div class="node" style="left:600px;top:180px;" onclick="openNode('coherence')"></div>
+<div class="node" style="left:400px;top:420px;" onclick="openNode('asil')"></div>
 
 <script>
 
+/* CHAIN DATA (RESTORED CLEAN VERSION) */
+const chains = {
+
+teleport: [
+"Project: Teleportation Model",
+"Article I: State Transfer Theory",
+"Article II: Distributed Systems Mapping",
+"Result: Cross-system synchronization"
+],
+
+coherence: [
+"Project: Coherence Field",
+"Article I: Stability Principles",
+"Article II: Network Synchronization",
+"Result: System stability layer"
+],
+
+asil: [
+"Project: ASIL Core System",
+"Layer 1: Vision Abstraction",
+"Layer 2: Intelligence Processing",
+"Layer 3: Interaction Dynamics",
+"Layer 4: Stability Control",
+"Result: Unified knowledge architecture"
+]
+
+};
+
+function openNode(id){
+
+let chain = chains[id];
+
+let html = `<div class="title">STRUCTURE EXPANSION</div>`;
+
+chain.forEach((c,i)=>{
+html += `<div class="item">${i+1}. ${c}</div>`;
+});
+
+document.getElementById("panel").innerHTML = html;
+
+}
+
+/* SIMPLE BACKGROUND GRAPH */
 const c = document.getElementById("c");
 const ctx = c.getContext("2d");
 
 c.width = innerWidth;
 c.height = innerHeight;
 
-window.onresize = () => {
-c.width = innerWidth;
-c.height = innerHeight;
-};
-
-/* STARFIELD */
-const stars = [];
-
-for(let i=0;i<200;i++){
-stars.push({
-x: Math.random()*innerWidth,
-y: Math.random()*innerHeight,
-z: Math.random()*1
-});
-}
-
-/* NODES */
-const nodes = [
-{x:300,y:200,vx:0.1,vy:0.05,name:"Teleportation"},
-{x:700,y:180,vx:-0.08,vy:0.06,name:"Coherence"},
-{x:600,y:450,vx:0.07,vy:-0.05,name:"ASIL Core"}
-];
-
-/* BLACK HOLE CENTER */
-let cx = innerWidth/2;
-let cy = innerHeight/2;
-
-/* DRAW STARFIELD */
-function drawStars(){
-
-ctx.fillStyle = "white";
-
-stars.forEach(s=>{
-
-ctx.globalAlpha = 0.3 + s.z;
-ctx.fillRect(s.x,s.y,1,1);
-
-});
-
-ctx.globalAlpha = 1;
-
-}
-
-/* DRAW BLACK HOLE */
-function drawBlackHole(){
-
-let grd = ctx.createRadialGradient(cx,cy,10,cx,cy,400);
-
-grd.addColorStop(0,"rgba(0,0,0,1)");
-grd.addColorStop(0.3,"rgba(10,20,40,0.8)");
-grd.addColorStop(0.6,"rgba(0,0,0,0.4)");
-grd.addColorStop(1,"rgba(0,0,0,0)");
-
-ctx.fillStyle = grd;
-ctx.beginPath();
-ctx.arc(cx,cy,400,0,Math.PI*2);
-ctx.fill();
-
-}
-
-/* UPDATE */
-function update(){
-
-nodes.forEach(n=>{
-
-/* gravity toward black hole */
-let dx = cx - n.x;
-let dy = cy - n.y;
-
-n.vx += dx*0.00002;
-n.vy += dy*0.00002;
-
-n.x += n.vx;
-n.y += n.vy;
-
-/* damping */
-n.vx *= 0.995;
-n.vy *= 0.995;
-
-});
-
-}
-
-/* DRAW */
 function draw(){
 
 ctx.clearRect(0,0,innerWidth,innerHeight);
 
-/* background stars */
-drawStars();
+/* simple connections */
+ctx.strokeStyle = "rgba(88,166,255,0.1)";
 
-/* black hole */
-drawBlackHole();
-
-/* connections */
-for(let i=0;i<nodes.length;i++){
-for(let j=i+1;j<nodes.length;j++){
-
-ctx.strokeStyle = "rgba(88,166,255,0.15)";
 ctx.beginPath();
-ctx.moveTo(nodes[i].x,nodes[i].y);
-ctx.lineTo(nodes[j].x,nodes[j].y);
+ctx.moveTo(250,200);
+ctx.lineTo(600,180);
+ctx.lineTo(400,420);
 ctx.stroke();
 
 }
-}
 
-/* nodes */
-nodes.forEach(n=>{
-
-ctx.fillStyle = "#58a6ff";
-ctx.beginPath();
-ctx.arc(n.x,n.y,10,0,Math.PI*2);
-ctx.fill();
-
-/* glow */
-ctx.fillStyle = "rgba(88,166,255,0.2)";
-ctx.beginPath();
-ctx.arc(n.x,n.y,18,0,Math.PI*2);
-ctx.fill();
-
-ctx.fillStyle = "white";
-ctx.font = "11px Arial";
-ctx.fillText(n.name,n.x+12,n.y-10);
-
-});
-
-}
-
-/* LOOP */
 function loop(){
-update();
 draw();
 requestAnimationFrame(loop);
 }
