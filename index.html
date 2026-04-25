@@ -3,7 +3,7 @@
 
 <head>
 <meta charset="UTF-8">
-<title>ASIL Research Platform</title>
+<title>ASIL Research Institute</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
@@ -37,9 +37,9 @@ body {
     justify-content: center;
     gap: 18px;
     padding: 14px;
-    background: rgba(11,15,20,0.7);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(88,166,255,0.1);
+    background: rgba(11,15,20,0.75);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(88,166,255,0.12);
 }
 
 .nav button {
@@ -48,10 +48,12 @@ body {
     color: #e6edf3;
     cursor: pointer;
     font-size: 13px;
+    transition: 0.2s;
 }
 
 .nav button:hover {
     color: #58a6ff;
+    transform: translateY(-1px);
 }
 
 /* LANGUAGE */
@@ -68,6 +70,7 @@ body {
     padding: 5px 10px;
     border-radius: 6px;
     cursor: pointer;
+    margin-left: 5px;
 }
 
 .lang button:hover {
@@ -78,13 +81,13 @@ body {
 .container {
     max-width: 900px;
     margin: 0 auto;
-    padding: 100px 20px;
+    padding: 110px 20px;
 }
 
 /* CARDS */
 .card {
-    background: rgba(17, 24, 35, 0.8);
-    padding: 24px;
+    background: rgba(17, 24, 35, 0.85);
+    padding: 26px;
     border-radius: 14px;
     margin-bottom: 20px;
     border: 1px solid rgba(88,166,255,0.15);
@@ -92,16 +95,18 @@ body {
 }
 
 .card:hover {
-    transform: translateY(-5px);
-    border-color: rgba(88,166,255,0.5);
+    transform: translateY(-6px);
+    border-color: rgba(88,166,255,0.55);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
 
 h1 {
-    font-size: 34px;
+    font-size: 36px;
 }
 
 h2 {
     color: #58a6ff;
+    margin-bottom: 10px;
 }
 
 p {
@@ -114,8 +119,13 @@ p {
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
+    from { opacity: 0; transform: translateY(12px); }
     to { opacity: 1; transform: translateY(0); }
+}
+
+/* subtle glow */
+h2 {
+    text-shadow: 0 0 10px rgba(88,166,255,0.15);
 }
 
 </style>
@@ -144,7 +154,7 @@ p {
 <!-- HOME -->
 <div id="home">
 
-<h1 id="title">ASIL Research Platform</h1>
+<h1 id="title">ASIL Research Institute</h1>
 
 <p id="subtitle">
 Synchronization and multi-system dynamics framework
@@ -153,7 +163,7 @@ Synchronization and multi-system dynamics framework
 <div class="card">
 <h2>Overview</h2>
 <p id="overview">
-ASIL is a conceptual research structure focused on synchronization dynamics in complex systems.
+ASIL is a research institute focused on synchronization, emergence, and structural stability in complex systems.
 </p>
 </div>
 
@@ -165,12 +175,11 @@ ASIL is a conceptual research structure focused on synchronization dynamics in c
 <h2>Research</h2>
 
 <p>
-ASIL investigates synchronization processes in distributed multi-system environments, 
-where independent agents converge into stable coordinated states through interaction, constraints, and feedback loops.
+ASIL studies how independent systems achieve synchronization through interaction, constraints, and feedback dynamics.
 </p>
 
 <p>
-The framework focuses on emergence, stability, and structural coherence in complex networks.
+Focus areas include emergence, adaptive coordination, and stability in multi-agent environments.
 </p>
 
 </div>
@@ -186,8 +195,8 @@ The framework focuses on emergence, stability, and structural coherence in compl
 <p><b>Part III:</b> Structural Stability in Network Systems</p>
 <p><b>Part IV:</b> Emergent Coordination Models</p>
 
-<p style="opacity:0.7; margin-top:10px;">
-Archive status: conceptual research drafts
+<p style="opacity:0.65; margin-top:12px;">
+Status: conceptual research archive
 </p>
 
 </div>
@@ -199,11 +208,11 @@ Archive status: conceptual research drafts
 <h2>Manifesto</h2>
 
 <p>
-ASIL is not a product of isolated systems, but a study of how independent structures converge into synchronized stability.
+ASIL is a study of how independent structures converge into synchronized stability through interaction and constraint.
 </p>
 
 <p>
-We explore the transition from disorder to coherence through interaction, constraints, and adaptive alignment.
+We explore systems where order emerges from distributed complexity.
 </p>
 
 </div>
@@ -222,25 +231,25 @@ function show(id){
     document.getElementById(id).style.display='block';
 }
 
-/* LANGUAGE SYSTEM */
+/* LANGUAGE */
 function setLang(l){
 
 if(l==='en'){
-document.getElementById('title').innerText="ASIL Research Platform";
+document.getElementById('title').innerText="ASIL Research Institute";
 document.getElementById('subtitle').innerText="Synchronization and multi-system dynamics framework";
-document.getElementById('overview').innerText="ASIL is a conceptual research structure focused on synchronization dynamics in complex systems.";
+document.getElementById('overview').innerText="ASIL is a research institute focused on synchronization, emergence, and structural stability in complex systems.";
 }
 
 if(l==='ru'){
-document.getElementById('title').innerText="Исследовательская платформа ASIL";
-document.getElementById('subtitle').innerText="Система синхронизации и многосистемной динамики";
-document.getElementById('overview').innerText="ASIL — исследовательская структура, изучающая синхронизацию сложных систем.";
+document.getElementById('title').innerText="Исследовательский институт ASIL";
+document.getElementById('subtitle').innerText="Синхронизация и многосистемная динамика";
+document.getElementById('overview').innerText="ASIL — исследовательский институт, изучающий синхронизацию и устойчивость сложных систем.";
 }
 
 if(l==='cn'){
-document.getElementById('title').innerText="ASIL 研究平台";
+document.getElementById('title').innerText="ASIL 研究院";
 document.getElementById('subtitle').innerText="同步与多系统动态框架";
-document.getElementById('overview').innerText="ASIL 是研究复杂系统同步动态的概念性结构。";
+document.getElementById('overview').innerText="ASIL 是一个研究复杂系统同步与结构稳定性的研究机构。";
 }
 
 }
