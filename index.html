@@ -3,30 +3,29 @@
 
 <head>
 <meta charset="UTF-8">
-<title>ASIL Institute Core System</title>
+<title>NODE // SYSTEM INTERFACE</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
 
 /* =========================
-   CORE DESIGN SYSTEM
+   BLACKBOX UI SYSTEM
 ========================= */
 
 body {
     margin: 0;
-    background: radial-gradient(circle at top, #060a10, #04060a);
-    color: #dbe6ef;
+    background: #05070c;
+    color: #d7e3ee;
     font-family: 'Inter', sans-serif;
     overflow: hidden;
 }
 
-/* TOP CONTROL STRIP */
+/* TOP BAR (NO SEMANTICS) */
 .topbar {
-    height: 54px;
-    background: rgba(10,14,20,0.92);
-    backdrop-filter: blur(16px);
-    border-bottom: 1px solid rgba(255,255,255,0.06);
+    height: 52px;
+    background: rgba(8,10,14,0.95);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -34,131 +33,119 @@ body {
 }
 
 .logo {
-    font-size: 12px;
-    letter-spacing: 7px;
+    font-size: 11px;
+    letter-spacing: 6px;
     color: #58a6ff;
 }
 
-.status {
-    font-size: 11px;
-    opacity: 0.75;
+.tag {
+    font-size: 10px;
+    opacity: 0.5;
 }
 
-/* =========================
-   SYSTEM GRID (CORE ARCHITECTURE)
-========================= */
-
+/* LAYOUT */
 .layout {
     display: grid;
-    grid-template-columns: 240px 1fr 320px;
-    height: calc(100vh - 54px);
+    grid-template-columns: 210px 1fr 300px;
+    height: calc(100vh - 52px);
 }
 
-/* LEFT MODULE NAV */
+/* LEFT (OBFUSCATED NAV) */
 .nav {
-    background: #0a0f15;
-    border-right: 1px solid rgba(255,255,255,0.06);
-    padding: 18px;
+    background: #070a10;
+    border-right: 1px solid rgba(255,255,255,0.05);
+    padding: 16px;
 }
 
 .nav-item {
-    font-size: 12px;
-    margin-bottom: 14px;
+    font-size: 11px;
+    margin-bottom: 12px;
     cursor: pointer;
-    color: #c2d0dc;
+    color: #b9c6d2;
     transition: 0.2s;
 }
 
 .nav-item:hover {
     color: #58a6ff;
-    transform: translateX(4px);
+    transform: translateX(3px);
 }
 
-/* CENTER WORKSPACE */
+/* CENTER */
 .center {
-    padding: 26px;
+    padding: 22px;
     overflow-y: auto;
 }
 
-/* RIGHT SYSTEM FEED */
+/* RIGHT */
 .right {
-    background: #0a0f15;
-    border-left: 1px solid rgba(255,255,255,0.06);
-    padding: 18px;
+    background: #070a10;
+    border-left: 1px solid rgba(255,255,255,0.05);
+    padding: 16px;
 }
 
 /* =========================
-   CORE UI ELEMENTS
+   GENERIC UI BLOCKS (NO MEANING LABELS)
 ========================= */
 
+.unit {
+    background: #0b0f16;
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 16px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    transition: 0.2s;
+}
+
+.unit:hover {
+    border-color: rgba(88,166,255,0.4);
+    transform: translateY(-3px);
+}
+
 .title {
-    font-size: 30px;
+    font-size: 22px;
     margin-bottom: 6px;
 }
 
 .sub {
-    font-size: 12px;
-    opacity: 0.7;
-    margin-bottom: 18px;
-}
-
-/* SYSTEM PANEL */
-.panel {
-    background: linear-gradient(145deg, #0e1622, #0a0f15);
-    border: 1px solid rgba(255,255,255,0.06);
-    padding: 20px;
-    border-radius: 12px;
+    font-size: 11px;
+    opacity: 0.6;
     margin-bottom: 12px;
-    transition: 0.2s;
 }
 
-.panel:hover {
-    border-color: rgba(88,166,255,0.45);
-    transform: translateY(-4px);
-}
-
-/* PUBLICATION GRID */
 .grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 12px;
+    gap: 10px;
 }
 
-/* RESEARCH PAPER (REALISTIC ARCHIVE STYLE) */
-.paper {
-    background: #0b111a;
-    border: 1px solid rgba(255,255,255,0.07);
-    padding: 16px;
-    border-radius: 10px;
+.tile {
+    background: #0a0d14;
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 14px;
+    border-radius: 8px;
     cursor: pointer;
     transition: 0.2s;
 }
 
-.paper:hover {
-    border-color: rgba(88,166,255,0.55);
-    transform: translateX(4px);
+.tile:hover {
+    border-color: rgba(88,166,255,0.5);
+    transform: translateX(3px);
 }
 
-/* SYSTEM STATUS */
+/* SYSTEM TEXT (NO SEMANTIC CLUES) */
 .mono {
     font-size: 11px;
     line-height: 1.6;
-    opacity: 0.85;
+    opacity: 0.8;
 }
 
-/* FADE */
-.fade {
-    animation: fadeIn 0.25s ease;
+/* VIEW CONTROL */
+.view {
+    display: none;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(6px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.small {
-    font-size: 11px;
-    opacity: 0.6;
+.show {
+    display: block;
 }
 
 </style>
@@ -167,138 +154,95 @@ body {
 
 <body>
 
-<!-- TOP BAR -->
 <div class="topbar">
-<div class="logo">ASIL INSTITUTE CORE SYSTEM V100</div>
-<div class="status">SYSTEM: ONLINE • STABILITY: HIGH • NODES: ACTIVE</div>
+<div class="logo">NODE INTERFACE SYSTEM</div>
+<div class="tag">STATUS: STABLE // SIGNAL: ACTIVE</div>
 </div>
 
-<!-- LAYOUT -->
 <div class="layout">
 
-<!-- NAV -->
+<!-- LEFT -->
 <div class="nav">
 
-<div class="nav-item" onclick="show('home')">CORE</div>
-<div class="nav-item" onclick="show('mission')">MISSION ENGINE</div>
-<div class="nav-item" onclick="show('pub')">RESEARCH ARCHIVE</div>
-<div class="nav-item" onclick="show('system')">SYSTEM LAYERS</div>
-<div class="nav-item" onclick="show('feed')">LIVE FEED</div>
+<div class="nav-item" onclick="show('a')">NODE A</div>
+<div class="nav-item" onclick="show('b')">NODE B</div>
+<div class="nav-item" onclick="show('c')">NODE C</div>
+<div class="nav-item" onclick="show('d')">NODE D</div>
 
 </div>
 
 <!-- CENTER -->
 <div class="center">
 
-<!-- CORE -->
-<div id="home" class="fade">
+<!-- A -->
+<div id="a" class="view show">
 
-<div class="title">ASIL Core System</div>
-<div class="sub">Distributed research architecture for synchronization and emergent systems</div>
+<div class="title">Interface Node A</div>
+<div class="sub">system fragment / abstract layer</div>
 
-<div class="panel">
-Nodes: 128 ACTIVE<br>
-Synchronization: STABLE<br>
-System Load: OPTIMAL
+<div class="unit">
+Operational state: nominal
 </div>
 
 </div>
 
-<!-- MISSION -->
-<div id="mission" style="display:none;" class="fade">
+<!-- B -->
+<div id="b" class="view">
 
-<div class="title">Mission Engine</div>
-
-<div class="panel">
-- Synchronization modeling<br>
-- Multi-agent system analysis<br>
-- Emergence detection<br>
-- Stability mapping
-</div>
-
-</div>
-
-<!-- PUBLICATIONS -->
-<div id="pub" style="display:none;" class="fade">
-
-<div class="title">Research Archive</div>
+<div class="title">Interface Node B</div>
 
 <div class="grid">
 
-<div class="paper">
-<b>ASIL-01</b><br>
-Foundations of Synchronization<br>
-<span class="small">Coherence in distributed systems</span>
-</div>
-
-<div class="paper">
-<b>ASIL-02</b><br>
-Multi-Agent Dynamics<br>
-<span class="small">Emergent behavioral systems</span>
-</div>
-
-<div class="paper">
-<b>ASIL-03</b><br>
-Structural Stability<br>
-<span class="small">System resilience theory</span>
-</div>
-
-<div class="paper">
-<b>ASIL-04</b><br>
-Emergence Theory<br>
-<span class="small">Order from distributed chaos</span>
-</div>
+<div class="tile">segment 01</div>
+<div class="tile">segment 02</div>
+<div class="tile">segment 03</div>
+<div class="tile">segment 04</div>
 
 </div>
 
 </div>
 
-<!-- SYSTEM -->
-<div id="system" style="display:none;" class="fade">
+<!-- C -->
+<div id="c" class="view">
 
-<div class="title">System Layers</div>
+<div class="title">Interface Node C</div>
 
-<div class="panel">
-Vision Layer — modeling<br>
-Intelligence Layer — computation<br>
-Interaction Layer — dynamics<br>
-Stability Layer — coherence control
+<div class="unit mono">
+> stream: active<br>
+> integrity: stable<br>
+> deviation: minimal<br>
+> feedback: enabled
 </div>
 
 </div>
 
-<!-- FEED -->
-<div id="feed" style="display:none;" class="fade">
+<!-- D -->
+<div id="d" class="view">
 
-<div class="title">Live System Feed</div>
+<div class="title">Interface Node D</div>
 
-<div class="panel mono">
-> sync_engine: ACTIVE<br>
-> emergence_detector: RUNNING<br>
-> stability_core: STABLE<br>
-> anomaly_scan: CLEAN<br><br>
-
-SYSTEM OPERATION NORMAL
+<div class="unit mono">
+system layer map:<br>
+• segment cluster A<br>
+• segment cluster B<br>
+• segment cluster C<br>
+• segment cluster D
 </div>
 
 </div>
 
 </div>
 
-<!-- RIGHT PANEL -->
+<!-- RIGHT -->
 <div class="right">
 
-<div class="title">System Monitor</div>
+<div class="title">Signal Monitor</div>
 
-<div class="panel mono">
-NETWORK STATUS<br>
-• Nodes: ONLINE<br>
-• Latency: LOW<br>
-• Integrity: HIGH<br><br>
-
-RESEARCH STATE<br>
-• Papers: 4 ACTIVE<br>
-• Archive: STABLE<br>
+<div class="unit mono">
+nodes: active<br>
+state: stable<br>
+visibility: partial<br>
+logic: encapsulated<br>
 </div>
 
 </div>
@@ -309,14 +253,13 @@ RESEARCH STATE<br>
 
 function show(id){
 
-let sections = ['home','mission','pub','system','feed'];
+let views = ['a','b','c','d'];
 
-sections.forEach(s => {
-let el = document.getElementById(s);
-if(el) el.style.display = 'none';
+views.forEach(v => {
+document.getElementById(v).classList.remove('show');
 });
 
-document.getElementById(id).style.display = 'block';
+document.getElementById(id).classList.add('show');
 }
 
 </script>
