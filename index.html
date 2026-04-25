@@ -3,7 +3,7 @@
 
 <head>
 <meta charset="UTF-8">
-<title>ASIL Scientific Research System</title>
+<title>ASIL Space Station Core System</title>
 
 <style>
 
@@ -15,7 +15,6 @@ body {
     color: #d7e6f2;
 }
 
-/* CANVAS */
 canvas {
     position: absolute;
     top: 0;
@@ -28,17 +27,16 @@ canvas {
     top: 12px;
     left: 12px;
     padding: 14px;
-    width: 300px;
+    width: 320px;
     background: rgba(10,14,20,0.75);
-    border: 1px solid rgba(255,255,255,0.06);
     border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.06);
     backdrop-filter: blur(12px);
 }
 
 .title {
     font-size: 13px;
     color: #58a6ff;
-    margin-bottom: 6px;
 }
 
 .sub {
@@ -46,25 +44,7 @@ canvas {
     opacity: 0.6;
 }
 
-/* ISS CORE (CONTROL, NOT GAME OBJECT) */
-.iss {
-    position: absolute;
-    width: 170px;
-    height: 60px;
-    border-radius: 30px;
-    background: #ffffff;
-    color: #000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 0 25px rgba(255,255,255,0.4);
-    user-select: none;
-}
-
-/* INFO PANEL */
+/* INFO */
 .info {
     position: absolute;
     right: 12px;
@@ -85,17 +65,41 @@ canvas {
 
 .text {
     font-size: 11px;
-    opacity: 0.75;
+    opacity: 0.8;
     line-height: 1.5;
 }
 
-/* NODE LABELS */
-.label {
+/* SPACE STATION CORE */
+.station {
     position: absolute;
-    font-size: 11px;
-    color: #bcd0e5;
-    opacity: 0.8;
-    pointer-events: none;
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #ffffff, #8aa0ff 40%, #2a3b7a 80%);
+    box-shadow:
+        0 0 40px rgba(120,150,255,0.6),
+        0 0 100px rgba(80,120,255,0.3);
+
+    cursor: pointer;
+    z-index: 10;
+}
+
+/* ring */
+.station::after {
+    content: "";
+    position: absolute;
+    width: 160px;
+    height: 160px;
+    top: -25px;
+    left: -25px;
+    border-radius: 50%;
+    border: 1px solid rgba(120,150,255,0.25);
+    animation: rotate 6s linear infinite;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
 
 </style>
@@ -107,18 +111,17 @@ canvas {
 <canvas id="c"></canvas>
 
 <div class="header">
-<div class="title">ASIL RESEARCH INTERFACE</div>
-<div class="sub">scientific model of distributed knowledge systems</div>
+<div class="title">ASIL SPACE RESEARCH GRAPH</div>
+<div class="sub">orbital knowledge system with central station core</div>
 </div>
 
 <div class="info" id="info">
 <div class="node-title">SYSTEM READY</div>
-<div class="text">
-Select a research node to view structured explanation of the model.
-</div>
+<div class="text">Hover nodes or click space station to explore system state.</div>
 </div>
 
-<div class="iss" id="iss">SYSTEM CORE (ISS CONTROL)</div>
+<!-- SPACE STATION CORE -->
+<div class="station" id="station"></div>
 
 <script>
 
@@ -133,40 +136,85 @@ c.width = innerWidth;
 c.height = innerHeight;
 };
 
-/* ISS POSITION */
-let issX = innerWidth/2;
-let issY = innerHeight/2;
+/* MOUSE */
+let mouse = {x:0,y:0};
 
-/* NODES = SCIENTIFIC MODULES */
+window.addEventListener("mousemove",(e)=>{
+mouse.x = e.clientX;
+mouse.y = e.clientY;
+});
+
+/* SPACE STATION */
+const station = document.getElementById("station");
+
+let t = 0;
+let sx = innerWidth/2;
+let sy = innerHeight/2;
+
+/* NODES */
 const nodes = [
-{
-x: 300, y: 200,
-name: "Teleportation Model",
-desc: "Mathematical abstraction of state transfer between distributed systems."
-},
-{
-x: 700, y: 150,
-name: "System Coherence",
-desc: "Stability conditions for multi-agent synchronization."
-},
-{
-x: 650, y: 450,
-name: "Navigation Logic",
-desc: "Graph traversal of knowledge states instead of linear UI flow."
-},
-{
-x: 300, y: 500,
-name: "Emergence Layer",
-desc: "Formation of global patterns from local interactions."
-}
+{x:250,y:200,vx:0.1,vy:0.08,name:"Teleportation Model",desc:"State transfer abstraction between systems."},
+{x:700,y:180,vx:-0.1,vy:0.07,name:"Coherence Field",desc:"Synchronization stability model."},
+{x:650,y:450,vx:0.08,vy:-0.09,name:"Navigation Logic",desc:"Graph traversal structure."},
+{x:300,y:520,vx:-0.07,vy:-0.08,name:"Emergence Layer",desc:"Pattern formation from interaction."}
 ];
+
+let hoverNode = null;
+
+/* MOVE STATION (ORBIT) */
+function moveStation(){
+
+t += 0.005;
+
+sx = innerWidth/2 + Math.cos(t)*200;
+sy = innerHeight/2 + Math.sin(t*1.3)*140;
+
+station.style.left = (sx - 55) + "px";
+station.style.top = (sy - 55) + "px";
+
+}
+
+/* UPDATE */
+function update(){
+
+nodes.forEach(n=>{
+
+n.x += n.vx;
+n.y += n.vy;
+
+/* slow stable motion */
+n.vx *= 0.995;
+n.vy *= 0.995;
+
+/* bounds */
+if(n.x<50||n.x>innerWidth-50) n.vx*=-1;
+if(n.y<50||n.y>innerHeight-50) n.vy*=-1;
+
+/* station gravity */
+let dx = sx - n.x;
+let dy = sy - n.y;
+
+n.x += dx*0.0007;
+n.y += dy*0.0007;
+
+});
+
+/* hover */
+hoverNode = null;
+
+nodes.forEach(n=>{
+let d = Math.hypot(mouse.x-n.x,mouse.y-n.y);
+if(d<25) hoverNode = n;
+});
+
+}
 
 /* DRAW */
 function draw(){
 
 ctx.clearRect(0,0,innerWidth,innerHeight);
 
-/* LINKS */
+/* links */
 for(let i=0;i<nodes.length;i++){
 for(let j=i+1;j<nodes.length;j++){
 
@@ -179,79 +227,54 @@ ctx.stroke();
 }
 }
 
-/* NODE LINKS TO CORE */
+/* station links */
 nodes.forEach(n=>{
 ctx.strokeStyle = "rgba(255,255,255,0.08)";
 ctx.beginPath();
 ctx.moveTo(n.x,n.y);
-ctx.lineTo(issX,issY);
+ctx.lineTo(sx,sy);
 ctx.stroke();
 });
 
-/* NODES */
-nodes.forEach(n=>{
-ctx.beginPath();
-ctx.fillStyle = "#58a6ff";
-ctx.arc(n.x,n.y,5,0,Math.PI*2);
-ctx.fill();
-});
-
-/* CORE */
-ctx.beginPath();
-ctx.fillStyle = "#ffffff";
-ctx.arc(issX,issY,8,0,Math.PI*2);
-ctx.fill();
-
-}
-
-/* UPDATE ISS (SMOOTH DRIFT ONLY) */
-function update(){
-
-let t = Date.now()*0.0003;
-
-issX = innerWidth/2 + Math.cos(t)*180;
-issY = innerHeight/2 + Math.sin(t*1.2)*120;
-
-document.getElementById("iss").style.left = issX + "px";
-document.getElementById("iss").style.top = issY + "px";
-
-}
-
-/* CLICK NODE = SHOW INFO */
-function attachClicks(){
-
-c.addEventListener("click",(e)=>{
-
-let mx = e.clientX;
-let my = e.clientY;
-
+/* nodes */
 nodes.forEach(n=>{
 
-let d = Math.hypot(mx-n.x,my-n.y);
+ctx.beginPath();
+ctx.fillStyle = (hoverNode===n) ? "#ffffff" : "#58a6ff";
+ctx.arc(n.x,n.y, hoverNode===n ? 7 : 5,0,Math.PI*2);
+ctx.fill();
 
-if(d < 20){
-document.getElementById("info").innerHTML = `
-<div class="node-title">${n.name}</div>
-<div class="text">${n.desc}</div>
-`;
-}
+/* label */
+ctx.fillStyle = "rgba(220,235,255,0.9)";
+ctx.font = "11px Arial";
+ctx.fillText(n.name,n.x+10,n.y-10);
 
 });
 
-});
-
 }
-
-attachClicks();
 
 /* LOOP */
 function loop(){
 update();
 draw();
+moveStation();
 requestAnimationFrame(loop);
 }
 
 loop();
+
+/* CLICK STATION */
+station.onclick = ()=>{
+
+document.getElementById("info").innerHTML = `
+<div class="node-title">SPACE STATION CORE ACTIVE</div>
+<div class="text">
+Central orbital structure stabilizing knowledge graph interactions.<br><br>
+System state: ACTIVE COHERENCE MODE
+</div>
+`;
+
+};
 
 </script>
 
