@@ -3,53 +3,89 @@
 
 <head>
 <meta charset="UTF-8">
-<title>ASIL System v20</title>
+<title>ASIL Research Platform</title>
 
 <style>
 
 body {
     margin: 0;
     font-family: Arial;
-    background: #05070c;
+    background: #0a0f18;
     color: #d7e6f2;
-    overflow: hidden;
 }
 
-canvas {
-    position: absolute;
-    top: 0;
-    left: 0;
+/* TOP BAR */
+.topbar {
+    height: 50px;
+    background: rgba(10,14,20,0.95);
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 
-/* HEADER */
-.header {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    padding: 10px;
+.logo {
+    color: #58a6ff;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.container {
+    display: flex;
+    height: calc(100vh - 50px);
+}
+
+/* LEFT MENU */
+.left {
+    width: 300px;
     background: rgba(10,14,20,0.7);
-    border-radius: 10px;
-    border: 1px solid rgba(255,255,255,0.08);
+    border-right: 1px solid rgba(255,255,255,0.08);
+    padding: 12px;
+}
+
+.card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.card:hover {
+    background: rgba(88,166,255,0.08);
+}
+
+.title {
     font-size: 12px;
     color: #58a6ff;
 }
 
-/* INFO PANEL */
+.text {
+    font-size: 11px;
+    opacity: 0.7;
+}
+
+/* CENTER */
+.center {
+    flex: 1;
+    padding: 20px;
+}
+
+h2 {
+    color: #58a6ff;
+}
+
+/* RIGHT PANEL */
 .panel {
     position: absolute;
     right: 10px;
-    top: 10px;
+    top: 60px;
     width: 320px;
     padding: 12px;
-    background: rgba(10,14,20,0.8);
+    background: rgba(10,14,20,0.85);
     border-radius: 10px;
     border: 1px solid rgba(255,255,255,0.08);
-}
-
-.title {
-    color: #58a6ff;
-    font-size: 13px;
-    margin-bottom: 8px;
 }
 
 .item {
@@ -59,115 +95,100 @@ canvas {
     border-left: 2px solid rgba(88,166,255,0.4);
 }
 
-/* NODES */
-.node {
-    position: absolute;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: #58a6ff;
-    cursor: pointer;
-    box-shadow: 0 0 10px rgba(88,166,255,0.5);
-}
-
-.node:hover {
-    background: white;
-}
-
 </style>
 
 </head>
 
 <body>
 
-<canvas id="c"></canvas>
-
-<div class="header">
-ASIL SYSTEM v20 — stable knowledge graph
+<div class="topbar">
+<div class="logo">ASIL RESEARCH INSTITUTE</div>
 </div>
 
+<div class="container">
+
+<!-- LEFT -->
+<div class="left">
+
+<div class="card" onclick="openProject('teleport')">
+<div class="title">Teleportation Engine</div>
+<div class="text">State transfer model</div>
+</div>
+
+<div class="card" onclick="openProject('coherence')">
+<div class="title">Coherence Field</div>
+<div class="text">System stability research</div>
+</div>
+
+<div class="card" onclick="openProject('asil')">
+<div class="title">ASIL Core Framework</div>
+<div class="text">Unified architecture system</div>
+</div>
+
+</div>
+
+<!-- CENTER -->
+<div class="center" id="center">
+<h2>ASIL Research Platform</h2>
+<p>Select a project to view publications.</p>
+</div>
+
+</div>
+
+<!-- RIGHT PANEL -->
 <div class="panel" id="panel">
-<div class="title">CHAIN VIEW</div>
-<div class="item">Click node to view structure</div>
+<div class="item">Publications will appear here</div>
 </div>
-
-<!-- NODES -->
-<div class="node" style="left:250px;top:200px;" onclick="openNode('teleport')"></div>
-<div class="node" style="left:600px;top:180px;" onclick="openNode('coherence')"></div>
-<div class="node" style="left:400px;top:420px;" onclick="openNode('asil')"></div>
 
 <script>
 
-/* CHAIN DATA (RESTORED CLEAN VERSION) */
-const chains = {
+/* FULL RESEARCH STRUCTURE */
+const data = {
 
 teleport: [
-"Project: Teleportation Model",
-"Article I: State Transfer Theory",
-"Article II: Distributed Systems Mapping",
-"Result: Cross-system synchronization"
+"Project: Teleportation Engine",
+"Paper I: State Transfer Theory",
+"Paper II: Distributed Mapping Systems",
+"Paper III: Synchronization Across Nodes",
+"Result: Cross-system coherence model"
 ],
 
 coherence: [
-"Project: Coherence Field",
-"Article I: Stability Principles",
-"Article II: Network Synchronization",
-"Result: System stability layer"
+"Project: Coherence Field Research",
+"Paper I: Stability Fundamentals",
+"Paper II: Multi-agent Synchronization",
+"Paper III: Dynamic Balance Systems",
+"Result: Stable network architecture"
 ],
 
 asil: [
 "Project: ASIL Core System",
-"Layer 1: Vision Abstraction",
-"Layer 2: Intelligence Processing",
-"Layer 3: Interaction Dynamics",
-"Layer 4: Stability Control",
-"Result: Unified knowledge architecture"
+"Paper I: Vision Abstraction Layer",
+"Paper II: Intelligence Computation Layer",
+"Paper III: Interaction Dynamics Layer",
+"Paper IV: Stability Control Layer",
+"Result: Unified adaptive knowledge system"
 ]
 
 };
 
-function openNode(id){
+function openProject(id){
 
-let chain = chains[id];
+/* CENTER VIEW */
+document.getElementById("center").innerHTML =
+`<h2>${id.toUpperCase()}</h2>
+<p>Research papers and system structure loaded.</p>`;
 
-let html = `<div class="title">STRUCTURE EXPANSION</div>`;
+/* RIGHT PANEL */
+let html = "";
 
-chain.forEach((c,i)=>{
-html += `<div class="item">${i+1}. ${c}</div>`;
+data[id].forEach((p,i)=>{
+html += `<div class="item">${i+1}. ${p}</div>`;
 });
 
 document.getElementById("panel").innerHTML = html;
 
 }
-
-/* SIMPLE BACKGROUND GRAPH */
-const c = document.getElementById("c");
-const ctx = c.getContext("2d");
-
-c.width = innerWidth;
-c.height = innerHeight;
-
-function draw(){
-
-ctx.clearRect(0,0,innerWidth,innerHeight);
-
-/* simple connections */
-ctx.strokeStyle = "rgba(88,166,255,0.1)";
-
-ctx.beginPath();
-ctx.moveTo(250,200);
-ctx.lineTo(600,180);
-ctx.lineTo(400,420);
-ctx.stroke();
-
-}
-
-function loop(){
-draw();
-requestAnimationFrame(loop);
-}
-
-loop();
 
 </script>
 
