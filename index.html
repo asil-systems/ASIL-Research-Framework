@@ -16,7 +16,7 @@ body {
     font-family: 'Inter', sans-serif;
 }
 
-/* TOP BAR */
+/* TOPBAR */
 .topbar {
     position: fixed;
     top: 0;
@@ -26,8 +26,7 @@ body {
     border-bottom: 1px solid rgba(255,255,255,0.06);
     display: flex;
     align-items: center;
-    padding: 0 22px;
-    z-index: 10;
+    padding: 0 20px;
 }
 
 .logo {
@@ -59,7 +58,6 @@ body {
     cursor: pointer;
     color: #c9d1d9;
     transition: 0.2s;
-    letter-spacing: 0.3px;
 }
 
 .node:hover {
@@ -71,17 +69,17 @@ body {
 .content {
     margin-left: 260px;
     padding: 50px;
-    max-width: 980px;
+    max-width: 1000px;
 }
 
-/* CARD */
+/* CARDS */
 .card {
     background: #0f1622;
     border: 1px solid rgba(255,255,255,0.06);
-    padding: 28px;
+    padding: 26px;
     border-radius: 12px;
     margin-bottom: 20px;
-    transition: 0.25s ease;
+    transition: 0.25s;
 }
 
 .card:hover {
@@ -90,48 +88,34 @@ body {
     box-shadow: 0 14px 40px rgba(0,0,0,0.5);
 }
 
-/* TEXT */
-h1 {
-    font-size: 38px;
-    letter-spacing: -0.5px;
-}
+h1 { font-size: 38px; }
+h2 { color: #58a6ff; }
+p { color: #c9d1d9; line-height: 1.65; }
 
-h2 {
-    color: #58a6ff;
-    font-size: 18px;
-    margin-bottom: 10px;
-}
-
-p {
-    color: #c9d1d9;
-    line-height: 1.65;
-    font-size: 14px;
-}
-
-/* GRID */
-.grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-}
-
-.block {
+/* PAPER */
+.paper {
     background: #0b111a;
-    border: 1px solid rgba(255,255,255,0.05);
-    padding: 16px;
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 18px;
     border-radius: 10px;
-    font-size: 13px;
+    margin-bottom: 14px;
+    cursor: pointer;
     transition: 0.2s;
 }
 
-.block:hover {
-    border-color: rgba(88,166,255,0.35);
-    transform: scale(1.02);
+.paper:hover {
+    border-color: rgba(88,166,255,0.4);
+    transform: translateX(5px);
+}
+
+/* HIDDEN ARTICLE VIEW */
+.article {
+    display: none;
 }
 
 /* FADE */
 .fade {
-    animation: fadeIn 0.35s ease;
+    animation: fadeIn 0.3s ease;
 }
 
 @keyframes fadeIn {
@@ -151,7 +135,7 @@ p {
 <body>
 
 <div class="topbar">
-<div class="logo">ASIL INSTITUTE</div>
+<div class="logo">ASIL RESEARCH INSTITUTE</div>
 </div>
 
 <div class="wrapper">
@@ -163,7 +147,6 @@ p {
 <div class="node" onclick="show('research')">RESEARCH ENGINE</div>
 <div class="node" onclick="show('pub')">PUBLICATIONS</div>
 <div class="node" onclick="show('system')">SYSTEM ARCHITECTURE</div>
-<div class="node" onclick="show('network')">INSTITUTE MAP</div>
 <div class="node" onclick="show('manifesto')">MANIFESTO</div>
 
 </div>
@@ -191,7 +174,7 @@ ASIL is a structured research institute focused on synchronization, emergence, a
 <div class="card">
 <h2>Research Engine</h2>
 
-<p>Synchronization Dynamics in Multi-Agent Systems</p>
+<p>Synchronization Theory in Multi-Agent Systems</p>
 <p>Emergent Structural Behavior</p>
 <p>Feedback-Driven Stability Models</p>
 
@@ -199,56 +182,57 @@ ASIL is a structured research institute focused on synchronization, emergence, a
 
 </div>
 
-<!-- PUBLICATIONS -->
+<!-- PUBLICATIONS LIST -->
 <div id="pub" style="display:none;" class="fade">
 
-<div class="card">
 <h2>Publications Archive</h2>
 
-<p><b>Part I:</b> Foundations of Synchronization</p>
-<p><b>Part II:</b> System Dynamics</p>
-<p><b>Part III:</b> Structural Stability</p>
-<p><b>Part IV:</b> Emergence Theory</p>
+<div class="paper" onclick="openArticle(1)">
+<b>Part I — Foundations of Synchronization</b>
+<p class="small">Core principles of system synchronization and emergence.</p>
+</div>
 
-<p class="small">Conceptual research framework</p>
+<div class="paper" onclick="openArticle(2)">
+<b>Part II — Multi-Agent Dynamics</b>
+<p class="small">Interaction models in distributed intelligent systems.</p>
+</div>
+
+<div class="paper" onclick="openArticle(3)">
+<b>Part III — Structural Stability</b>
+<p class="small">How systems maintain coherence under perturbation.</p>
+</div>
+
+<div class="paper" onclick="openArticle(4)">
+<b>Part IV — Emergence Theory</b>
+<p class="small">Transition from chaos to structured behavior.</p>
+</div>
+
+</div>
+
+<!-- ARTICLE VIEW -->
+<div id="article" class="article fade">
+
+<div class="card">
+<h2 id="articleTitle"></h2>
+<p id="articleText"></p>
+
+<div style="margin-top:15px; cursor:pointer; color:#58a6ff;" onclick="back()">← Back to Publications</div>
 
 </div>
 
 </div>
 
-<!-- SYSTEM ARCHITECTURE -->
+<!-- SYSTEM -->
 <div id="system" style="display:none;" class="fade">
 
 <div class="card">
 <h2>System Architecture</h2>
 
-<div class="grid">
-<div class="block">Vision Layer</div>
-<div class="block">Intelligence Layer</div>
-<div class="block">Structure Layer</div>
-<div class="block">Interaction Layer</div>
-<div class="block">Feedback Layer</div>
-<div class="block">Stability Layer</div>
-</div>
-
-</div>
-
-</div>
-
-<!-- INSTITUTE MAP -->
-<div id="network" style="display:none;" class="fade">
-
-<div class="card">
-<h2>Institute Map</h2>
-
-<div class="grid">
-<div class="block">Core Theory</div>
-<div class="block">System Modeling</div>
-<div class="block">Simulation Layer</div>
-<div class="block">Data Structures</div>
-<div class="block">Control Logic</div>
-<div class="block">Emergence Field</div>
-</div>
+<p>Vision Layer</p>
+<p>Intelligence Layer</p>
+<p>Structure Layer</p>
+<p>Interaction Layer</p>
+<p>Feedback Layer</p>
 
 </div>
 
@@ -261,11 +245,11 @@ ASIL is a structured research institute focused on synchronization, emergence, a
 <h2>Manifesto</h2>
 
 <p>
-ASIL studies how independent systems converge into synchronized stability through interaction, constraint, and emergent structure formation.
+ASIL studies how independent systems converge into synchronized stability through interaction and constraint.
 </p>
 
 <p>
-Order is not designed — it emerges from system interaction.
+Order is not designed — it emerges.
 </p>
 
 </div>
@@ -279,13 +263,50 @@ Order is not designed — it emerges from system interaction.
 
 function show(id){
 
-let sections = ['home','research','pub','system','network','manifesto'];
+let sections = ['home','research','pub','system','manifesto','article'];
 
 sections.forEach(s => {
-document.getElementById(s).style.display = 'none';
+let el = document.getElementById(s);
+if(el) el.style.display = 'none';
 });
 
 document.getElementById(id).style.display = 'block';
+}
+
+/* ARTICLES */
+function openArticle(id){
+
+show('article');
+
+let title = "";
+let text = "";
+
+if(id === 1){
+title = "Part I — Foundations of Synchronization";
+text = "This paper explores fundamental principles of synchronization in distributed systems, focusing on how independent nodes achieve coherence through interaction and feedback loops.";
+}
+
+if(id === 2){
+title = "Part II — Multi-Agent Dynamics";
+text = "Analysis of interacting agents in complex environments, where local rules generate global behavior patterns.";
+}
+
+if(id === 3){
+title = "Part III — Structural Stability";
+text = "Study of system resilience under perturbations and external disruptions.";
+}
+
+if(id === 4){
+title = "Part IV — Emergence Theory";
+text = "How ordered structures emerge from chaotic multi-agent interactions.";
+}
+
+document.getElementById('articleTitle').innerText = title;
+document.getElementById('articleText').innerText = text;
+}
+
+function back(){
+show('pub');
 }
 
 </script>
