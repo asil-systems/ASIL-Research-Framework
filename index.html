@@ -88,11 +88,11 @@ body {
     border-radius: 14px;
     margin-bottom: 20px;
     border: 1px solid rgba(88,166,255,0.15);
-    transition: 0.3s;
+    transition: 0.25s ease;
 }
 
 .card:hover {
-    transform: translateY(-3px);
+    transform: translateY(-5px);
     border-color: rgba(88,166,255,0.5);
 }
 
@@ -102,6 +102,20 @@ h1 {
 
 h2 {
     color: #58a6ff;
+}
+
+p {
+    color: #c9d1d9;
+}
+
+/* ANIMATION */
+.card {
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 </style>
@@ -148,12 +162,17 @@ ASIL is a conceptual research structure focused on synchronization dynamics in c
 <!-- RESEARCH -->
 <div id="research" style="display:none;">
 <div class="card">
-<h2>Research Models</h2>
-<ul>
-<li>Classical synchronization systems</li>
-<li>Multi-agent network dynamics</li>
-<li>Anchor-based stabilization model</li>
-</ul>
+<h2>Research</h2>
+
+<p>
+ASIL investigates synchronization processes in distributed multi-system environments, 
+where independent agents converge into stable coordinated states through interaction, constraints, and feedback loops.
+</p>
+
+<p>
+The framework focuses on emergence, stability, and structural coherence in complex networks.
+</p>
+
 </div>
 </div>
 
@@ -161,7 +180,16 @@ ASIL is a conceptual research structure focused on synchronization dynamics in c
 <div id="pub" style="display:none;">
 <div class="card">
 <h2>Publications</h2>
-<p>ASIL structured research outputs (Part I–IV)</p>
+
+<p><b>Part I:</b> Foundations of Synchronization Theory</p>
+<p><b>Part II:</b> Multi-Agent System Dynamics</p>
+<p><b>Part III:</b> Structural Stability in Network Systems</p>
+<p><b>Part IV:</b> Emergent Coordination Models</p>
+
+<p style="opacity:0.7; margin-top:10px;">
+Archive status: conceptual research drafts
+</p>
+
 </div>
 </div>
 
@@ -169,7 +197,15 @@ ASIL is a conceptual research structure focused on synchronization dynamics in c
 <div id="manifesto" style="display:none;">
 <div class="card">
 <h2>Manifesto</h2>
-<p>Study of how independent systems converge into stable synchronized states through interaction.</p>
+
+<p>
+ASIL is not a product of isolated systems, but a study of how independent structures converge into synchronized stability.
+</p>
+
+<p>
+We explore the transition from disorder to coherence through interaction, constraints, and adaptive alignment.
+</p>
+
 </div>
 </div>
 
@@ -186,7 +222,7 @@ function show(id){
     document.getElementById(id).style.display='block';
 }
 
-/* LANGUAGE */
+/* LANGUAGE SYSTEM */
 function setLang(l){
 
 if(l==='en'){
