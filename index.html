@@ -3,55 +3,56 @@
 
 <head>
 <meta charset="UTF-8">
-<title>ASIL Reactive System</title>
+<title>ASIL Scientific Research System</title>
 
 <style>
 
 body {
     margin: 0;
     overflow: hidden;
-    background: radial-gradient(circle at top, #03060a, #010208);
     font-family: Arial;
-    color: #d8e6f5;
+    background: radial-gradient(circle at top, #02040a, #010208);
+    color: #d7e6f2;
 }
 
+/* CANVAS */
 canvas {
     position: absolute;
     top: 0;
     left: 0;
 }
 
-/* PANEL */
-.panel {
+/* HEADER */
+.header {
     position: absolute;
-    top: 14px;
-    left: 14px;
-    width: 270px;
+    top: 12px;
+    left: 12px;
     padding: 14px;
-    background: rgba(10,14,20,0.7);
-    border-radius: 12px;
+    width: 300px;
+    background: rgba(10,14,20,0.75);
     border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
     backdrop-filter: blur(12px);
 }
 
 .title {
     font-size: 13px;
     color: #58a6ff;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
 }
 
-.small {
+.sub {
     font-size: 11px;
     opacity: 0.6;
 }
 
-/* ISS BUTTON */
+/* ISS CORE (CONTROL, NOT GAME OBJECT) */
 .iss {
     position: absolute;
-    width: 150px;
+    width: 170px;
     height: 60px;
     border-radius: 30px;
-    background: linear-gradient(135deg, #ffffff, #b9c8ff);
+    background: #ffffff;
     color: #000;
     display: flex;
     align-items: center;
@@ -59,25 +60,42 @@ canvas {
     font-size: 12px;
     font-weight: bold;
     cursor: pointer;
-    box-shadow: 0 0 40px rgba(255,255,255,0.5);
-    z-index: 10;
+    box-shadow: 0 0 25px rgba(255,255,255,0.4);
     user-select: none;
-    transition: 0.2s;
 }
 
-.iss:active {
-    transform: scale(0.95);
-}
-
-/* EVENT LABEL */
-.event {
+/* INFO PANEL */
+.info {
     position: absolute;
-    top: 80px;
-    left: 20px;
-    font-size: 11px;
+    right: 12px;
+    top: 12px;
+    width: 320px;
+    padding: 14px;
+    background: rgba(10,14,20,0.75);
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.06);
+    backdrop-filter: blur(12px);
+}
+
+.node-title {
     color: #58a6ff;
-    opacity: 0;
-    transition: 0.3s;
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+.text {
+    font-size: 11px;
+    opacity: 0.75;
+    line-height: 1.5;
+}
+
+/* NODE LABELS */
+.label {
+    position: absolute;
+    font-size: 11px;
+    color: #bcd0e5;
+    opacity: 0.8;
+    pointer-events: none;
 }
 
 </style>
@@ -88,14 +106,19 @@ canvas {
 
 <canvas id="c"></canvas>
 
-<div class="panel">
-<div class="title">ASIL REACTIVE GRAPH</div>
-<div class="small">click ISS or nodes to influence system</div>
+<div class="header">
+<div class="title">ASIL RESEARCH INTERFACE</div>
+<div class="sub">scientific model of distributed knowledge systems</div>
 </div>
 
-<div class="iss" id="iss">ISS CORE NODE</div>
+<div class="info" id="info">
+<div class="node-title">SYSTEM READY</div>
+<div class="text">
+Select a research node to view structured explanation of the model.
+</div>
+</div>
 
-<div class="event" id="event">SYSTEM EVENT</div>
+<div class="iss" id="iss">SYSTEM CORE (ISS CONTROL)</div>
 
 <script>
 
@@ -110,148 +133,121 @@ c.width = innerWidth;
 c.height = innerHeight;
 };
 
-let eventBox = document.getElementById("event");
-
-/* ISS */
-const iss = document.getElementById("iss");
-let t = 0;
-
+/* ISS POSITION */
 let issX = innerWidth/2;
 let issY = innerHeight/2;
 
-/* SYSTEM STATE */
-let pulse = 0;
-
-/* NODES */
-const nodes = [];
-
-for(let i=0;i<14;i++){
-nodes.push({
-x: Math.random()*innerWidth,
-y: Math.random()*innerHeight,
-vx: (Math.random()-0.5)*1.2,
-vy: (Math.random()-0.5)*1.2
-});
+/* NODES = SCIENTIFIC MODULES */
+const nodes = [
+{
+x: 300, y: 200,
+name: "Teleportation Model",
+desc: "Mathematical abstraction of state transfer between distributed systems."
+},
+{
+x: 700, y: 150,
+name: "System Coherence",
+desc: "Stability conditions for multi-agent synchronization."
+},
+{
+x: 650, y: 450,
+name: "Navigation Logic",
+desc: "Graph traversal of knowledge states instead of linear UI flow."
+},
+{
+x: 300, y: 500,
+name: "Emergence Layer",
+desc: "Formation of global patterns from local interactions."
 }
-
-/* SHOW EVENT */
-function trigger(text){
-eventBox.innerText = text;
-eventBox.style.opacity = 1;
-
-setTimeout(()=>{
-eventBox.style.opacity = 0;
-},800);
-}
-
-/* ISS MOTION */
-function moveISS(){
-
-t += 0.01;
-
-issX = innerWidth/2 + Math.cos(t)*220;
-issY = innerHeight/2 + Math.sin(t*1.3)*140;
-
-iss.style.left = issX + "px";
-iss.style.top = issY + "px";
-}
-
-/* CLICK ISS = SYSTEM REACTION */
-iss.onclick = ()=>{
-
-pulse = 1;
-
-nodes.forEach(n=>{
-n.vx += (Math.random()-0.5)*4;
-n.vy += (Math.random()-0.5)*4;
-});
-
-trigger("ISS CORE ACTIVATED → SYSTEM RESTRUCTURING");
-};
-
-/* UPDATE */
-function update(){
-
-pulse *= 0.95;
-
-nodes.forEach(n=>{
-
-n.x += n.vx;
-n.y += n.vy;
-
-/* damping */
-n.vx *= 0.98;
-n.vy *= 0.98;
-
-/* bounds */
-if(n.x<0||n.x>innerWidth) n.vx*=-1;
-if(n.y<0||n.y>innerHeight) n.vy*=-1;
-
-/* ISS influence */
-let dx = issX - n.x;
-let dy = issY - n.y;
-
-n.x += dx*0.0006;
-n.y += dy*0.0006;
-
-/* pulse effect */
-n.x += dx * pulse * 0.002;
-n.y += dy * pulse * 0.002;
-
-});
-
-}
+];
 
 /* DRAW */
 function draw(){
 
 ctx.clearRect(0,0,innerWidth,innerHeight);
 
-/* links */
+/* LINKS */
 for(let i=0;i<nodes.length;i++){
 for(let j=i+1;j<nodes.length;j++){
 
-let a = nodes[i];
-let b = nodes[j];
-
-let d = Math.hypot(a.x-b.x,a.y-b.y);
-
-if(d < 170){
-
-ctx.strokeStyle = `rgba(88,166,255,${0.2 - d/900})`;
+ctx.strokeStyle = "rgba(88,166,255,0.15)";
 ctx.beginPath();
-ctx.moveTo(a.x,a.y);
-ctx.lineTo(b.x,b.y);
+ctx.moveTo(nodes[i].x,nodes[i].y);
+ctx.lineTo(nodes[j].x,nodes[j].y);
 ctx.stroke();
 
 }
-
-}
 }
 
-/* nodes */
+/* NODE LINKS TO CORE */
 nodes.forEach(n=>{
+ctx.strokeStyle = "rgba(255,255,255,0.08)";
+ctx.beginPath();
+ctx.moveTo(n.x,n.y);
+ctx.lineTo(issX,issY);
+ctx.stroke();
+});
 
+/* NODES */
+nodes.forEach(n=>{
 ctx.beginPath();
 ctx.fillStyle = "#58a6ff";
-ctx.arc(n.x,n.y,4 + pulse*2,0,Math.PI*2);
+ctx.arc(n.x,n.y,5,0,Math.PI*2);
 ctx.fill();
+});
+
+/* CORE */
+ctx.beginPath();
+ctx.fillStyle = "#ffffff";
+ctx.arc(issX,issY,8,0,Math.PI*2);
+ctx.fill();
+
+}
+
+/* UPDATE ISS (SMOOTH DRIFT ONLY) */
+function update(){
+
+let t = Date.now()*0.0003;
+
+issX = innerWidth/2 + Math.cos(t)*180;
+issY = innerHeight/2 + Math.sin(t*1.2)*120;
+
+document.getElementById("iss").style.left = issX + "px";
+document.getElementById("iss").style.top = issY + "px";
+
+}
+
+/* CLICK NODE = SHOW INFO */
+function attachClicks(){
+
+c.addEventListener("click",(e)=>{
+
+let mx = e.clientX;
+let my = e.clientY;
+
+nodes.forEach(n=>{
+
+let d = Math.hypot(mx-n.x,my-n.y);
+
+if(d < 20){
+document.getElementById("info").innerHTML = `
+<div class="node-title">${n.name}</div>
+<div class="text">${n.desc}</div>
+`;
+}
 
 });
 
-/* ISS */
-ctx.beginPath();
-ctx.fillStyle = "#ffffff";
-ctx.arc(issX,issY,7,0,Math.PI*2);
-ctx.fill();
+});
 
 }
+
+attachClicks();
 
 /* LOOP */
 function loop(){
 update();
 draw();
-moveISS();
 requestAnimationFrame(loop);
 }
 
