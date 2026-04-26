@@ -1,104 +1,56 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function App() {
+  const [active, setActive] = useState(null);
 
-  const [nodes, setNodes] = useState([
-    { id: "SBIPF", x: 50, y: 30, color: "#22d3ee", desc: "State-based core system" },
-    { id: "FBCS", x: 20, y: 60, color: "#60a5fa", desc: "Field coordinate system" },
-    { id: "SCC", x: 50, y: 70, color: "#a78bfa", desc: "State communication layer" },
-    { id: "SGE", x: 80, y: 60, color: "#f472b6", desc: "State encoding grid" }
-  ]);
-
-  // 🌊 DRIFT ENGINE (fixed)
-  useEffect(() => {
-    const interval = setInterval(() => {
-
-      setNodes(prev =>
-        prev.map(n => {
-          const driftX = (Math.random() - 0.5) * 1.2;
-          const driftY = (Math.random() - 0.5) * 1.2;
-
-          return {
-            ...n,
-            x: Math.max(5, Math.min(95, n.x + driftX)),
-            y: Math.max(5, Math.min(95, n.y + driftY))
-          };
-        })
-      );
-
-    }, 1200);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  const publications = [
-    {
-      id: 1,
-      title: "SBIPF Overview",
-      content: "State-based computation as dynamic transitions."
-    },
-    {
-      id: 2,
-      title: "FBCS Model",
-      content: "Field-based spatial representation system."
-    },
-    {
-      id: 3,
-      title: "SCC Layer",
-      content: "Synchronization-based communication model."
-    },
-    {
-      id: 4,
-      title: "SGE System",
-      content: "Structured state grid encoding architecture."
-    }
+  const states = [
+    { name: "CORE", desc: "FBCS / SCC / SGE architecture", color: "#22d3ee" },
+    { name: "SYSTEMS", desc: "AI execution layer", color: "#a78bfa" },
+    { name: "APPLICATIONS", desc: "Tools and interfaces", color: "#4ade80" },
+    { name: "EXPERIMENTS", desc: "Creative modules", color: "#f472b6" },
+    { name: "RESEARCH", desc: "Scientific research layer", color: "#facc15" }
   ];
 
   return (
     <div style={{ minHeight: "100vh", background: "#05070C", color: "white", padding: 20 }}>
 
-      <h1>ASIL Research System</h1>
+      <h1>ASIL SYSTEM</h1>
 
-      {/* NODES */}
-      <div style={{ position: "relative", height: 400, border: "1px solid #333", borderRadius: 10 }}>
+      {/* GRID */}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 10 }}>
 
-        {nodes.map(n => (
+        {states.map((s) => (
           <div
-            key={n.id}
+            key={s.name}
+            onClick={() => setActive(s)}
             style={{
-              position: "absolute",
-              left: `${n.x}%`,
-              top: `${n.y}%`,
-              transform: "translate(-50%,-50%)",
-              padding: 8,
-              borderRadius: 8,
-              background: n.color,
+              padding: 15,
+              borderRadius: 10,
+              background: s.color,
               color: "black",
-              fontWeight: "bold"
+              fontWeight: "bold",
+              cursor: "pointer"
             }}
           >
-            {n.id}
+            {s.name}
           </div>
         ))}
 
       </div>
 
-      {/* PUBLICATIONS */}
-      <div style={{ marginTop: 20 }}>
-        <h2>Publications</h2>
-
-        {publications.map(p => (
-          <div key={p.id} style={{
-            marginTop: 10,
-            padding: 10,
-            border: "1px solid #333",
-            borderRadius: 10
-          }}>
-            <b>{p.title}</b>
-            <p style={{ opacity: 0.7 }}>{p.content}</p>
-          </div>
-        ))}
-      </div>
+      {/* INFO */}
+      {active && (
+        <div style={{
+          marginTop: 20,
+          padding: 10,
+          border: "1px solid #333",
+          borderRadius: 10
+        }}>
+          <b>{active.name}</b>
+          <p style={{ opacity: 0.7 }}>{active.desc}</p>
+          <button onClick={() => setActive(null)}>Close</button>
+        </div>
+      )}
 
     </div>
   );
