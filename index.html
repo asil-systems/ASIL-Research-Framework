@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 
 export default function ASIL_UI() {
   const [mode, setMode] = useState("prototype");
+  const [activeArticle, setActiveArticle] = useState(null);
 
   const states = [
     { name: "CORE", desc: "FBCS / SCC / SGE", color: "bg-cyan-400/10" },
@@ -14,69 +15,59 @@ export default function ASIL_UI() {
 
   const publications = [
     {
-      title: "SBIPF Overview: State-Based Information Framework",
+      id: 1,
+      title: "SBIPF Overview: State-Based Information Processing Framework",
       tag: "CORE THEORY",
-      desc: "Introduction to state-based modeling of information, positioning and system logic within ASIL architecture.",
+      desc: "Fundamental architecture of ASIL based on state-driven information modeling.",
+      content: `SBIPF (State-Based Information Processing Framework) defines information not as static data, but as a dynamic state within a structured system.\n\nInstead of traditional linear computation, SBIPF treats every element as a state vector existing inside a multi-layer field. These states evolve through interactions defined by system rules rather than direct execution.\n\nKey idea:\n- Information = State configuration\n- Computation = State transition\n- Output = Stabilized state equilibrium\n\nThis allows modeling of intelligence as an emergent property of interacting state fields rather than explicit symbolic computation.`
     },
     {
+      id: 2,
       title: "FBCS Model: Field-Based Coordinate System",
       tag: "CORE MODULE",
-      desc: "Defines spatial representation of entities through dynamic field-based coordinate mapping.",
+      desc: "Spatial representation of entities through field dynamics.",
+      content: `FBCS replaces traditional coordinate systems with field-dependent positioning.\n\nInstead of fixed x,y,z coordinates, each object exists within a probability-weighted field space.\n\nCore principle:\nPosition = function(field density, relational tension, system state)\n\nThis allows:\n- dynamic repositioning of entities without rigid geometry\n- contextual spatial interpretation\n- adaptive mapping of multi-dimensional systems\n\nFBCS is critical for modeling non-static environments such as cognitive systems or communication layers.`
     },
     {
+      id: 3,
       title: "SCC: State-Coupled Communication Layer",
       tag: "COMMUNICATION",
-      desc: "Communication model based on synchronized state transitions instead of direct signal transmission.",
+      desc: "Communication based on synchronized state transitions.",
+      content: `SCC removes the need for traditional signal transmission.\n\nInstead of sending messages, systems synchronize state changes across shared fields.\n\nMechanism:\n- Sender modifies state pattern\n- Receiver aligns to state resonance\n- Information emerges from synchronization mismatch correction\n\nThis model reduces latency and eliminates classical noise interference by shifting communication from signals to state alignment.`
     },
     {
+      id: 4,
       title: "SGE: State Grid Encoding System",
       tag: "ENCODING",
-      desc: "Encoding framework that transforms information into structured state grids for transmission and reconstruction.",
+      desc: "Encoding information into structured state grids.",
+      content: `SGE transforms abstract information into structured grids of states.\n\nEach grid cell represents a micro-state containing partial information.\n\nEncoding process:\n1. Information decomposed into state fragments\n2. Fragments mapped to grid coordinates\n3. Grid stabilizes into retrievable structure\n\nDecoding reconstructs original information by re-aligning state gradients across the grid.\n\nThis enables robust transmission even under partial data loss.`
     }
   ];
 
   return (
     <div className="min-h-screen text-white bg-[#05070C] p-6">
+
       {/* TOP BAR */}
       <div className="flex justify-between items-center mb-6">
         <div className="text-xl tracking-widest">ASIL SYSTEM</div>
-
         <div className="flex gap-2">
-          <button
-            onClick={() => setMode("prototype")}
-            className={`px-3 py-1 rounded ${mode === "prototype" ? "bg-white text-black" : "bg-white/10"}`}
-          >
-            PROTOTYPE
-          </button>
-          <button
-            onClick={() => setMode("os")}
-            className={`px-3 py-1 rounded ${mode === "os" ? "bg-white text-black" : "bg-white/10"}`}
-          >
-            ASIL OS
-          </button>
+          <button onClick={() => setMode("prototype")} className={`px-3 py-1 rounded ${mode === "prototype" ? "bg-white text-black" : "bg-white/10"}`}>PROTOTYPE</button>
+          <button onClick={() => setMode("os")} className={`px-3 py-1 rounded ${mode === "os" ? "bg-white text-black" : "bg-white/10"}`}>ASIL OS</button>
         </div>
       </div>
 
       {/* HERO */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="mb-10"
-      >
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-10">
         <h1 className="text-4xl font-bold">State-Based System Interface</h1>
         <p className="text-white/60">FBCS • SCC • SGE • SBIPF Core Architecture</p>
       </motion.div>
 
-      {/* STATE GRID */}
+      {/* STATES */}
       <div className="grid md:grid-cols-3 gap-4">
         {states.map((s, i) => (
-          <motion.div
-            key={i}
-            whileHover={{ scale: 1.02 }}
-            className={`p-5 rounded-xl border border-white/10 backdrop-blur ${s.color}`}
-          >
-            <div className="text-lg font-bold tracking-wide">{s.name}</div>
-            <div className="text-white/60 text-sm mt-1">{s.desc}</div>
+          <motion.div key={i} whileHover={{ scale: 1.02 }} className={`p-5 rounded-xl border border-white/10 ${s.color}`}> 
+            <div className="text-lg font-bold">{s.name}</div>
+            <div className="text-white/60 text-sm">{s.desc}</div>
           </motion.div>
         ))}
       </div>
@@ -85,11 +76,12 @@ export default function ASIL_UI() {
       <div className="mt-12">
         <h2 className="text-2xl font-bold mb-4">Research Publications</h2>
         <div className="grid md:grid-cols-2 gap-4">
-          {publications.map((p, i) => (
+          {publications.map((p) => (
             <motion.div
-              key={i}
+              key={p.id}
               whileHover={{ scale: 1.02 }}
-              className="p-5 rounded-xl border border-white/10 bg-white/5"
+              onClick={() => setActiveArticle(p)}
+              className="p-5 rounded-xl border border-white/10 bg-white/5 cursor-pointer"
             >
               <div className="text-sm text-cyan-300 mb-2">{p.tag}</div>
               <div className="text-lg font-semibold mb-2">{p.title}</div>
@@ -98,6 +90,25 @@ export default function ASIL_UI() {
           ))}
         </div>
       </div>
+
+      {/* ARTICLE MODAL */}
+      {activeArticle && (
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center p-6">
+          <div className="bg-[#0B0F14] max-w-2xl w-full p-6 rounded-xl border border-white/10">
+            <div className="text-cyan-300 text-sm mb-2">{activeArticle.tag}</div>
+            <h2 className="text-xl font-bold mb-4">{activeArticle.title}</h2>
+            <pre className="text-white/70 text-sm whitespace-pre-wrap leading-relaxed">
+              {activeArticle.content}
+            </pre>
+            <button
+              onClick={() => setActiveArticle(null)}
+              className="mt-4 px-4 py-2 bg-white text-black rounded"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* OS MODE */}
       {mode === "os" && (
@@ -112,10 +123,10 @@ export default function ASIL_UI() {
         </div>
       )}
 
-      {/* FOOTER */}
       <div className="mt-10 text-xs text-white/30">
-        ASIL UI SYSTEM v3 • State-Based Interface Layer • Research Enabled
+        ASIL UI SYSTEM v3 • Research Layer Enabled • SBIPF Core
       </div>
+
     </div>
   );
 }
